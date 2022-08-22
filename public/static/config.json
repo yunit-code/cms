@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lasttime": "2022-8-15 10:17:47",
+  "lasttime": "2022-08-22 14:30:39",
   "author": "申龙",
   "className": "cms",
   "module": [
@@ -8,6 +8,48 @@
       "classId": "idm.component.cms.text",
       "comName": "文本",
       "className": "IText",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.itextlist",
+      "comName": "文字列表",
+      "className": "ITextList",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.iimagelist",
+      "comName": "图片列表",
+      "className": "IImageList",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.ivideolist",
+      "comName": "视频列表",
+      "className": "IVideoList",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.ibreadcrumb",
+      "comName": "面包屑",
+      "className": "IBreadcrumb",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.iimagescroll",
+      "comName": "图片滚动",
+      "className": "IImageScroll",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.icommentlist",
+      "comName": "评论组件",
+      "className": "ICommentList",
       "comType": "common",
       "comLangue": "vue"
     }
