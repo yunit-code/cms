@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "lasttime": "2022-08-22 14:30:39",
+  "version": "1.0.1",
+  "lasttime": "2022-8-15 10:17:47",
   "author": "申龙",
   "className": "cms",
   "module": [
@@ -8,6 +8,20 @@
       "classId": "idm.component.cms.text",
       "comName": "文本",
       "className": "IText",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.swiper",
+      "comName": "轮播",
+      "className": "ISwiper",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.menu",
+      "comName": "菜单",
+      "className": "IMenu",
       "comType": "common",
       "comLangue": "vue"
     },
