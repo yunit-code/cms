@@ -1,5 +1,5 @@
 <template>
-    <div idm-ctrl="idm_module" class="d-flex" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" title="面包屑导航">
+    <div idm-ctrl="idm_module" class="d-flex" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
         <div class="d-flex align-c" v-if="propData.isShowIcon">
             <svg v-if="propData.icon && propData.icon.length" class="breadcrumb-icon" aria-hidden="true">
                 <use :xlink:href="`#${propData.icon[0]}`"></use>

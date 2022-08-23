@@ -1,5 +1,5 @@
 <template>
-    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" title="文字列表">
+    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
         <div
             v-for="(item, index) in componentData"
             :key="index"

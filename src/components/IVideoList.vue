@@ -1,5 +1,5 @@
 <template>
-    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" title="视频列表">
+    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
         <a-row :gutter="[propData.horizontalGutter, propData.verticalGutter]">
             <a-col :span="propData.itemSpan || 1" v-for="(item, index) in componentData" :key="index">
                 <div class="video-list-item">
