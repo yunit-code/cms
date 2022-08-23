@@ -4,10 +4,12 @@ import Vue from 'vue';
 import 'ant-design-vue/lib/breadcrumb/style/css';
 import 'ant-design-vue/lib/row/style/css';
 import 'ant-design-vue/lib/col/style/css';
+import 'ant-design-vue/lib/modal/style/css';
 import {
     Breadcrumb,
     Row,
-    Col
+    Col,
+    Modal
 } from 'ant-design-vue';
 
 /* v1.1.3+ registration methods */
@@ -15,3 +17,4 @@ Vue.use(Breadcrumb);
 Vue.use(Breadcrumb.Item);
 Vue.use(Row);
 Vue.use(Col);
+Vue.use(Modal);

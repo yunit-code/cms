@@ -1,16 +1,22 @@
 <template>
-    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" :title="propData.htmlTitle && ''">
-        <div>当前位置：</div>
-        <a-breadcrumb>
-            <span slot="separator" style="color: red">></span>
-            <a-breadcrumb-item>首页</a-breadcrumb-item>
-            <a-breadcrumb-item href=""> Application Center </a-breadcrumb-item>
-            <a-breadcrumb-item href=""> Application List </a-breadcrumb-item>
-            <a-breadcrumb-item>An Application</a-breadcrumb-item>
+    <div idm-ctrl="idm_module" class="d-flex" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" title="面包屑导航">
+        <div class="d-flex align-c" v-if="propData.isShowIcon">
+            <svg v-if="propData.icon && propData.icon.length" class="breadcrumb-icon" aria-hidden="true">
+                <use :xlink:href="`#${propData.icon[0]}`"></use>
+            </svg>
+            <svg-icon v-else icon-class="location" className="breadcrumb-icon"></svg-icon>
+        </div>
+        <div class="breadcrumb-tip">{{ propData.tipText }}</div>
+        <a-breadcrumb class="breadcrumb-container">
+            <span slot="separator" class="breadcrumb-separator">{{ propData.separator }}</span>
+            <a-breadcrumb-item v-for="(item, index) in componentData" :key="index" @click="handleItemClick(item)">{{
+                item.text
+            }}</a-breadcrumb-item>
         </a-breadcrumb>
     </div>
 </template>
 <script>
+import { breadcrumbData } from '../mock/mockData'
 export default {
     name: 'IBreadcrumb',
     data() {
@@ -25,34 +31,34 @@ export default {
     created() {
         this.moduleObject = this.$root.moduleObject
         this.convertAttrToStyleObject()
+        this.convertThemeListAttrToStyleObject()
     },
     methods: {
+        handleItemClick(item) {
+            if (this.propData.customClickFunction && this.propData.customClickFunction.length > 0) {
+                this.propData.customClickFunction.forEach((el) => {
+                    const funcName = el.name
+                    window[funcName].call(this, {
+                        ...el.param,
+                        ...this,
+                        ...item
+                    })
+                })
+                return
+            }
+        },
         propDataWatchHandle(propData) {
             this.propData = propData.compositeAttr || {}
             this.convertAttrToStyleObject()
+            this.convertThemeListAttrToStyleObject()
         },
         convertAttrToStyleObject() {
-            var styleObject = {}
-            if (this.propData.bgSize && this.propData.bgSize == 'custom') {
-                styleObject['background-size'] =
-                    (this.propData.bgSizeWidth
-                        ? this.propData.bgSizeWidth.inputVal + this.propData.bgSizeWidth.selectVal
-                        : 'auto') +
-                    ' ' +
-                    (this.propData.bgSizeHeight
-                        ? this.propData.bgSizeHeight.inputVal + this.propData.bgSizeHeight.selectVal
-                        : 'auto')
-            } else if (this.propData.bgSize) {
-                styleObject['background-size'] = this.propData.bgSize
-            }
-            if (this.propData.positionX && this.propData.positionX.inputVal) {
-                styleObject['background-position-x'] =
-                    this.propData.positionX.inputVal + this.propData.positionX.selectVal
-            }
-            if (this.propData.positionY && this.propData.positionY.inputVal) {
-                styleObject['background-position-y'] =
-                    this.propData.positionY.inputVal + this.propData.positionY.selectVal
-            }
+            const styleObject = {},
+                iconObj = {},
+                separatorObj = {},
+                tipFontObj = {},
+                breadcrumbFontObj = {},
+                breadcrumbLastFontObj = {}
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key]
@@ -64,17 +70,94 @@ export default {
                         case 'height':
                             styleObject[key] = element
                             break
+                        case 'bgColor':
+                            if (element && element.hex8) {
+                                styleObject['background-color'] = element.hex8
+                            }
+                            break
+                        case 'box':
+                            IDM.style.setBoxStyle(styleObject, element)
+                            break
+                        case 'border':
+                            IDM.style.setBorderStyle(styleObject, element)
+                            break
+                        // 图标样式
+                        case 'iconColor':
+                            if (element && element.hex8) {
+                                iconObj['fill'] = IDM.hex8ToRgbaString(element.hex8) + ' !important'
+                            }
+                            break
+                        case 'iconSize':
+                            iconObj['width'] = element + 'px'
+                            iconObj['height'] = element + 'px'
+                            iconObj['font-size'] = element + 'px'
+                            break
+                        case 'separatorColor':
+                            if (element && element.hex8) {
+                                separatorObj['color'] = element.hex8
+                            }
+                            break
+                        // 提示文字
+                        case 'tipFont':
+                            IDM.style.setFontStyle(tipFontObj, element)
+                            break
+                        // 面包屑文字
+                        case 'breadcrumbFont':
+                            IDM.style.setFontStyle(breadcrumbFontObj, element)
+                            break
+                        case 'breadcrumbLastFont':
+                            IDM.style.setFontStyle(breadcrumbLastFontObj, element, true)
                     }
                 }
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id, styleObject)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .breadcrumb-icon', iconObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .breadcrumb-separator', separatorObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .breadcrumb-tip', tipFontObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .ant-breadcrumb a', breadcrumbFontObj)
+            window.IDM.setStyleToPageHead(
+                this.moduleObject.id + ' .ant-breadcrumb>span:last-child a',
+                breadcrumbLastFontObj
+            )
             this.initData()
+        },
+
+        /**
+         * 主题颜色
+         */
+        convertThemeListAttrToStyleObject() {
+            var themeList = this.propData.themeList
+            if (!themeList) {
+                return
+            }
+            const themeNamePrefix =
+                IDM.setting && IDM.setting.applications && IDM.setting.applications.themeNamePrefix
+                    ? IDM.setting.applications.themeNamePrefix
+                    : 'idm-theme-'
+            for (var i = 0; i < themeList.length; i++) {
+                var item = themeList[i]
+                let bgColorObj = {
+                    fill: item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : '',
+                    color: item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
+                }
+                IDM.setStyleToPageHead(
+                    IDM.style.generateClassName(
+                        '.' + themeNamePrefix + item.key + (` #${this.moduleObject.id}` || 'module_demo'),
+                        [' .breadcrumb-icon', ' .ant-breadcrumb>span:last-child a', ' .ant-breadcrumb a:hover']
+                    ),
+                    bgColorObj
+                )
+            }
         },
         reload() {
             //请求数据源
             this.initData()
         },
         initData() {
+            if (this.moduleObject.env === 'develop') {
+                this.componentData = breadcrumbData
+                return
+            }
             let that = this
             //所有地址的url参数转换
             var params = that.commonParam()
@@ -156,3 +239,9 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.breadcrumb-icon {
+    margin: 0 5px 0 0;
+}
+</style>
