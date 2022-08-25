@@ -1,7 +1,7 @@
 {
-    "classId": "idm.component.cms.menu",
-    "comName": "菜单",
-    "className": "IMenu",
+    "classId": "idm.component.cms.tabcard",
+    "comName": "页签卡片",
+    "className": "ITabCard",
     "comType": "common",
     "comLangue": "vue",
     "compositeAttr": [
@@ -21,121 +21,36 @@
             "desc": "提供设置组件能达到展示效果的基本属性设置信息",
             "children": [
                 {
-                    "type": "radio",
-                    "styleType": "radio",
+                    "type": "textarea",
                     "layoutType": "inline",
-                    "text": "样式风格",
-                    "desc":"样式风格，按钮风格和线条风格",
-                    "bindKey": "styleForm",
-                    "default": "1",
-                    "dictionary": [
-                        {
-                            "label": "按钮",
-                            "value": "1"
-                        },
-                        {
-                            "label": "线条",
-                            "value": "2"
-                        }
-                    ]
+                    "text": "文本内容",
+                    "bindKey": "fontContent",
+                    "default": "文本内容"
+                },
+                {
+                    "type": "switch",
+                    "layoutType": "inline",
+                    "text": "title",
+                    "bindKey": "htmlTitle",
+                    "desc": "将内容显示为html标签的title，也就是鼠标放上去会有显示文本内容的文字",
+                    "disabled": false
                 },
                 {
                     "type": "radio",
-                    "styleType": "radio",
                     "layoutType": "inline",
-                    "text": "触发方式",
-                    "desc":"下拉子菜单的触发方式",
-                    "bindKey": "triggerType",
-                    "default": "click",
+                    "text": "默认状态",
+                    "bindKey": "defaultStatus",
                     "dictionary": [
                         {
-                            "label": "点击",
-                            "value": "click"
+                            "label": "普通",
+                            "value": "default"
                         },
                         {
-                            "label": "悬浮",
-                            "value": "hover"
+                            "label": "隐藏",
+                            "value": "hidden"
                         }
-                    ]
-                },
-                {
-                    "type": "radio",
-                    "styleType": "radio",
-                    "layoutType": "inline",
-                    "text": "使用简称",
-                    "desc":"使用栏目的简称",
-                    "bindKey": "useShortName",
-                    "default": true,
-                    "dictionary": [
-                        {
-                            "label": "是",
-                            "value": true
-                        },
-                        {
-                            "label": "否",
-                            "value": false
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "type": "group",
-            "text": "菜单样式设置",
-            "children": [
-                {
-                    "type": "input",
-                    "layoutType": "inline",
-                    "text": "高度",
-                    "bindKey": "heightMenu"
-                },
-                {
-                    "type": "font",
-                    "layoutType": "block",
-                    "text": "文字",
-                    "bindKey": "fontMenu"
-                }
-            ]
-        },
-        {
-            "type": "group",
-            "text": "悬浮样式设置",
-            "children": [
-                {
-                    "type": "font",
-                    "layoutType": "block",
-                    "text": "文字",
-                    "bindKey": "fontHover"
-                },
-                {
-                    "type": "colorPicker",
-                    "layoutType": "inline",
-                    "text": "背景色",
-                    "bindKey": "bgColorHover",
-                    "placeholder": "请选择颜色",
-                    "display": "@[styleForm=='1']",
-                    "default": {}
-                }
-            ]
-        },
-        {
-            "type": "group",
-            "text": "选中样式设置",
-            "children": [
-                {
-                    "type": "font",
-                    "layoutType": "block",
-                    "text": "文字",
-                    "bindKey": "fontActive"
-                },
-                {
-                    "type": "colorPicker",
-                    "layoutType": "inline",
-                    "text": "背景色",
-                    "bindKey": "bgColorActive",
-                    "placeholder": "请选择颜色",
-                    "display": "@[styleForm=='1']",
-                    "default": {}
+                    ],
+                    "default": "default"
                 }
             ]
         },
@@ -369,9 +284,17 @@
         },
         {
             "type": "group",
-            "text": "数据源",
-            "desc": "点击？查看数据源设置用法指南",
+            "text": "高级",
+            "desc": "点击？查看高级设置用法指南",
             "children": [
+                {
+                    "type": "actionSelect",
+                    "layoutType": "block",
+                    "text": "点击时动作",
+                    "bindKey": "clickFunction",
+                    "desc": "点击的时候会调用设置的自定义函数，接收参数为格式为{...自定义的}",
+                    "multiple": true
+                },
                 {
                     "type": "select",
                     "layoutType": "inline",
@@ -393,14 +316,6 @@
                         }
                     ],
                     "default": "customInterface"
-                },
-                {
-                    "type": "input",
-                    "layoutType": "inline",
-                    "text": "栏目ID",
-                    "bindKey": "multiColumnId",
-                    "desc": "根据栏目id获取子栏目数据，若为空则返回根栏目下所有子栏目",
-                    "display": "@[dataSourceType=='customInterface']"
                 },
                 {
                     "type": "input",
@@ -436,8 +351,7 @@
                     "text": "自定义函数",
                     "bindKey": "customFunction",
                     "desc": "获取动态文本内容、自定义接口回调、页面统一接口回调的时候会调用此方法，返回数据格式为字符串，接收参数：{...自定义,interfaceData:自定义接口或页面统一接口的返回结果,expressData:表达式替换后的结果}",
-                    "multiple": false,
-                    "display": "@[dataSourceType=='customFunction']"
+                    "multiple": false
                 }
             ]
         }

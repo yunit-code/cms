@@ -1,104 +1,61 @@
 <template>
-    <!-- 根目录规范(必须不能为空)： idm-ctrl：控件类型 drag_container：容器，drag_container_inlieblock：行内容器，idm_module：非容器的组件 id：使用moduleObject.id，如果id不使用这个将会被idm-ctrl-id属性替换 idm-ctrl-id：组件的id，这个必须不能为空 -->
-    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" class="IMenu_app">
-        <el-menu :default-active="activeIndex2" class="el-menu-demo" :class="propData.styleForm == '1' ? 'menu_button_style' : 'menu_line_style'" mode="horizontal" @select="handleSelect" :menu-trigger="propData.triggerType">
-            <MenuNavItem v-for="(item,index) in menu_list" :key="index" :menu_data="item"></MenuNavItem>
-        </el-menu>
+    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
+        <!-- 组件内部容器 增加class="drag_container" 必选 idm-ctrl-id：组件的id，这个必须不能为空 idm-container-index  组件的内部容器索引，不重复唯一且不变，必选 -->
+
+        <div class="ITabCard_app">
+            <a-tabs default-active-key="1" :type="propData.tabStyleType" :tabBarGutter="propData.tabBarGutter">
+                <a-tab-pane key="1" tab="Tab 1">
+                    <div class="tab_contant">
+                        <div class="tab_list flex_between">
+                            <div class="title">单独组件不能使用这种方式单独组件不能使用这种方式单独组件不能使用这种方式单独组件不能使用这种方式</div>
+                            <div class="time">2022-8-24 15:58</div>
+                        </div>
+                        <div class="tab_list flex_between">
+                            <div class="title">单独组件不能使用这种方式单独组件不能使用这种方式单独组件不能使用这种方式单独组件不能使用这种方式</div>
+                            <div class="time">2022-8-24 15:58</div>
+                        </div>
+                    </div>
+                </a-tab-pane>
+                <span slot="tabBarExtraContent">
+                    更多
+                </span>
+            </a-tabs>
+        </div>
+        
     </div>
 </template>
 
 <script>
-import MenuNavItem from '../commonComponent/MenuNavItem.vue'
-import { Menu,Button } from 'element-ui'
 export default {
-    name: 'IMenu',
+    name: 'ITabCard',
+    components: {
+    },
     data() {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
-                styleForm: 2,
-                triggerType: 1,
-            },
-            menu_list: [
-                {
-                    key: '1',
-                    name: '处理中心',
-                    icon: ''
-                },
-                {
-                    key: '2',
-                    name: '我的工作台',
-                    icon: '',
-                    children: [
-                        {
-                            key: '3',
-                            name: '选项 一',
-                            icon: ''
-                        },
-                        {
-                            key: '4',
-                            name: '选项二',
-                            icon: '',
-                            children: [
-                                {
-                                    key: '5',
-                                    name: '选项2-1',
-                                    icon: ''
-                                },
-                                {
-                                    key: '6',
-                                    name: '选项2-2',
-                                    icon: ''
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    key: '7',
-                    name: '消息中心',
-                    icon: ''
-                },
-            ],
-            activeIndex2: '1',
+                tabStyleType: 'line',
+                tabBarGutter: 5,
+            }
         }
     },
-    components: {
-        MenuNavItem,
-        [Menu.name]: Menu,
-        [Button.name]: Button,
+    props: {
     },
-    props: { },
     created() {
-        this.moduleObject = this.$root.moduleObject;
-
-        this.reload()
+        this.moduleObject = this.$root.moduleObject
+        // console.log(this.moduleObject)
         this.convertAttrToStyleObject();
     },
     mounted() {
-        
+        //赋值给window提供跨页面调用
+        this.$nextTick(function (params) {
+            //单独组件不能使用这种方式
+            // window[this.moduleObject.packageid] = this;
+        });
     },
     destroyed() { },
     methods: {
-        getInitDataApi() {
-            if( this.moduleObject.env=="develop" || !this.propData.customInterfaceUrl ){
-                return;
-            }
-            let urlParam = this.commonParam()
-            IDM.http.get(this.propData.customInterfaceUrl,{
-                pageId: urlParam.pageId,
-                componentId: this.moduleObject.comId,
-                id: this.propData.multiColumnId || ''
-            }).then((res) => {
-                if (res && res.data && res.data.type == 'success' ) {
-                    let result = this.getExpressData('data',this.propData.dataFiled,res.data)
-                    if ( result ) {
-                        this.menu_list = result;
-                    }
-                }
-            })
-        },
-        handleSelect(e) {
+        callback(e) {
             console.log(e)
         },
         /**
@@ -111,128 +68,7 @@ export default {
         /**
          * 把属性转换成样式对象
          */
-        convertAttrToStyleObjectMenu() {
-            var styleObject = {};
-            var styleFont = {};
-            var styleColor = {};
-            for (const key in this.propData) {
-                if (this.propData.hasOwnProperty.call(this.propData, key)) {
-                    const element = this.propData[key];
-                    if (!element && element !== false && element != 0) {
-                        continue;
-                    }
-                    switch (key) {
-                        case "heightMenu":
-                            styleObject['height'] = element;
-                            styleObject['line-height'] = element;
-                            break;
-                        case "fontMenu":
-                            styleFont["font-family"] = element.fontFamily;
-                            if (element.fontColors.hex8) {
-                                styleFont["color"] = element.fontColors.hex8;
-                                styleColor["color"] = element.fontColors.hex8;
-                            }
-                            styleFont["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
-                            styleFont["font-style"] = element.fontStyle;
-                            styleFont["font-size"] = element.fontSize + element.fontSizeUnit;
-                            styleFont["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
-                            styleFont["text-align"] = element.fontTextAlign;
-                            styleFont["text-decoration"] = element.fontDecoration;
-                            break;
-                    }
-                }
-            }
-            
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-item .menu_text,.el-submenu__title i', styleColor);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-submenu:focus .el-submenu__title .menu_text', styleFont);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-item .menu_text,.el-submenu__title .menu_text', styleFont);
-
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo>.el-menu-item', styleObject);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo>.el-submenu>.el-submenu__title', styleObject);
-        },
-        convertAttrToStyleObjectMenuHover() {
-            var styleBg = {};
-            var styleFont = {};
-            var styleFontIcon = {};
-            for (const key in this.propData) {
-                if (this.propData.hasOwnProperty.call(this.propData, key)) {
-                    const element = this.propData[key];
-                    if (!element && element !== false && element != 0) {
-                        continue;
-                    }
-                    switch (key) {
-                        case "fontHover":
-                            styleFont["font-family"] = element.fontFamily;
-                            if (element.fontColors.hex8) {
-                                styleFont["color"] = element.fontColors.hex8 + ' !important';
-                                styleFontIcon["color"] = element.fontColors.hex8;
-                            }
-                            styleFont["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
-                            styleFont["font-style"] = element.fontStyle;
-                            styleFont["font-size"] = element.fontSize + element.fontSizeUnit;
-                            styleFont["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
-                            styleFont["text-align"] = element.fontTextAlign;
-                            styleFont["text-decoration"] = element.fontDecoration;
-                            break;
-                        case "bgColorHover":
-                            if (element && element.hex8 && this.propData.styleForm == '1') {
-                                styleBg["background-color"] = element.hex8 + ' !important';
-                            }
-                            break;
-                    }
-                }
-            }
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-menu-item:hover,.el-submenu>.el-submenu__title:hover', styleBg);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-menu-item:hover .menu_text,.el-submenu>.el-submenu__title:hover .menu_text', styleFont);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-submenu>.el-submenu__title:hover>i', styleFontIcon);
-        },
-        convertAttrToStyleObjectMenuActive() {
-            var styleBg = {};
-            var styleFont = {};
-            var styleFontIcon = {};
-            var styleBorder = {};
-            
-            for (const key in this.propData) {
-                if (this.propData.hasOwnProperty.call(this.propData, key)) {
-                    const element = this.propData[key];
-                    if (!element && element !== false && element != 0) {
-                        continue;
-                    }
-                    switch (key) {
-                        case "fontActive":
-                            styleFont["font-family"] = element.fontFamily;
-                            if (element.fontColors.hex8) {
-                                styleFont["color"] = element.fontColors.hex8 + ' !important';
-                                styleFontIcon["color"] = element.fontColors.hex8;
-                                styleBorder['border-bottom'] = '2px solid ' + element.fontColors.hex8;
-                            }
-                            styleFont["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
-                            styleFont["font-style"] = element.fontStyle;
-                            styleFont["font-size"] = element.fontSize + element.fontSizeUnit;
-                            styleFont["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
-                            styleFont["text-align"] = element.fontTextAlign;
-                            styleFont["text-decoration"] = element.fontDecoration;
-                            break;
-                        case "bgColorActive":
-                            if (element && element.hex8 && this.propData.styleForm == '1') {
-                                styleBg["background-color"] = element.hex8 + ' !important';
-                            }
-                            break;
-                    }
-                }
-            }
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-menu-item.is-active,.el-submenu.is-active>.el-submenu__title', styleBg);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-menu-item.is-active .menu_text,.el-submenu.is-active>.el-submenu__title .menu_text', styleFont);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-submenu.is-active>.el-submenu__title>i', styleFontIcon);
-            if ( this.propData.styleForm == '2' ) {
-                window.IDM.setStyleToPageHead(this.moduleObject.id + ' .menu_line_style>.el-menu-item.is-active', styleBorder);
-                window.IDM.setStyleToPageHead(this.moduleObject.id + ' .menu_line_style>.el-submenu.is-active .el-submenu__title', styleBorder);
-            }
-        },
         convertAttrToStyleObject() {
-            this.convertAttrToStyleObjectMenu()
-            this.convertAttrToStyleObjectMenuHover()
-            this.convertAttrToStyleObjectMenuActive()
             var styleObject = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {
                 styleObject["background-size"] = (this.propData.bgSizeWidth ? this.propData.bgSizeWidth.inputVal + this.propData.bgSizeWidth.selectVal : "auto") + " " + (this.propData.bgSizeHeight ? this.propData.bgSizeHeight.inputVal + this.propData.bgSizeHeight.selectVal : "auto")
@@ -341,11 +177,23 @@ export default {
                             styleObject["border-bottom-left-radius"] = element.radius.leftBottom.radius + element.radius.leftBottom.radiusUnit;
                             styleObject["border-bottom-right-radius"] = element.radius.rightBottom.radius + element.radius.rightBottom.radiusUnit;
                             break;
-                        
+                        case "font":
+                            styleObject["font-family"] = element.fontFamily;
+                            if (element.fontColors.hex8) {
+                                styleObject["color"] = element.fontColors.hex8;
+                            }
+                            styleObject["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                            styleObject["font-style"] = element.fontStyle;
+                            styleObject["font-size"] = element.fontSize + element.fontSizeUnit;
+                            styleObject["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                            styleObject["text-align"] = element.fontTextAlign;
+                            styleObject["text-decoration"] = element.fontDecoration;
+                            break;
                     }
                 }
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id, styleObject);
+            this.initData();
         },
         /**
          * 通用的url参数对象
@@ -378,7 +226,15 @@ export default {
             var params = that.commonParam();
             switch (this.propData.dataSourceType) {
                 case "customInterface":
-                    this.getInitDataApi()
+                    this.propData.customInterfaceUrl && window.IDM.http.get(this.propData.customInterfaceUrl, params)
+                        .then((res) => {
+                            //res.data
+                            that.$set(that.propData, "fontContent", that.getExpressData("resultData", that.propData.dataFiled, res.data));
+                            // that.propData.fontContent = ;
+                        })
+                        .catch(function (error) {
+
+                        });
                     break;
                 case "pageCommonInterface":
                     //使用通用接口直接跳过，在setContextValue执行
@@ -389,9 +245,8 @@ export default {
                         try {
                             resValue = window[this.propData.customFunction[0].name] && window[this.propData.customFunction[0].name].call(this, { ...params, ...this.propData.customFunction[0].param, moduleObject: this.moduleObject });
                         } catch (error) {
-
                         }
-                        this.menu_list = resValue;
+                        that.propData.fontContent = resValue;
                     }
                     break;
             }
@@ -434,7 +289,40 @@ export default {
 
             return _defaultVal;
         },
-        
+        /**
+         * 文本点击事件
+         */
+        textClickHandle() {
+            let that = this;
+            if (this.moduleObject.env == "develop") {
+                //开发模式下不执行此事件
+                return;
+            }
+            //获取所有的URL参数、页面ID（pageId）、以及所有组件的返回值（用范围值去调用IDM提供的方法取出所有的组件值）
+            let urlObject = window.IDM.url.queryObject(),
+                pageId = window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : "";
+            //自定义函数
+            /**
+             * [
+             * {name:"",param:{}}
+             * ]
+             */
+            var clickFunction = this.propData.clickFunction;
+            clickFunction && clickFunction.forEach(item => {
+                window[item.name] && window[item.name].call(this, {
+                    urlData: urlObject,
+                    pageId,
+                    customParam: item.param,
+                    _this: this
+                });
+            })
+        },
+        showThisModuleHandle() {
+            this.propData.defaultStatus = "default";
+        },
+        hideThisModuleHandle() {
+            this.propData.defaultStatus = "hidden";
+        },
         /**
          * 组件通信：接收消息的方法
          * @param {
@@ -447,7 +335,11 @@ export default {
          */
         receiveBroadcastMessage(object) {
             console.log("组件收到消息", object)
-            
+            if (object.type && object.type == "linkageShowModule") {
+                this.showThisModuleHandle();
+            } else if (object.type && object.type == "linkageHideModule") {
+                this.hideThisModuleHandle();
+            }
         },
         /**
          * 组件通信：发送消息的方法
@@ -478,75 +370,27 @@ export default {
             }
             //这里使用的是子表，所以要循环匹配所有子表的属性然后再去设置修改默认值
             if (object.key == this.propData.dataName) {
-                this.menu_list = this.getExpressData(this.propData.dataName, this.propData.dataFiled, object.data)
+                // this.propData.fontContent = this.getExpressData(this.propData.dataName,this.propData.dataFiled,object.data);
+                this.$set(this.propData, "fontContent", this.getExpressData(this.propData.dataName, this.propData.dataFiled, object.data));
             }
         }
     }
 }
 </script>
 <style lang="scss">
-.IMenu_app{
-    // background: blue;
-    .el-menu-demo{
-        background: none;
-        // &>.el-menu-item{
-        //     height: 50px;
-        //     line-height: 50px;
-        // }
-        // &>.el-submenu>.el-submenu__title{
-        //     height: 50px;
-        //     line-height: 50px;
-        // }
-    }
-    .menu_button_style{
-        .el-submenu__title,.el-menu-item{
-            // border-bottom: none !important;
-        }
-        // .el-menu-item.is-active{
-        //     color: white !important;
-        //     background: #1f8bf7;
-        // }
-        // .el-submenu.is-active>.el-submenu__title{
-        //     color: white !important;
-        //     background: #1f8bf7;
-        // }
-        // .el-submenu.is-active>.el-submenu__title>i{
-        //     color: white !important;
-        // }
+.ITabCard_app{
+    .tab_contant{
+        .tab_list{
+            .title,.time{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .time{
+                // width: 130px;
+                margin-left: 20px;
+                flex-shrink: 0;
 
-        // .el-submenu:focus .el-submenu__title{
-        //     color: red !important;
-        // }
-
-        // .el-menu-item:hover{
-        //     color: white !important;
-        //     background: #1f8bf7;
-        // }
-        // .el-submenu>.el-submenu__title:hover{
-        //     color: white !important;
-        //     background: #1f8bf7;
-        // }
-        // .el-submenu>.el-submenu__title:hover>i{
-        //     color: white;
-        // }
-    }
-    .menu_line_style{
-        // &>.el-menu-item.is-active{
-        //     border-bottom: 2px solid red !important;
-        // }
-        // &>.el-submenu.is-active .el-submenu__title{
-        //     border-bottom: 2px solid red !important;
-        // }
-        .el-menu-item:not(.is-disabled):focus, .el-menu-item:not(.is-disabled):hover{
-            background: none;
-        }
-        .el-submenu .el-submenu__title:hover{
-            background: none;
-        }
-
-        .el-menu--popup{
-            .el-submenu.is-active .el-submenu__title{
-                border-bottom: none !important;
             }
         }
     }
