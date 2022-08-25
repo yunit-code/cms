@@ -26,6 +26,20 @@
       "comLangue": "vue"
     },
     {
+      "classId": "idm.component.cms.tabcard",
+      "comName": "页签卡片",
+      "className": "ITabCard",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.headerbar",
+      "comName": "页面顶部",
+      "className": "IHeaderBar",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
       "classId": "idm.component.cms.itextlist",
       "comName": "文字列表",
       "className": "ITextList",

@@ -1,7 +1,7 @@
 {
-    "classId": "idm.component.cms.menu",
-    "comName": "菜单",
-    "className": "IMenu",
+    "classId": "idm.component.cms.headerbar",
+    "comName": "页面顶部",
+    "className": "IHeaderBar",
     "comType": "common",
     "comLangue": "vue",
     "compositeAttr": [
@@ -24,47 +24,8 @@
                     "type": "radio",
                     "styleType": "radio",
                     "layoutType": "inline",
-                    "text": "样式风格",
-                    "desc":"样式风格，按钮风格和线条风格",
-                    "bindKey": "styleForm",
-                    "default": "1",
-                    "dictionary": [
-                        {
-                            "label": "按钮",
-                            "value": "1"
-                        },
-                        {
-                            "label": "线条",
-                            "value": "2"
-                        }
-                    ]
-                },
-                {
-                    "type": "radio",
-                    "styleType": "radio",
-                    "layoutType": "inline",
-                    "text": "触发方式",
-                    "desc":"下拉子菜单的触发方式",
-                    "bindKey": "triggerType",
-                    "default": "click",
-                    "dictionary": [
-                        {
-                            "label": "点击",
-                            "value": "click"
-                        },
-                        {
-                            "label": "悬浮",
-                            "value": "hover"
-                        }
-                    ]
-                },
-                {
-                    "type": "radio",
-                    "styleType": "radio",
-                    "layoutType": "inline",
-                    "text": "使用简称",
-                    "desc":"使用栏目的简称",
-                    "bindKey": "useShortName",
+                    "text": "显示搜索",
+                    "bindKey": "showSearch",
                     "default": true,
                     "dictionary": [
                         {
@@ -76,72 +37,275 @@
                             "value": false
                         }
                     ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "搜索位置",
+                    "bindKey": "searchPosition",
+                    "default": "top",
+                    "dictionary": [
+                        {
+                            "label": "顶部",
+                            "value": "top"
+                        },
+                        {
+                            "label": "底部",
+                            "value": "bottom"
+                        }
+                    ],
+                    "display":"@[showSearch]"
                 }
             ]
         },
         {
             "type": "group",
-            "text": "菜单样式设置",
+            "text": "顶部左侧属性",
+            "desc": "设置顶部左侧内容属性",
             "children": [
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "显示内容",
+                    "bindKey": "topLeftShowType",
+                    "desc": "顶部左侧显示内容，可设置为时间、文本、空",
+                    "default": "time",
+                    "dictionary": [
+                        {
+                            "label": "时间",
+                            "value": "time"
+                        },
+                        {
+                            "label": "文本",
+                            "value": "text"
+                        },
+                        {
+                            "label": "不显示",
+                            "value": "none"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "数据源",
+                    "bindKey": "topLeftShowTextResource",
+                    "desc": "顶部左侧内容选择文本时，选择文本数据源",
+                    "dictionary": [
+                        {
+                            "label": "自定义",
+                            "value": "custom"
+                        },
+                        {
+                            "label": "自定义接口",
+                            "value": "customInterface"
+                        }
+                    ],
+                    "default": "custom",
+                    "display":"@[topLeftShowType=='text']"
+                },
                 {
                     "type": "input",
                     "layoutType": "inline",
-                    "text": "高度",
-                    "bindKey": "heightMenu"
+                    "text": "文本内容",
+                    "bindKey": "topLeftShowText",
+                    "desc": "顶部左侧文本数据源选择自定义时，输入要显示的文本内容",
+                    "display": "@[topLeftShowType=='text'&&topLeftShowTextResource=='custom']"
                 },
                 {
-                    "type": "font",
-                    "layoutType": "block",
-                    "text": "文字",
-                    "bindKey": "fontMenu"
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "接口地址",
+                    "bindKey": "customInterfaceUrlTopLeft",
+                    "desc": "用于获取数据源的接口地址，请按照统一标准的返回格式返回文本数据，格式如下：{\"code\":\"200\",\"data\":\"\",...}",
+                    "display": "@[topLeftShowType=='text'&&topLeftShowTextResource=='customInterface']"
+                },
+                {
+                    "type": "textarea",
+                    "layoutType": "inline",
+                    "text": "显示字段",
+                    "bindKey": "dataFiledTopLeft",
+                    "desc": "根据接口返回数据格式指定结果集的字段，比如结果集名为resultData（自定义接口忽略）且它的值为{data:{filedName:[{\"text\":\"\",\"value\":\"\",\"check\":true}]}}，则这里应该填写data.filedName",
+                    "default": "",
+                    "placeholder": "示例：data.filedName 或者 [0].data[0].filedName",
+                    "display": "@[topLeftShowType=='text'&&topLeftShowTextResource=='customInterface']"
                 }
             ]
         },
         {
             "type": "group",
-            "text": "悬浮样式设置",
+            "text": "底部内容属性",
+            "desc": "设置底部内容属性",
             "children": [
                 {
-                    "type": "font",
-                    "layoutType": "block",
-                    "text": "文字",
-                    "bindKey": "fontHover"
+                    "type": "uploadImage",
+                    "layoutType": "inline",
+                    "text": "显示logo",
+                    "bindKey": "logoImgSrc",
+                    "default": ""
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "填充方式",
+                    "bindKey": "objectFit",
+                    "desc": "logo图片填充方式",
+                    "dictionary": [
+                        {
+                            "label": "fill",
+                            "value": "fill"
+                        },
+                        {
+                            "label": "contain",
+                            "value": "contain"
+                        },
+                        {
+                            "label": "cover",
+                            "value": "cover"
+                        },
+                        {
+                            "label": "none",
+                            "value": "none"
+                        }
+                    ],
+                    "default": "fill"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "logo宽",
+                    "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
+                    "bindKey": "widthLogoImg",
+                    "default": "100%"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "logo高",
+                    "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
+                    "bindKey": "heightLogoImg",
+                    "default": "100%"
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "顶部容器样式",
+            "desc": "点击？查看样式设置用法指南",
+            "children": [
+                {
+                    "type": "inlineGroup",
+                    "text": "宽高",
+                    "children": [
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "宽",
+                            "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
+                            "bindKey": "widthTop",
+                            "width": "60px",
+                            "default": "100%"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "高",
+                            "desc": "填写auto则为自适应，或者使用px、%、vh等单位，比如100%、100px、100vh等等",
+                            "bindKey": "heightTop",
+                            "width": "60px",
+                            "default": "auto"
+                        }
+                    ]
                 },
                 {
                     "type": "colorPicker",
                     "layoutType": "inline",
                     "text": "背景色",
-                    "bindKey": "bgColorHover",
+                    "bindKey": "bgColorTop",
                     "placeholder": "请选择颜色",
-                    "display": "@[styleForm=='1']",
                     "default": {}
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "内外边距",
+                    "bindKey": "boxTop"
+                },
+                {
+                    "type": "border",
+                    "layoutType": "block",
+                    "text": "边框",
+                    "bindKey": "borderTop"
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "文字",
+                    "bindKey": "fontTop"
                 }
             ]
         },
         {
             "type": "group",
-            "text": "选中样式设置",
+            "text": "底部容器样式",
+            "desc": "点击？查看样式设置用法指南",
             "children": [
                 {
-                    "type": "font",
-                    "layoutType": "block",
-                    "text": "文字",
-                    "bindKey": "fontActive"
+                    "type": "inlineGroup",
+                    "text": "宽高",
+                    "children": [
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "宽",
+                            "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
+                            "bindKey": "widthMain",
+                            "width": "60px",
+                            "default": "100%"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "高",
+                            "desc": "填写auto则为自适应，或者使用px、%、vh等单位，比如100%、100px、100vh等等",
+                            "bindKey": "heightMain",
+                            "width": "60px",
+                            "default": "auto"
+                        }
+                    ]
                 },
                 {
                     "type": "colorPicker",
                     "layoutType": "inline",
                     "text": "背景色",
-                    "bindKey": "bgColorActive",
+                    "bindKey": "bgColorMain",
                     "placeholder": "请选择颜色",
-                    "display": "@[styleForm=='1']",
                     "default": {}
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "内外边距",
+                    "bindKey": "boxMain"
+                },
+                {
+                    "type": "border",
+                    "layoutType": "block",
+                    "text": "边框",
+                    "bindKey": "borderMain"
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "文字",
+                    "bindKey": "fontMain"
                 }
             ]
         },
         {
             "type": "group",
-            "text": "样式设置",
+            "text": "容器样式设置",
             "desc": "点击？查看样式设置用法指南",
             "helpUrl": "",
             "children": [
@@ -369,9 +533,17 @@
         },
         {
             "type": "group",
-            "text": "数据源",
-            "desc": "点击？查看数据源设置用法指南",
+            "text": "高级",
+            "desc": "点击？查看高级设置用法指南",
             "children": [
+                {
+                    "type": "actionSelect",
+                    "layoutType": "block",
+                    "text": "点击时动作",
+                    "bindKey": "clickFunction",
+                    "desc": "点击的时候会调用设置的自定义函数，接收参数为格式为{...自定义的}",
+                    "multiple": true
+                },
                 {
                     "type": "select",
                     "layoutType": "inline",
@@ -393,14 +565,6 @@
                         }
                     ],
                     "default": "customInterface"
-                },
-                {
-                    "type": "input",
-                    "layoutType": "inline",
-                    "text": "栏目ID",
-                    "bindKey": "multiColumnId",
-                    "desc": "根据栏目id获取子栏目数据，若为空则返回根栏目下所有子栏目",
-                    "display": "@[dataSourceType=='customInterface']"
                 },
                 {
                     "type": "input",
@@ -436,8 +600,7 @@
                     "text": "自定义函数",
                     "bindKey": "customFunction",
                     "desc": "获取动态文本内容、自定义接口回调、页面统一接口回调的时候会调用此方法，返回数据格式为字符串，接收参数：{...自定义,interfaceData:自定义接口或页面统一接口的返回结果,expressData:表达式替换后的结果}",
-                    "multiple": false,
-                    "display": "@[dataSourceType=='customFunction']"
+                    "multiple": false
                 }
             ]
         }
