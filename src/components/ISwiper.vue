@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import 'swiper/dist/js/swiper'
-import 'swiper/dist/css/swiper.css'
+import 'swiper/js/swiper'
+import 'swiper/css/swiper.css'
 import Swiper from "swiper"
 export default {
     name: 'ISwiper',

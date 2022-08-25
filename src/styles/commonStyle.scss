@@ -10,6 +10,9 @@
 .flex-d-c{
     flex-direction: column;
 }
+.flex-d-r-r{
+    flex-direction: row-reverse;
+}
 .just-a{
     justify-content: space-around;
 }
@@ -28,6 +31,9 @@
 
 
 // other
+.cursor-p {
+    cursor: pointer;
+}
 .over-h{
     overflow: hidden;
 }

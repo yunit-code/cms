@@ -12,7 +12,8 @@
     "ant-design-vue": "^1.7.6",
     "core-js": "^3.6.5",
     "sass-loader": "^8.0.2",
-    "swiper": "^4.5.1",
+    "swiper": "^5.3.6",
+    "vue-awesome-swiper": "^4.1.1",
     "vue": "^2.6.11",
     "element-ui": "^2.9.2"
   },

@@ -88,22 +88,6 @@ export default {
                         case 'bgImgUrl':
                             styleObject['background-image'] = `url(${window.IDM.url.getWebPath(element)})`
                             break
-                        case 'positionX':
-                            //背景横向偏移
-
-                            break
-                        case 'positionY':
-                            //背景纵向偏移
-
-                            break
-                        case 'bgRepeat':
-                            //平铺模式
-                            styleObject['background-repeat'] = element
-                            break
-                        case 'bgAttachment':
-                            //背景模式
-                            styleObject['background-attachment'] = element
-                            break
                         case 'border':
                             IDM.style.setBorderStyle(styleObject, element)
                             break
