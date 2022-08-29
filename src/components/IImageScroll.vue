@@ -18,12 +18,14 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import { getImageScrollData } from '../mock/mockData'
+import listMixins from '../mixins/listMixins'
 export default {
     name: 'IImageScroll',
     components: {
         Swiper,
         SwiperSlide
     },
+    mixins: [listMixins],
     data() {
         return {
             moduleObject: {},
@@ -114,7 +116,7 @@ export default {
         },
         initData() {
             if (this.moduleObject.env === 'develop') {
-                this.componentData = getImageScrollData.call(this)
+                this.componentData = this.setFillBlankData(getImageScrollData.call(this))
                 return
             }
             let that = this

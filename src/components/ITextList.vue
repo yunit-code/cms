@@ -6,7 +6,7 @@
             @click="handleItemClick(item)"
             class="text-list-item d-flex align-c"
         >
-            <div class="d-flex align-c" v-if="propData.styleType === 'iconAndTextAndTime'">
+            <div class="d-flex align-c" v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'">
                 <svg
                     v-if="propData.titleIcon && propData.titleIcon.length"
                     class="text-list-left-icon"
@@ -33,6 +33,7 @@
 </template>
 <script>
 import { textListData, textListData3 } from '../mock/mockData'
+import listMixins from '../mixins/listMixins'
 export default {
     name: 'ITextList',
     data() {
@@ -44,6 +45,7 @@ export default {
             componentData: []
         }
     },
+    mixins: [listMixins],
     created() {
         this.moduleObject = this.$root.moduleObject
         this.convertAttrToStyleObject()
@@ -204,9 +206,9 @@ export default {
         initData() {
             if (this.moduleObject.env === 'develop') {
                 if (this.propData.styleType !== 'timeAndText') {
-                    this.componentData = textListData
+                    this.componentData = this.setFillBlankData(textListData)
                 } else {
-                    this.componentData = textListData3
+                    this.componentData = this.setFillBlankData(textListData3)
                 }
 
                 return

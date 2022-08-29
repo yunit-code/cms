@@ -20,6 +20,7 @@
 </template>
 <script>
 import { getImageListData } from '../mock/mockData'
+import listMixins from '../mixins/listMixins'
 export default {
     name: 'IImageList',
     data() {
@@ -34,6 +35,7 @@ export default {
         this.moduleObject = this.$root.moduleObject
         this.convertAttrToStyleObject()
     },
+    mixins: [listMixins],
     methods: {
         propDataWatchHandle(propData) {
             this.propData = propData.compositeAttr || {}
@@ -139,7 +141,7 @@ export default {
         },
         initData() {
             if (this.moduleObject.env === 'develop') {
-                this.componentData = getImageListData.call(this)
+                this.componentData = this.setFillBlankData(getImageListData.call(this))
                 return
             }
             let that = this
@@ -235,7 +237,7 @@ export default {
 .image-list-container {
     width: 100%;
 }
-.image-list-title{
+.image-list-title {
     margin: 0 0 10px 0;
 }
 </style>

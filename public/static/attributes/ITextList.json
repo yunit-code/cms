@@ -21,49 +21,11 @@
             "desc": "提供设置组件能达到展示效果的基本属性设置信息",
             "children": [
                 {
-                    "type": "select",
+                    "type": "input",
                     "layoutType": "inline",
-                    "text": "样式风格",
-                    "bindKey": "styleType",
-                    "dictionary": [
-                        {
-                            "label": "icon + 文本 + 时间",
-                            "value": "iconAndTextAndTime"
-                        },
-                        {
-                            "label": "文本 + 时间",
-                            "value": "textAndTime"
-                        },
-                        {
-                            "label": "时间 + 文本",
-                            "value": "timeAndText"
-                        }
-                    ],
-                    "default": "iconAndTextAndTime"
-                },
-                {
-                    "type": "iconSelect",
-                    "layoutType": "inline",
-                    "text": "左侧图标",
-                    "bindKey": "titleIcon",
-                    "display": "@[styleType === 'iconAndTextAndTime']",
-                    "default": ""
-                },
-                {
-                    "type": "colorPicker",
-                    "layoutType": "inline",
-                    "desc": "设置图标颜色，会覆盖主题色",
-                    "text": "图标颜色",
-                    "display": "@[styleType === 'iconAndTextAndTime']",
-                    "bindKey": "titleIconFontColor"
-                },
-                {
-                    "type": "inputNumber",
-                    "layoutType": "inline",
-                    "text": "图标大小",
-                    "bindKey": "titleIconFontSize",
-                    "display": "@[styleType === 'iconAndTextAndTime']",
-                    "default": 14
+                    "text": "栏目id",
+                    "desc": "指定显示哪个栏目下的内容",
+                    "bindKey": "baseColumn"
                 },
                 {
                     "type": "inputNumber",
@@ -91,6 +53,55 @@
                             "value": false
                         }
                     ]
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "样式风格",
+                    "bindKey": "styleType",
+                    "dictionary": [
+                        {
+                            "label": "icon + 文本 + 时间",
+                            "value": "iconAndTextAndTime"
+                        },
+                        {
+                            "label": "icon + 文本",
+                            "value": "iconAndText"
+                        },
+                        {
+                            "label": "文本 + 时间",
+                            "value": "textAndTime"
+                        },
+                        {
+                            "label": "时间 + 文本",
+                            "value": "timeAndText"
+                        }
+                    ],
+                    "default": "iconAndTextAndTime"
+                },
+                {
+                    "type": "iconSelect",
+                    "layoutType": "inline",
+                    "text": "左侧图标",
+                    "bindKey": "titleIcon",
+                    "display": "@[styleType === 'iconAndTextAndTime' || styleType === 'iconAndText']",
+                    "default": ""
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "desc": "设置图标颜色，会覆盖主题色",
+                    "text": "图标颜色",
+                    "display": "@[styleType === 'iconAndTextAndTime' || styleType === 'iconAndText']",
+                    "bindKey": "titleIconFontColor"
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "图标大小",
+                    "bindKey": "titleIconFontSize",
+                    "display": "@[styleType === 'iconAndTextAndTime' || styleType === 'iconAndText']",
+                    "default": 14
                 }
             ]
         },

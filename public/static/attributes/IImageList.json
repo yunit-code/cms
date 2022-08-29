@@ -21,6 +21,40 @@
             "desc": "提供设置组件能达到展示效果的基本属性设置信息",
             "children": [
                 {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "栏目id",
+                    "desc": "指定显示哪个栏目下的内容",
+                    "bindKey": "baseColumn"
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "显示数量",
+                    "desc": "最多显示几条",
+                    "bindKey": "contentNumber",
+                    "default": 5
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "是否补空",
+                    "desc": "数量不足时是否填入空行",
+                    "bindKey": "fillBlank",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
                     "type": "select",
                     "layoutType": "inline",
                     "text": "样式风格",
@@ -36,14 +70,6 @@
                         }
                     ],
                     "default": "vertical"
-                },
-                {
-                    "type": "inputNumber",
-                    "layoutType": "inline",
-                    "text": "显示数量",
-                    "desc": "最多显示几条",
-                    "bindKey": "contentNumber",
-                    "default": 5
                 },
                 {
                     "type": "inputNumber",
@@ -65,25 +91,6 @@
                     "text": "占位格数",
                     "bindKey": "itemSpan",
                     "default": 5
-                },
-                {
-                    "type": "radio",
-                    "styleType": "radio",
-                    "layoutType": "inline",
-                    "text": "是否补空",
-                    "desc": "数量不足时是否填入空行",
-                    "bindKey": "fillBlank",
-                    "default": true,
-                    "dictionary": [
-                        {
-                            "label": "是",
-                            "value": true
-                        },
-                        {
-                            "label": "否",
-                            "value": false
-                        }
-                    ]
                 }
             ]
         },

@@ -38,6 +38,7 @@
 </template>
 <script>
 import { getVideoListData } from '../mock/mockData'
+import listMixins from '../mixins/listMixins'
 export default {
     name: 'IVideoList',
     data() {
@@ -49,6 +50,7 @@ export default {
             currentVideo: { video: '', poster: '' }
         }
     },
+    mixins: [listMixins],
     created() {
         this.moduleObject = this.$root.moduleObject
         this.convertAttrToStyleObject()
@@ -168,7 +170,7 @@ export default {
         },
         initData() {
             if (this.moduleObject.env === 'develop') {
-                this.componentData = getVideoListData.call(this)
+                this.componentData = this.setFillBlankData(getVideoListData.call(this))
                 return
             }
             let that = this
