@@ -20,6 +20,11 @@
                 {{ componentData[defaultKey] && componentData[defaultKey].content }}
             </div>
         </div>
+        <div class="d-flex just-c">
+            <div class="communication-tab-button cursor-p" @click="handleButtonClick">
+                {{ propData.buttonText }}
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -54,7 +59,8 @@ export default {
                 tabNoActiveObj = {},
                 tabActiveObj = {},
                 titleObj = {},
-                contentObj = {}
+                contentObj = {},
+                buttonObj = {}
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key]
@@ -106,6 +112,16 @@ export default {
                         case 'contentFont':
                             IDM.style.setFontStyle(contentObj, element)
                             break
+                        // 按钮样式
+                        case 'btnBox':
+                            IDM.style.setBoxStyle(buttonObj, element)
+                            break
+                        case 'btnBorder':
+                            IDM.style.setBorderStyle(buttonObj, element, true)
+                            break
+                        case 'btnFont':
+                            IDM.style.setFontStyle(buttonObj, element, true)
+                            break
                     }
                 }
             }
@@ -115,6 +131,7 @@ export default {
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .communication-tab-active', tabActiveObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .communication-tab-title', titleObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .communication-tab-content', contentObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .communication-tab-button', buttonObj)
             this.initData()
         },
         /**
@@ -131,14 +148,17 @@ export default {
                     : 'idm-theme-'
             for (var i = 0; i < themeList.length; i++) {
                 var item = themeList[i]
-                let mainBgColorObj = {
+                const mainBgColorObj = {
                         'background-color': item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
+                    },
+                    mainBorderColor = {
+                        'border-color': item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
+                    },
+                    mainColor = {
+                        color: item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
                     },
                     minorBgColorObj = {
                         'background-color': item.mainColor ? IDM.hex8ToRgbaString(item.minorColor.hex8) : ''
-                    },
-                    minorColorObj = {
-                        color: item.mainColor ? IDM.hex8ToRgbaString(item.minorColor.hex8) : ''
                     }
                 IDM.setStyleToPageHead(
                     '.' +
@@ -162,8 +182,29 @@ export default {
                         item.key +
                         (` #${this.moduleObject.id}` || 'module_demo') +
                         ' .communication-tab-tip',
-                    minorColorObj
+                    mainColor
                 )
+                IDM.setStyleToPageHead(
+                    '.' +
+                        themeNamePrefix +
+                        item.key +
+                        (` #${this.moduleObject.id}` || 'module_demo') +
+                        ' .communication-tab-button',
+                    { ...mainBorderColor, ...mainColor }
+                )
+            }
+        },
+        handleButtonClick() {
+            if (this.propData.btnClickFunction && this.propData.btnClickFunction.length > 0) {
+                var params = this.commonParam()
+                this.propData.btnClickFunction.forEach((el) => {
+                    const funcName = el.name
+                    window[funcName].call(this, {
+                        ...params,
+                        ...this
+                    })
+                })
+                return
             }
         },
         reload() {
