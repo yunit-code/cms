@@ -11,8 +11,9 @@
         <div class="d-flex flex-d-r-r align-c comment-list-button-container">
             <a-button type="primary" @click="handlePublish">发布</a-button>
         </div>
-        <div v-for="(item, index) in componentData" :key="index" class="comment-list-item">
+        <div v-for="(item, index) in componentData.rows" :key="index" class="comment-list-item">
             <ICommentItem
+                :propData="propData"
                 :itemData="item"
                 :lIndex="index"
                 @showReply="showReply"
@@ -22,6 +23,7 @@
             ></ICommentItem>
             <div class="comment-list-sub-comment" v-for="(items, indexs) in item.children" :key="indexs">
                 <ICommentItem
+                    :propData="propData"
                     :lIndex="index"
                     :sIndex="indexs"
                     :itemData="items"
@@ -30,6 +32,7 @@
                     @handleSubReply="handleSubReply"
                     :btnLoading="btnLoading2"
                 ></ICommentItem>
+                <div class="d-flex just-c cursor-p" @click="handleSubClickMore(item)">查看更多回复</div>
             </div>
         </div>
         <div class="d-flex just-c cursor-p" @click="handleClickMore">加载更多</div>
@@ -51,8 +54,11 @@ export default {
             },
             btnLoading: false,
             btnLoading2: false,
-            componentData: [],
-            content: ''
+            componentData: {
+                rows: []
+            },
+            content: '',
+            currentPage: 1
         }
     },
     created() {
@@ -64,39 +70,42 @@ export default {
             this.propData = propData.compositeAttr || {}
             this.convertAttrToStyleObject()
         },
+        handleSubClickMore(item) {
+            
+        },
         // 显示回复
         showReply({ index, sIndex }) {
             if (this.moduleObject.env == 'develop') {
                 return
             }
-            const arr = _.cloneDeep(this.componentData)
+            const arr = _.cloneDeep(this.componentData.rows)
             this.setIsReplyFalse(arr)
             if (sIndex === -1) {
                 arr[index].isReply = true
             } else {
                 arr[index].children[sIndex].isReply = true
             }
-            this.$set(this, 'componentData', arr)
+            this.$set(this.componentData, 'rows', arr)
         },
         // 删除
         handleDelete({ item, index, sIndex }) {
             if (this.moduleObject.env == 'develop') {
                 return
             }
-            const arr = _.cloneDeep(this.componentData)
+            const arr = _.cloneDeep(this.componentData.rows)
             if (sIndex === -1) {
                 arr.splice(index, 1)
             } else {
                 arr[index].children.splice(sIndex, 1)
             }
-            this.$set(this, 'componentData', arr)
+            this.$set(this.componentData, 'rows', arr)
         },
         // 回复
         handleSubReply() {
             this.btnLoading2 = true
-            const arr = _.cloneDeep(this.componentData)
+            const arr = _.cloneDeep(this.componentData.rows)
             this.setIsReplyFalse(arr)
-            this.$set(this, 'componentData', arr)
+            this.$set(this.componentData, 'rows', arr)
         },
         // 发布评论
         handlePublish() {
@@ -165,7 +174,10 @@ export default {
             //请求数据源
             this.initData()
         },
-        handleClickMore() {},
+        handleClickMore() {
+            this.currentPage++
+            this.initData()
+        },
         setIsReplyFalse(array) {
             return array.map((el) => {
                 el.isReply = false
@@ -177,47 +189,29 @@ export default {
         },
         initData() {
             if (this.moduleObject.env === 'develop') {
-                this.componentData = this.setIsReplyFalse(getCommentListData.call(this))
+                this.componentData.rows = this.setIsReplyFalse(getCommentListData.call(this))
                 return
             }
-            let that = this
-            //所有地址的url参数转换
-            var params = that.commonParam()
-            switch (this.propData.dataSourceType) {
-                case 'customInterface':
-                    this.propData.customInterfaceUrl &&
-                        window.IDM.http
-                            .get(this.propData.customInterfaceUrl, params)
-                            .then((res) => {
-                                //res.data
-                                that.$set(
-                                    that.propData,
-                                    'fontContent',
-                                    that.getExpressData('resultData', that.propData.dataFiled, res.data)
-                                )
-                                // that.propData.fontContent = ;
-                            })
-                            .catch(function (error) {})
-                    break
-                case 'pageCommonInterface':
-                    //使用通用接口直接跳过，在setContextValue执行
-                    break
-                case 'customFunction':
-                    if (this.propData.customFunction && this.propData.customFunction.length > 0) {
-                        var resValue = ''
-                        try {
-                            resValue =
-                                window[this.propData.customFunction[0].name] &&
-                                window[this.propData.customFunction[0].name].call(this, {
-                                    ...params,
-                                    ...this.propData.customFunction[0].param,
-                                    moduleObject: this.moduleObject
-                                })
-                        } catch (error) {}
-                        that.propData.fontContent = resValue
-                    }
-                    break
-            }
+            this.propData.customInterfaceUrl &&
+                window.IDM.http
+                    .get(this.propData.customInterfaceUrl, {
+                        columnId: this.propData.columnId,
+                        showLike: this.propData.isFabulousNumber,
+                        page: this.currentPage,
+                        showNum: this.propData.showNum,
+                        childShowNum: this.propData.childShowNum
+                    })
+                    .then((res) => {
+                        if (res.status == 200 && res.data.code == 200) {
+                            if (res.data.data.rows && res.data.data.rows.length > 1) {
+                                res.data.data.rows = res.data.data.rows.sort((a, b) => a.index - b.index)
+                            }
+                            this.componentData = res.data.data
+                        } else {
+                            IDM.message.error(res.data.message)
+                        }
+                    })
+                    .catch(function (error) {})
         },
         receiveBroadcastMessage(object) {
             console.log('组件收到消息', object)
@@ -271,6 +265,8 @@ export default {
 }
 .comment-list-sub-comment {
     margin: 20px 0 0 70px;
+    padding: 10px 0 10px 10px;
+    background: #ddd;
 }
 .comment-list-name {
     margin: 0 0 5 0;

@@ -97,11 +97,11 @@ export const getVideoListData = function () {
 
 export const breadcrumbData = [
     {
-        text: '首页',
+        title: '首页',
         url: '/'
     },
     {
-        text: '通知公告',
+        title: '通知公告',
         url: '/notice'
     }
 ]
@@ -111,67 +111,67 @@ export const getImageScrollData = function () {
     return [
         {
             jumpUrl: '',
-            title: '磐石在线学习1',
+            describe: '磐石在线学习1',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习2',
+            describe: '磐石在线学习2',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习3',
+            describe: '磐石在线学习3',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习4',
+            describe: '磐石在线学习4',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习5',
+            describe: '磐石在线学习5',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习6',
+            describe: '磐石在线学习6',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习7',
+            describe: '磐石在线学习7',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习8',
+            describe: '磐石在线学习8',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习9',
+            describe: '磐石在线学习9',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习10',
+            describe: '磐石在线学习10',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习11',
+            describe: '磐石在线学习11',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习12',
+            describe: '磐石在线学习12',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             jumpUrl: '',
-            title: '磐石在线学习13',
+            describe: '磐石在线学习13',
             image: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         }
     ]
@@ -181,49 +181,63 @@ export const getCommentListData = function () {
     const _this = this
     return [
         {
+            id: '',
             time: '2022-05-09',
-            fabulousNumber: 30,
+            likeNum: 30,
             content: '磐石在线学习1',
-            sendUser:{
-                username: '小小'
-            },
-            id: '1',
-            avatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject),
+            isLike: false, // 是否点过赞
+            isFeatured: false, //	boolean	必须		是否精选
+            createTime: '2022-05-09', //	string	必须		评论时间
+            formUserId: '123', //	string	必须		评论用户Id
+            formUserName: '小小', //	string	必须		评论用户名
+            formUserAvatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject), //	string	非必须		评论用户头像
             children: [
                 {
-                    time: '2022-05-09',
-                    fabulousNumber: 30,
+                    createTime: '2022-05-09',
+                    likeNum: 30,
                     content: '磐石在线学习1',
-                    sendUser:{
-                        username: '小小'
-                    },
-                    toUser: {
-                        username: '阿月'
-                    },
+                    formUserName: '小小',
+                    formUserAvatar: IDM.url.getModuleAssetsWebPath(
+                        require('../assets/image-list.png'),
+                        _this.moduleObject
+                    ),
                     id: '1',
-                    avatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
+                    toUserId: '456', //	string	必须		回复用户Id
+                    toUserName: '阿月', //	string	必须		回复用户名
+                    toUserAvatar: '' //	string	非必须		回复用户头像
                 }
             ]
         },
         {
-            time: '2022-05-09',
-            fabulousNumber: 30,
-            content: '磐石在线学习1',
-            sendUser:{
-                username: '小小'
-            },
+            createTime: '2022-05-09',
+            likeNum: 30,
+            content: '磐石在线学习2',
+            formUserName: '小小',
             id: '1',
-            avatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
+            formUserAvatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
-            time: '2022-05-09',
-            fabulousNumber: 30,
-            content: '磐石在线学习1',
-            sendUser:{
-                username: '小小'
-            },
+            createTime: '2022-05-09',
+            likeNum: 30,
+            content: '磐石在线学习3',
+            formUserName: '小小',
             id: '1',
-            avatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
+            formUserAvatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         }
     ]
+}
+
+export const communicationTabData = {
+    tabOne: {
+        title: '我想办理烟草证',
+        content:
+            '办理烟草证的条件和所需材料如下：一、条件：1、有与经营烟草制品零售业务相适应的资金；2、有与住所相独立的固定经营场所；3、符合当地烟草制品零售点合理布局的要求；4、国务院烟草专卖行政主管部门规定的其他条件。二、所需材料:根据国家烟草专卖局',
+        jumpUrl: ''
+    },
+    tabTwo: {
+        title: '您对建设文明吸烟环境的建议是？',
+        content:
+            '在人流密集的交通枢纽建设简单实用的吸烟点，在商务区建设室外吸烟室或吸烟区，在休闲购物场所建设室外吸烟亭，在政策允许的机场、高铁站建设室内吸烟室',
+        jumpUrl: ''
+    }
 }

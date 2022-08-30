@@ -2,13 +2,13 @@
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
         <swiper ref="mySwiper" class="swiper" :options="swiperOption">
             <swiper-slide
-                v-for="(item, index) in componentData"
+                v-for="(item, index) in componentData.rows"
                 :key="index"
                 class="image-scroll-swiper-item position-r d-flex just-c"
                 @click.native="handleClick(item, index)"
             >
                 <img :src="IDM.url.getWebPath(item.image)" class="image-scroll" alt="图片加载失败" />
-                <div class="image-scroll-title text-o-e-1">{{ item.title }}</div>
+                <div class="image-scroll-title text-o-e-1">{{ item.describe }}</div>
             </swiper-slide>
         </swiper>
         <div class="swiper-button-prev swiper-button-white"></div>
@@ -45,7 +45,9 @@ export default {
                     prevEl: '.swiper-button-prev'
                 }
             },
-            componentData: []
+            componentData: {
+                rows: []
+            }
         }
     },
     watch: {
@@ -70,7 +72,13 @@ export default {
         this.convertAttrToStyleObject()
     },
     methods: {
-        handleClick(item) {},
+        handleClick(item) {
+            if (this.moduleObject.env === 'develop') return
+            if (item.jumpUrl) {
+                const url = IDM.url.getWebPath(item.jumpUrl)
+                window.open(url, this.propData.jumpStyle || '_blank')
+            }
+        },
         propDataWatchHandle(propData) {
             this.propData = propData.compositeAttr || {}
             this.convertAttrToStyleObject()
@@ -116,47 +124,25 @@ export default {
         },
         initData() {
             if (this.moduleObject.env === 'develop') {
-                this.componentData = this.setFillBlankData(getImageScrollData.call(this))
+                this.componentData.rows = this.setFillBlankData(getImageScrollData.call(this))
                 return
             }
-            let that = this
-            //所有地址的url参数转换
-            var params = that.commonParam()
-            switch (this.propData.dataSourceType) {
-                case 'customInterface':
-                    this.propData.customInterfaceUrl &&
-                        window.IDM.http
-                            .get(this.propData.customInterfaceUrl, params)
-                            .then((res) => {
-                                //res.data
-                                that.$set(
-                                    that.propData,
-                                    'fontContent',
-                                    that.getExpressData('resultData', that.propData.dataFiled, res.data)
-                                )
-                                // that.propData.fontContent = ;
-                            })
-                            .catch(function (error) {})
-                    break
-                case 'pageCommonInterface':
-                    //使用通用接口直接跳过，在setContextValue执行
-                    break
-                case 'customFunction':
-                    if (this.propData.customFunction && this.propData.customFunction.length > 0) {
-                        var resValue = ''
-                        try {
-                            resValue =
-                                window[this.propData.customFunction[0].name] &&
-                                window[this.propData.customFunction[0].name].call(this, {
-                                    ...params,
-                                    ...this.propData.customFunction[0].param,
-                                    moduleObject: this.moduleObject
-                                })
-                        } catch (error) {}
-                        that.propData.fontContent = resValue
-                    }
-                    break
-            }
+            this.propData.customInterfaceUrl &&
+                window.IDM.http
+                    .get(this.propData.customInterfaceUrl, {
+                        columnId: this.propData.columnId
+                    })
+                    .then((res) => {
+                        if (res.status == 200 && res.data.code == 200) {
+                            if (res.data.data.rows && res.data.data.rows.length > 1) {
+                                res.data.data.rows = res.data.data.rows.sort((a, b) => a.index - b.index)
+                            }
+                            this.componentData = res.data.data
+                        } else {
+                            IDM.message.error(res.data.message)
+                        }
+                    })
+                    .catch(function (error) {})
         },
         receiveBroadcastMessage(object) {
             console.log('组件收到消息', object)

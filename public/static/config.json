@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "lasttime": "2022-8-15 10:17:47",
+  "lasttime": "2022-08-29 15:33:09",
   "author": "申龙",
   "className": "cms",
   "module": [
@@ -78,6 +78,13 @@
       "classId": "idm.component.cms.icommentlist",
       "comName": "评论组件",
       "className": "ICommentList",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.icommunicationtab",
+      "comName": "互动交流tab",
+      "className": "ICommunicationTab",
       "comType": "common",
       "comLangue": "vue"
     }

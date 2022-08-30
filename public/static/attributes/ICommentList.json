@@ -19,7 +19,42 @@
             "type": "group",
             "text": "基本属性",
             "desc": "提供设置组件能达到展示效果的基本属性设置信息",
-            "children": []
+            "children": [
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "点赞数量",
+                    "bindKey": "isFabulousNumber",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "显示",
+                            "value": true
+                        },
+                        {
+                            "label": "隐藏",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "评论条数",
+                    "desc": "一级评论展示条数",
+                    "bindKey": "showNum",
+                    "default": 10
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "子评条数",
+                    "desc": "子级评论默认展示条数",
+                    "bindKey": "childShowNum",
+                    "default": 2
+                }
+            ]
         },
         {
             "type": "group",
@@ -253,6 +288,21 @@
                             "hex8": "#577EF1FF"
                         }
                     }
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "高级",
+            "desc": "点击？查看高级设置用法指南",
+            "children": [
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "评论列表接口",
+                    "bindKey": "commentListInterface",
+                    "desc": "用于获取数据源的接口地址，请按照统一标准的返回格式返回文本数据，格式如下：{\"code\":\"200\",\"data\":\"\",...}",
+                    "default": "/ctrl/website/api/comment"
                 }
             ]
         }

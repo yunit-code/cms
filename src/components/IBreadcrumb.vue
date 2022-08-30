@@ -1,5 +1,5 @@
 <template>
-    <div idm-ctrl="idm_module" class="d-flex" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
+    <div idm-ctrl="idm_module" class="d-flex align-c" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
         <div class="d-flex align-c" v-if="propData.isShowIcon">
             <svg v-if="propData.icon && propData.icon.length" class="breadcrumb-icon" aria-hidden="true">
                 <use :xlink:href="`#${propData.icon[0]}`"></use>
@@ -9,9 +9,13 @@
         <div class="breadcrumb-tip">{{ propData.tipText }}</div>
         <a-breadcrumb class="breadcrumb-container">
             <span slot="separator" class="breadcrumb-separator">{{ propData.separator }}</span>
-            <a-breadcrumb-item v-for="(item, index) in componentData" :key="index" @click="handleItemClick(item)">{{
-                item.text
-            }}</a-breadcrumb-item>
+            <a-breadcrumb-item
+                v-for="(item, index) in componentData.rows"
+                :key="index"
+                class="cursor-p"
+                @click="handleItemClick(item)"
+                >{{ item.title }}</a-breadcrumb-item
+            >
         </a-breadcrumb>
     </div>
 </template>
@@ -25,7 +29,9 @@ export default {
             propData: this.$root.propData.compositeAttr || {
                 fontContent: 'Hello Word'
             },
-            componentData: []
+            componentData: {
+                rows: []
+            }
         }
     },
     created() {
@@ -35,6 +41,7 @@ export default {
     },
     methods: {
         handleItemClick(item) {
+            if (this.moduleObject.env === 'develop') return
             if (this.propData.customClickFunction && this.propData.customClickFunction.length > 0) {
                 this.propData.customClickFunction.forEach((el) => {
                     const funcName = el.name
@@ -45,6 +52,10 @@ export default {
                     })
                 })
                 return
+            }
+            if (item.jumpUrl) {
+                const url = IDM.url.getWebPath(item.jumpUrl)
+                window.open(url, this.propData.jumpStyle || '_blank')
             }
         },
         propDataWatchHandle(propData) {
@@ -114,9 +125,12 @@ export default {
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .breadcrumb-icon', iconObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .breadcrumb-separator', separatorObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .breadcrumb-tip', tipFontObj)
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .ant-breadcrumb a', breadcrumbFontObj)
             window.IDM.setStyleToPageHead(
-                this.moduleObject.id + ' .ant-breadcrumb>span:last-child a',
+                this.moduleObject.id + ' .ant-breadcrumb .ant-breadcrumb-link',
+                breadcrumbFontObj
+            )
+            window.IDM.setStyleToPageHead(
+                this.moduleObject.id + ' .ant-breadcrumb>span:last-child .ant-breadcrumb-link',
                 breadcrumbLastFontObj
             )
             this.initData()
@@ -143,7 +157,11 @@ export default {
                 IDM.setStyleToPageHead(
                     IDM.style.generateClassName(
                         '.' + themeNamePrefix + item.key + (` #${this.moduleObject.id}` || 'module_demo'),
-                        [' .breadcrumb-icon', ' .ant-breadcrumb>span:last-child a', ' .ant-breadcrumb a:hover']
+                        [
+                            ' .breadcrumb-icon',
+                            ' .ant-breadcrumb>span:last-child .ant-breadcrumb-link',
+                            ' .ant-breadcrumb .ant-breadcrumb-link:hover'
+                        ]
                     ),
                     bgColorObj
                 )
@@ -155,47 +173,25 @@ export default {
         },
         initData() {
             if (this.moduleObject.env === 'develop') {
-                this.componentData = breadcrumbData
+                this.componentData.rows = breadcrumbData
                 return
             }
-            let that = this
-            //所有地址的url参数转换
-            var params = that.commonParam()
-            switch (this.propData.dataSourceType) {
-                case 'customInterface':
-                    this.propData.customInterfaceUrl &&
-                        window.IDM.http
-                            .get(this.propData.customInterfaceUrl, params)
-                            .then((res) => {
-                                //res.data
-                                that.$set(
-                                    that.propData,
-                                    'fontContent',
-                                    that.getExpressData('resultData', that.propData.dataFiled, res.data)
-                                )
-                                // that.propData.fontContent = ;
-                            })
-                            .catch(function (error) {})
-                    break
-                case 'pageCommonInterface':
-                    //使用通用接口直接跳过，在setContextValue执行
-                    break
-                case 'customFunction':
-                    if (this.propData.customFunction && this.propData.customFunction.length > 0) {
-                        var resValue = ''
-                        try {
-                            resValue =
-                                window[this.propData.customFunction[0].name] &&
-                                window[this.propData.customFunction[0].name].call(this, {
-                                    ...params,
-                                    ...this.propData.customFunction[0].param,
-                                    moduleObject: this.moduleObject
-                                })
-                        } catch (error) {}
-                        that.propData.fontContent = resValue
-                    }
-                    break
-            }
+            this.propData.customInterfaceUrl &&
+                window.IDM.http
+                    .get(this.propData.customInterfaceUrl, {
+                        columnId: this.propData.columnId
+                    })
+                    .then((res) => {
+                        if (res.status == 200 && res.data.code == 200) {
+                            if (res.data.data.rows && res.data.data.rows.length > 1) {
+                                res.data.data.rows = res.data.data.rows.sort((a, b) => a.index - b.index)
+                            }
+                            this.componentData = res.data.data
+                        } else {
+                            IDM.message.error(res.data.message)
+                        }
+                    })
+                    .catch(function (error) {})
         },
         receiveBroadcastMessage(object) {
             console.log('组件收到消息', object)
