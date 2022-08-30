@@ -80,6 +80,13 @@
       "className": "ICommentList",
       "comType": "common",
       "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.articleDetails",
+      "comName": "文章详情",
+      "className": "IArticleDetails",
+      "comType": "common",
+      "comLangue": "vue"
     }
   ]
 }

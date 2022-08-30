@@ -1,0 +1,666 @@
+{
+  "classId": "idm.componet.cms.articleDetails",
+  "comName": "文章详情",
+  "className": "IArticleDetails",
+  "comType": "common",
+  "comLangue": "vue",
+  "compositeAttr": [
+    {
+      "type": "input",
+      "layoutType": "inline",
+      "text": "唯一标识",
+      "bindKey": "ctrlId",
+      "disabled": true,
+      "default": "@[packageid]",
+      "desc": "",
+      "helpUrl": ""
+    },
+    {
+      "type": "group",
+      "text": "基本属性",
+      "desc": "提供设置组件能达到展示效果的基本属性设置信息",
+      "children": [
+        {
+          "type": "radio",
+          "layoutType": "inline",
+          "text": "响应方式",
+          "desc": "用于设置组件高度的响应方式，如果是不适配响应父容器选择固定值就好，如果需要适配父容器(或其他)组件传递的具体值则选择适应容器即可。启用适配时请给容器样高度一个基准值，默认330px，注意单位应为px",
+          "bindKey": "heightType",
+          "dictionary": [
+            {
+              "label": "固定值",
+              "value": "fixed"
+            },
+            {
+              "label": "适应容器",
+              "value": "adaptive"
+            }
+          ],
+          "default": "fixed"
+        },
+        {
+          "type": "select",
+          "layoutType": "inline",
+          "text": "数据来源",
+          "bindKey": "dataSourceType",
+          "desc": "通过这些方式去动态获取数据",
+          "dictionary": [
+            {
+              "label": "自定义接口",
+              "value": "customInterface"
+            },
+            {
+              "label": "页面统一接口",
+              "value": "pageCommonInterface"
+            },
+            {
+              "label": "自定义函数",
+              "value": "customFunction"
+            }
+          ],
+          "default": "customInterface"
+        },
+        {
+          "type": "input",
+          "layoutType": "inline",
+          "text": "接口地址",
+          "bindKey": "url",
+          "desc": "用于获取数据的接口地址。请按照统一标准的返回格式返回文本数据，格式如下：{\"code\":\"200\",\"data\":\"\",...}",
+          "display": "@[dataSourceType=='customInterface']"
+        },
+        {
+          "type": "input",
+          "layoutType": "inline",
+          "text": "结果集名",
+          "bindKey": "dataName",
+          "desc": "页面接口设定的结果集名称，位置为：页面设置》高级设置》页面接口",
+          "default": "",
+          "placeholder": "示例：resultData",
+          "display": "@[dataSourceType=='pageCommonInterface']"
+        },
+        {
+          "type": "input",
+          "layoutType": "inline",
+          "text": "取值字段",
+          "bindKey": "dataFiled",
+          "desc": "指定结果集的取值字段，比如结果集名为resultData且它的值为{data:[...]}，其中data就是统计图的数据源，则这里应该填写data",
+          "default": "",
+          "placeholder": "示例：data",
+          "display": "@[dataSourceType=='pageCommonInterface']"
+        },
+        {
+          "type": "actionSelect",
+          "layoutType": "block",
+          "text": "自定义函数",
+          "bindKey": "customFunction",
+          "desc": "用于对数据进行格式化处理，自定义接口和页面统一接口时会接收原数据，请返回格式化后的新数据，参数为{commonParam: 组件信息, customParam: 用户自定义参数, resData: 请求结果res.data或页面接口的结果集取值或{}（数据来源为自定义函数时）}",
+          "multiple": false
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "text": "内容设置",
+      "desc": "点击？查看内容设置用法指南",
+      "helpUrl": "",
+      "children": [
+        {
+          "type": "input",
+          "layoutType": "inline",
+          "text": "加载描述",
+          "desc": "用于指定组件加载中时的显示文字",
+          "bindKey": "loadingDescription",
+          "default": "加载中..."
+        },
+        {
+          "type": "input",
+          "layoutType": "inline",
+          "text": "为空描述",
+          "desc": "用于指定组件无数据时的显示文字",
+          "bindKey": "emptyDescription",
+          "default": "暂无数据"
+        },
+        {
+          "type": "input",
+          "layoutType": "inline",
+          "text": "标题字段",
+          "desc": "用于指定组件的标题取的值字段",
+          "bindKey": "titleField",
+          "default": "title"
+        },
+        {
+          "type": "input",
+          "layoutType": "inline",
+          "text": "内容字段",
+          "desc": "用于指定组件的内容的取值字段",
+          "bindKey": "contentField",
+          "default": "content"
+        },
+        {
+          "type": "table",
+          "text": "扩展信息字段设置",
+          "bindKey": "extraFieldList",
+          "desc": "用于设置标题下方区域要展示的内容",
+          "tabText": "字段[index]",
+          "children": [
+            {
+              "type": "input",
+              "layoutType": "inline",
+              "text": "描述文字",
+              "desc": "设置此扩展字段的描述",
+              "bindKey": "name"
+            },
+            {
+              "type": "input",
+              "layoutType": "inline",
+              "text": "取值字段",
+              "desc": "设置此扩展字段的取值",
+              "bindKey": "field"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "text": "标题样式",
+      "desc": "点击？查看样式设置用法指南",
+      "helpUrl": "",
+      "children": [
+        {
+          "type": "box",
+          "layoutType": "block",
+          "text": "内外边距",
+          "bindKey": "titleBox",
+          "default": {
+            "marginTopVal": "",
+            "marginRightVal": "",
+            "marginBottomVal": "",
+            "marginLeftVal": "",
+            "paddingTopVal": "",
+            "paddingRightVal": "",
+            "paddingBottomVal": "",
+            "paddingLeftVal": ""
+          }
+        },
+        {
+          "type": "border",
+          "layoutType": "block",
+          "text": "边框",
+          "bindKey": "titleBorder"
+        },
+        {
+          "type": "font",
+          "layoutType": "block",
+          "text": "文字",
+          "bindKey": "titleFont",
+          "default": {
+            "fontColors": {
+              "hex8": "#333333"
+            },
+            "fontSize": 20,
+            "fontSizeUnit": "px",
+            "fontWeight": "600"
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "text": "扩展信息样式",
+      "desc": "点击？查看样式设置用法指南",
+      "helpUrl": "",
+      "display": "@[extraFieldList && extraFieldList.length > 0]",
+      "children": [
+        {
+          "type": "inputNumber",
+          "layoutType": "inline",
+          "text": "各项间距",
+          "desc": "设置每项文字间的间距，单位px",
+          "bindKey": "authorItemMargin",
+          "default": 20
+        },
+        {
+          "type": "box",
+          "layoutType": "block",
+          "text": "内外边距",
+          "bindKey": "authorBox",
+          "default": {
+            "marginTopVal": "14px",
+            "marginRightVal": "",
+            "marginBottomVal": "",
+            "marginLeftVal": "",
+            "paddingTopVal": "",
+            "paddingRightVal": "",
+            "paddingBottomVal": "",
+            "paddingLeftVal": ""
+          }
+        },
+        {
+          "type": "border",
+          "layoutType": "block",
+          "text": "边框",
+          "bindKey": "authorBorder"
+        },
+        {
+          "type": "font",
+          "layoutType": "block",
+          "text": "文字",
+          "bindKey": "authorFont",
+          "default": {
+            "fontColors": {
+              "hex8": "#9195a3"
+            },
+            "fontSize": 14,
+            "fontSizeUnit": "px"
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "text": "内容样式",
+      "desc": "点击？查看样式设置用法指南",
+      "helpUrl": "",
+      "children": [
+        {
+          "type": "box",
+          "layoutType": "block",
+          "text": "内外边距",
+          "bindKey": "contentBox",
+          "default": {
+            "marginTopVal": "20px",
+            "marginRightVal": "",
+            "marginBottomVal": "",
+            "marginLeftVal": "",
+            "paddingTopVal": "",
+            "paddingRightVal": "",
+            "paddingBottomVal": "",
+            "paddingLeftVal": ""
+          }
+        },
+        {
+          "type": "border",
+          "layoutType": "block",
+          "text": "边框",
+          "bindKey": "contentBorder"
+        },
+        {
+          "type": "font",
+          "layoutType": "block",
+          "text": "文字",
+          "bindKey": "contentFont",
+          "default": {
+            "fontColors": {
+              "hex8": "#333333"
+            },
+            "fontSize": 16,
+            "fontSizeUnit": "px"
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "text": "基本样式",
+      "desc": "点击？查看样式设置用法指南",
+      "helpUrl": "",
+      "children": [
+        {
+          "type": "inlineGroup",
+          "text": "宽高",
+          "children": [
+            {
+              "type": "input",
+              "layoutType": "block",
+              "text": "宽",
+              "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
+              "bindKey": "width",
+              "width": "60px",
+              "default": "auto"
+            },
+            {
+              "type": "input",
+              "layoutType": "block",
+              "text": "高",
+              "desc": "填写auto则为自适应，或者使用px、%、vh等单位，比如100%、100px、100vh等等",
+              "bindKey": "height",
+              "width": "60px",
+              "default": "auto"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layoutType": "block",
+          "text": "内外边距",
+          "bindKey": "box",
+          "default": {
+            "marginTopVal": "5px",
+            "marginRightVal": "5px",
+            "marginBottomVal": "5px",
+            "marginLeftVal": "5px",
+            "paddingTopVal": "10px",
+            "paddingRightVal": "10px",
+            "paddingBottomVal": "10px",
+            "paddingLeftVal": "10px"
+          }
+        },
+        {
+          "type": "border",
+          "layoutType": "block",
+          "text": "边框",
+          "bindKey": "border"
+        },
+        {
+          "type": "input",
+          "layoutType": "inline",
+          "text": "阴影样式",
+          "desc": "可设置组件周围的阴影，写法请遵照标准box-shadow样式，示例：0px 2px 12px 0px rgba(0,0,0,0.07)",
+          "bindKey": "boxShadow",
+          "default": "0px 2px 12px 0px rgba(0,0,0,0.07)"
+        },
+        {
+          "type": "group",
+          "text": "背景设置",
+          "desc": "点击？查看背景设置用法指南",
+          "helpUrl": "",
+          "children": [
+            {
+              "type": "colorPicker",
+              "layoutType": "inline",
+              "text": "背景色",
+              "bindKey": "bgColor",
+              "placeholder": "请选择颜色",
+              "default": {}
+            },
+            {
+              "type": "uploadImage",
+              "layoutType": "inline",
+              "text": "背景图片",
+              "bindKey": "bgImgUrl",
+              "placeholder": "可输入图片地址或直接上传"
+            },
+            {
+              "type": "inputNumberUnit",
+              "layoutType": "inline",
+              "text": "横向偏移",
+              "bindKey": "positionX",
+              "dictionary": [
+                {
+                  "label": "px",
+                  "value": "px"
+                },
+                {
+                  "label": "%",
+                  "value": "%"
+                },
+                {
+                  "label": "em",
+                  "value": "em"
+                }
+              ],
+              "display": "@[bgImgUrl]"
+            },
+            {
+              "type": "inputNumberUnit",
+              "layoutType": "inline",
+              "text": "纵向偏移",
+              "bindKey": "positionY",
+              "dictionary": [
+                {
+                  "label": "px",
+                  "value": "px"
+                },
+                {
+                  "label": "%",
+                  "value": "%"
+                },
+                {
+                  "label": "em",
+                  "value": "em"
+                }
+              ],
+              "display": "@[bgImgUrl]"
+            },
+            {
+              "type": "radio",
+              "layoutType": "block",
+              "text": "背景大小",
+              "bindKey": "bgSize",
+              "dictionary": [
+                {
+                  "label": "裁切显示",
+                  "value": "cover"
+                },
+                {
+                  "label": "完全显示",
+                  "value": "contain"
+                },
+                {
+                  "label": "自定义",
+                  "value": "custom"
+                }
+              ],
+              "display": "@[bgImgUrl]"
+            },
+            {
+              "type": "inputNumberUnit",
+              "layoutType": "inline",
+              "text": "宽度",
+              "bindKey": "bgSizeWidth",
+              "dictionary": [
+                {
+                  "label": "px",
+                  "value": "px"
+                },
+                {
+                  "label": "%",
+                  "value": "%"
+                },
+                {
+                  "label": "em",
+                  "value": "em"
+                }
+              ],
+              "display": "@[bgSize=='custom']"
+            },
+            {
+              "type": "inputNumberUnit",
+              "layoutType": "inline",
+              "text": "高度",
+              "bindKey": "bgSizeHeight",
+              "dictionary": [
+                {
+                  "label": "px",
+                  "value": "px"
+                },
+                {
+                  "label": "%",
+                  "value": "%"
+                },
+                {
+                  "label": "em",
+                  "value": "em"
+                }
+              ],
+              "display": "@[bgSize=='custom']"
+            },
+            {
+              "type": "radio",
+              "layoutType": "block",
+              "text": "平铺模式",
+              "bindKey": "bgRepeat",
+              "dictionary": [
+                {
+                  "label": "双向重复",
+                  "value": "repeat"
+                },
+                {
+                  "label": "水平重复",
+                  "value": "repeat-x"
+                },
+                {
+                  "label": "垂直重复",
+                  "value": "repeat-y"
+                },
+                {
+                  "label": "不重复",
+                  "value": "no-repeat"
+                },
+                {
+                  "label": "继承",
+                  "value": "inherit"
+                }
+              ],
+              "display": "@[bgImgUrl]"
+            },
+            {
+              "type": "radio",
+              "layoutType": "inline",
+              "text": "背景模式",
+              "bindKey": "bgAttachment",
+              "dictionary": [
+                {
+                  "label": "固定",
+                  "value": "fixed"
+                },
+                {
+                  "label": "滚动",
+                  "value": "scroll"
+                },
+                {
+                  "label": "继承",
+                  "value": "inherit"
+                }
+              ],
+              "display": "@[bgImgUrl]"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "text": "为空样式",
+          "desc": "点击？查看为空样式用法指南",
+          "helpUrl": "",
+          "children": [
+            {
+              "type": "inputNumber",
+              "layoutType": "inline",
+              "text": "图片宽度",
+              "bindKey": "emptyImageWidth",
+              "default": 120
+            },
+            {
+              "type": "inputNumber",
+              "layoutType": "inline",
+              "text": "图片高度",
+              "bindKey": "emptyImageHeight",
+              "default": 100
+            },
+            {
+              "type": "font",
+              "layoutType": "block",
+              "text": "文字",
+              "bindKey": "emptyFont",
+              "default": {
+                "fontColors": {
+                  "hex8": "#969799"
+                },
+                "fontSize": 14,
+                "fontSizeUnit": "px"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "text": "加载样式",
+          "desc": "点击？查看加载样式用法指南",
+          "helpUrl": "",
+          "children": [
+            {
+              "type": "inputNumber",
+              "layoutType": "inline",
+              "text": "图标大小",
+              "bindKey": "loadingSize",
+              "default": 32
+            },
+            {
+              "type": "colorPicker",
+              "layoutType": "inline",
+              "text": "图标颜色",
+              "bindKey": "loadingColor",
+              "placeholder": "请选择颜色",
+              "default": {}
+            },
+            {
+              "type": "font",
+              "layoutType": "block",
+              "text": "文字",
+              "bindKey": "loadingFont",
+              "default": {
+                "fontColors": {
+                  "hex8": "#969799"
+                },
+                "fontSize": 14,
+                "fontSizeUnit": "px"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "text": "主题设置",
+      "desc": "点击？查看主题设置用法指南",
+      "bindKey": "themeList",
+      "tabText": "主题[index]",
+      "children": [
+        {
+          "type": "select",
+          "layoutType": "inline",
+          "text": "主题标识",
+          "bindKey": "key",
+          "multiple": false,
+          "desc": "用于设置主题的标识，此项需要搭配自定义开发切换主题的功能，例如：蓝色标识为blue，用户切换主题的时候存储到数据库中的标识为blue，则这里填写为blue",
+          "default": "",
+          "placeholder": "例如：blue",
+          "ctrlAttrObject": {
+            "mode": "combobox"
+          },
+          "dictionary": [
+            {
+              "label": "blue",
+              "value": "blue"
+            },
+            {
+              "label": "red",
+              "value": "red"
+            },
+            {
+              "label": "green",
+              "value": "green"
+            }
+          ]
+        },
+        {
+          "type": "colorPicker",
+          "layoutType": "inline",
+          "text": "主要颜色",
+          "bindKey": "mainColor",
+          "desc": "主题的主要颜色，应用于标题文字颜色，加载文字颜色，加载图标颜色",
+          "placeholder": "请选择颜色",
+          "display": "@[key]"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "text": "高级",
+      "desc": "点击？查看高级设置用法指南",
+      "children": []
+    }
+  ]
+}
