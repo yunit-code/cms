@@ -84,6 +84,7 @@ export default {
     // ]
     return {
       moduleObject: {},
+      moduleHeight: 0,
       propData: this.$root.propData.compositeAttr || {},
       isLoading: false,
       articleData: {}
