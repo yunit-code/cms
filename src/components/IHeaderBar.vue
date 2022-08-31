@@ -8,16 +8,16 @@
                     </div>
                     <div v-else class="text">{{ propData.topLeftShowText }}</div>
                 </div>
-                <div v-if="propData.searchPosition == 'top'" class="right">
-                    <a-input-search placeholder="input search text" style="width: 200px" @search="onSearch" />
+                <div v-if="propData.showSearch && propData.searchPosition == 'top'" class="right search_block">
+                    <a-input-search v-model="search_text" :placeholder="propData.searchPlaceholder" style="width: 200px" @search="onSearch" />
                 </div>
             </div>
             <div class="IHeaderBar_app_main flex_between">
                 <div class="img_box">
                     <img v-if="propData.logoImgSrc" :src="IDM.url.getWebPath(propData.logoImgSrc)" alt="">
                 </div>
-                <div v-if="propData.searchPosition == 'bottom'" class="search_box">
-                    <a-input-search placeholder="input search text" style="width: 200px" @search="onSearch" />
+                <div v-if="propData.showSearch && propData.searchPosition == 'bottom'" class="search_block">
+                    <a-input-search v-model="search_text" :placeholder="propData.searchPlaceholder" style="width: 200px" @search="onSearch" />
                 </div>
             </div>
         </div>
@@ -34,10 +34,12 @@ export default {
             propData: this.$root.propData.compositeAttr || {
                 topLeftShowType: 'time',
                 topLeftShowText: '你好，地图',
+                showSearch: true,
                 searchPosition: 'top',
                 logoImgSrc: '',
             },
             time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+            search_text: ''
         }
     },
     props: {
@@ -60,7 +62,26 @@ export default {
         }
     },
     methods: {
-        onSearch() {},
+        onSearch() {
+            let that = this;
+            if(this.moduleObject.env=="develop"){
+                return;
+            }
+            //获取所有的URL参数、页面ID（pageId）、以及所有组件的返回值（用范围值去调用IDM提供的方法取出所有的组件值）
+            let urlObject = window.IDM.url.queryObject(),
+            pageId = window.IDM.broadcast&&window.IDM.broadcast.pageModule?window.IDM.broadcast.pageModule.id:"";
+            
+            var customFunctionSearch = this.propData.customFunctionSearch;
+            customFunctionSearch&&customFunctionSearch.forEach(item=>{
+                window[item.name]&&window[item.name].call(this,{
+                    urlData:urlObject,
+                    pageId,
+                    customParam:item.param,
+                    _this:this,
+                    params: this.search_text
+                });
+            })
+        },
         getCurrentTime() {
             this.timer = setInterval(() => {
                 this.time = dayjs().format('YYYY-MM-DD HH:mm:ss') 
@@ -83,6 +104,32 @@ export default {
                     return '星期五'
                 case 6:
                     return '星期六'
+            }
+        },
+                /** * 主题颜色 */
+        convertThemeListAttrToStyleObject() {
+            const themeList = this.propData.themeList;
+            if ( (!themeList) || !themeList.length ) {
+                return
+            }
+            const themeNamePrefix = IDM.setting && IDM.setting.applications && IDM.setting.applications.themeNamePrefix ? IDM.setting.applications.themeNamePrefix : "idm-theme-";
+            for (var i = 0; i < themeList.length; i++) {
+                var item = themeList[i];
+                
+                if(item.key!=IDM.theme.getCurrentThemeInfo()){
+                    //此处比对是不渲染输出不用的样式，如果页面会刷新就可以把此处放开
+                    continue;
+                }
+                let fontStyleObject = {
+                    "color": item.mainColor ? item.mainColor.hex8 : "",
+                }
+                let borderStyleObject = {
+                    'border-color': item.mainColor ? item.mainColor.hex8 : "",
+                }
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .anticon", fontStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .idm_search_svg_icon", fontStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled)", borderStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input:focus", borderStyleObject );
             }
         },
         /**
@@ -218,6 +265,8 @@ export default {
         },
         convertAttrToStyleObjectMain() {
             var styleObject = {};
+            var styleObjectSearch = {};
+            var styleObjectInput = {};
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key];
@@ -309,10 +358,63 @@ export default {
                             styleObject["text-align"] = element.fontTextAlign;
                             styleObject["text-decoration"] = element.fontDecoration;
                             break;
+                        case "bgColorSearch":
+                            if (element && element.hex8) {
+                                styleObjectSearch["background-color"] = element.hex8;
+                            }
+                            break;
+                        case "borderSearch":
+                            if (element.border.top.width > 0) {
+                                styleObjectSearch["border-top-width"] = element.border.top.width + element.border.top.widthUnit;
+                                styleObjectSearch["border-top-style"] = element.border.top.style;
+                                if (element.border.top.colors.hex8) {
+                                    styleObjectSearch["border-top-color"] = element.border.top.colors.hex8;
+                                }
+                            }
+                            if (element.border.right.width > 0) {
+                                styleObjectSearch["border-right-width"] = element.border.right.width + element.border.right.widthUnit;
+                                styleObjectSearch["border-right-style"] = element.border.right.style;
+                                if (element.border.right.colors.hex8) {
+                                    styleObjectSearch["border-right-color"] = element.border.right.colors.hex8;
+                                }
+                            }
+                            if (element.border.bottom.width > 0) {
+                                styleObjectSearch["border-bottom-width"] = element.border.bottom.width + element.border.bottom.widthUnit;
+                                styleObjectSearch["border-bottom-style"] = element.border.bottom.style;
+                                if (element.border.bottom.colors.hex8) {
+                                    styleObjectSearch["border-bottom-color"] = element.border.bottom.colors.hex8;
+                                }
+                            }
+                            if (element.border.left.width > 0) {
+                                styleObjectSearch["border-left-width"] = element.border.left.width + element.border.left.widthUnit;
+                                styleObjectSearch["border-left-style"] = element.border.left.style;
+                                if (element.border.left.colors.hex8) {
+                                    styleObjectSearch["border-left-color"] = element.border.left.colors.hex8;
+                                }
+                            }
+                            styleObjectSearch["border-top-left-radius"] = element.radius.leftTop.radius + element.radius.leftTop.radiusUnit;
+                            styleObjectSearch["border-top-right-radius"] = element.radius.rightTop.radius + element.radius.rightTop.radiusUnit;
+                            styleObjectSearch["border-bottom-left-radius"] = element.radius.leftBottom.radius + element.radius.leftBottom.radiusUnit;
+                            styleObjectSearch["border-bottom-right-radius"] = element.radius.rightBottom.radius + element.radius.rightBottom.radiusUnit;
+                            break;
+                        case "fontInput":
+                            styleObjectInput["font-family"] = element.fontFamily;
+                            if (element.fontColors.hex8) {
+                                styleObjectInput["color"] = element.fontColors.hex8;
+                            }
+                            styleObjectInput["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                            styleObjectInput["font-style"] = element.fontStyle;
+                            styleObjectInput["font-size"] = element.fontSize + element.fontSizeUnit;
+                            styleObjectInput["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                            styleObjectInput["text-align"] = element.fontTextAlign;
+                            styleObjectInput["text-decoration"] = element.fontDecoration;
+                            break;
                     }
                 }
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IHeaderBar_app .IHeaderBar_app_main', styleObject);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .search_block .ant-input', styleObjectSearch);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .search_block input', styleObjectInput);
         },
         convertAttrToStyleObject() {
             this.convertAttrToStyleObjectLogo()
@@ -442,6 +544,7 @@ export default {
                 }
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id, styleObject);
+            this.convertThemeListAttrToStyleObject()
         },
         /**
          * 通用的url参数对象
@@ -583,7 +686,7 @@ export default {
 .IHeaderBar_app{
     .IHeaderBar_app_top{
         padding: 4px 20px;
-        background: blue;
+        // background: blue;
     }
     .IHeaderBar_app_main{
         height: 100px;

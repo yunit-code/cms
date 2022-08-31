@@ -135,8 +135,8 @@
         },
         {
             "type": "group",
-            "text": "底部内容属性",
-            "desc": "设置底部内容属性",
+            "text": "logo属性",
+            "desc": "设置底部logo属性",
             "children": [
                 {
                     "type": "uploadImage",
@@ -186,6 +186,35 @@
                     "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
                     "bindKey": "heightLogoImg",
                     "default": "100%"
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "搜索框属性",
+            "desc": "设置搜索框属性",
+            "children": [
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "提示信息",
+                    "bindKey": "searchPlaceholder",
+                    "desc": "搜索框提示信息"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "搜索框查询跳转地址",
+                    "bindKey": "searchUrl",
+                    "desc":"用于搜索跳转的页面的接口，更多详细使用点击？查看"
+                },
+                {
+                    "type": "actionSelect",
+                    "layoutType": "block",
+                    "text": "自定义函数",
+                    "bindKey": "customFunctionSearch",
+                    "desc": "自定义搜索功能",
+                    "multiple": false
                 }
             ]
         },
@@ -252,8 +281,34 @@
             "desc": "点击？查看样式设置用法指南",
             "children": [
                 {
+                    "type": "group",
+                    "text": "搜索框样式设置",
+                    "children": [
+                        {
+                            "type": "colorPicker",
+                            "layoutType": "inline",
+                            "text": "背景色",
+                            "bindKey": "bgColorSearch",
+                            "placeholder": "请选择颜色",
+                            "default": {}
+                        },
+                        {
+                            "type": "border",
+                            "layoutType": "block",
+                            "text": "边框",
+                            "bindKey": "borderSearch"
+                        }
+                    ]
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "搜索框文字",
+                    "bindKey": "fontInput"
+                },
+                {
                     "type": "inlineGroup",
-                    "text": "宽高",
+                    "text": "容器宽高",
                     "children": [
                         {
                             "type": "input",
@@ -528,6 +583,94 @@
                     "layoutType": "block",
                     "text": "文字",
                     "bindKey": "font"
+                }
+            ]
+        },
+        {
+            "type": "table",
+            "text": "主题设置",
+            "desc": "点击？查看主题设置用法指南",
+            "bindKey": "themeList",
+            "tabText": "主题[index]",
+            "default":[
+                {
+                    "key": "blue",
+                    "mainColor": {
+                        "hex": "#0073CA",
+                        "hex8": "#0073CAFF"
+                    },
+                    "minorColor": {
+                        "hex": "#329cec",
+                        "hex8": "#329cecFF"
+                    }
+                },
+                {
+                    "key": "red",
+                    "mainColor": {
+                        "hex": "#E21A1A",
+                        "hex8": "#E21A1AFF"
+                    },
+                    "minorColor": {
+                        "hex": "#f87373",
+                        "hex8": "#f87373FF"
+                    }
+                },
+                {
+                    "key": "green",
+                    "mainColor": {
+                        "hex": "#0EAF64",
+                        "hex8": "#0EAF64FF"
+                    },
+                    "minorColor": {
+                        "hex": "#38e996",
+                        "hex8": "#38e996FF"
+                    }
+                }
+            ],
+            "children": [
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "主题标识",
+                    "bindKey": "key",
+                    "desc":"用于设置主题的标识，此项需要搭配自定义开发切换主题的功能，例如：蓝色标识为blue，用户切换主题的时候存储到数据库中的标识为blue，则这里选择blue",
+                    "default":"",
+                    "placeholder":"例如：blue",
+                    "ctrlAttrObject": {
+                        "mode": "combobox"
+                    },
+                    "dictionary": [
+                        {
+                            "label": "red",
+                            "value": "red"
+                        },
+                        {
+                            "label": "green",
+                            "value": "green"
+                        },
+                        {
+                            "label": "blue",
+                            "value": "blue"
+                        }
+                    ]
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "主要颜色",
+                    "bindKey": "mainColor",
+                    "desc":"主题的主要颜色",
+                    "placeholder": "请选择颜色",
+                    "display":"@[key]"
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "次要颜色",
+                    "bindKey": "minorColor",
+                    "desc": "主题的次要颜色，作用于菜单鼠标悬浮色、选中菜单颜色",
+                    "placeholder": "请选择颜色",
+                    "display": "@[key]"
                 }
             ]
         },
