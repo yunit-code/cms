@@ -186,6 +186,7 @@
                     "text": "描述文字",
                     "bindKey": "descFont",
                     "default": {
+                        "fontColors": {},
                         "fontSize": 15,
                         "fontSizeUnit": "px"
                     }

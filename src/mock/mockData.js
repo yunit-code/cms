@@ -1,37 +1,51 @@
-export const textListData = [
-    {
-        jumpUrl: '',
-        title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划1',
-        time: '2022-08-22'
+export const textListData = {
+    upTitle: {
+        title: '我省实施产业扶贫三大行动',
+        content:
+            '目前，省农委、省林业厅出台意见，在全省实施产业扶贫项目提升行动、四带一自深化行动、贫困村一村一品推进行动等产品扶贫三大行动…'
     },
-    {
-        jumpUrl: '',
-        title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划2',
-        time: '2022-08-22'
+    rows: [
+        {
+            jumpUrl: '',
+            title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划1',
+            time: '2022-08-22'
+        },
+        {
+            jumpUrl: '',
+            title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划2',
+            time: '2022-08-22'
+        },
+        {
+            jumpUrl: '',
+            title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划3',
+            time: '2022-08-22'
+        }
+    ]
+}
+export const textListData3 = {
+    upTitle: {
+        title: '我省实施产业扶贫三大行动',
+        content:
+            '目前，省农委、省林业厅出台意见，在全省实施产业扶贫项目提升行动、四带一自深化行动、贫困村一村一品推进行动等产品扶贫三大行动…'
     },
-    {
-        jumpUrl: '',
-        title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划3',
-        time: '2022-08-22'
-    }
-]
-export const textListData3 = [
-    {
-        jumpUrl: '',
-        title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划1',
-        time: '08-22'
-    },
-    {
-        jumpUrl: '',
-        title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划2',
-        time: '08-22'
-    },
-    {
-        jumpUrl: '',
-        title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划3',
-        time: '08-22'
-    }
-]
+    rows: [
+        {
+            jumpUrl: '',
+            title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划1',
+            time: '08-22'
+        },
+        {
+            jumpUrl: '',
+            title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划2',
+            time: '08-22'
+        },
+        {
+            jumpUrl: '',
+            title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划3',
+            time: '08-22'
+        }
+    ]
+}
 
 export const getImageListData = function () {
     const _this = this

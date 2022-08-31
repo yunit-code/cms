@@ -55,6 +55,25 @@
                     ]
                 },
                 {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "上方标题",
+                    "desc": "设置文字列表上方标题显示状态",
+                    "bindKey": "isShowUpTitle",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
                     "type": "select",
                     "layoutType": "inline",
                     "text": "跳转方式",
@@ -103,22 +122,6 @@
                     "bindKey": "titleIcon",
                     "display": "@[styleType === 'iconAndTextAndTime' || styleType === 'iconAndText']",
                     "default": ""
-                },
-                {
-                    "type": "colorPicker",
-                    "layoutType": "inline",
-                    "desc": "设置图标颜色，会覆盖主题色",
-                    "text": "图标颜色",
-                    "display": "@[styleType === 'iconAndTextAndTime' || styleType === 'iconAndText']",
-                    "bindKey": "titleIconFontColor"
-                },
-                {
-                    "type": "inputNumber",
-                    "layoutType": "inline",
-                    "text": "图标大小",
-                    "bindKey": "titleIconFontSize",
-                    "display": "@[styleType === 'iconAndTextAndTime' || styleType === 'iconAndText']",
-                    "default": 14
                 }
             ]
         },
@@ -346,14 +349,80 @@
         },
         {
             "type": "group",
-            "text": "单项样式设置",
+            "text": "列表上方样式",
+            "desc": "点击？查看样式设置用法指南",
+            "display": "@[isShowUpTitle]",
+            "helpUrl": "",
+            "children": [
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "标题边距",
+                    "bindKey": "upTitleBox",
+                    "default": {
+                        "marginTopVal": "",
+                        "marginRightVal": "",
+                        "marginBottomVal": "",
+                        "marginLeftVal": "",
+                        "paddingTopVal": "10px",
+                        "paddingRightVal": "",
+                        "paddingBottomVal": "10px",
+                        "paddingLeftVal": ""
+                    }
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "内容边距",
+                    "bindKey": "upContentBox",
+                    "default": {
+                        "marginTopVal": "",
+                        "marginRightVal": "",
+                        "marginBottomVal": "",
+                        "marginLeftVal": "",
+                        "paddingTopVal": "",
+                        "paddingRightVal": "10px",
+                        "paddingBottomVal": "20px",
+                        "paddingLeftVal": "10px"
+                    }
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "标题文字",
+                    "bindKey": "upTitleFont",
+                    "default": {
+                        "fontColors": {},
+                        "fontTextAlign": "center",
+                        "fontSize": 16,
+                        "fontWeight": "600 Semi Bold",
+                        "fontSizeUnit": "px"
+                    }
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "内容文字",
+                    "bindKey": "upContentFont",
+                    "default": {
+                        "fontColors": {
+                            "hex": "#999999",
+                            "hex8": "#999999FF"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "列表单项样式",
             "desc": "点击？查看样式设置用法指南",
             "helpUrl": "",
             "children": [
                 {
                     "type": "box",
                     "layoutType": "block",
-                    "text": "内外边距",
+                    "text": "容器边距",
                     "bindKey": "itemBox",
                     "default": {
                         "marginTopVal": "",
@@ -379,6 +448,46 @@
                     "layoutType": "block",
                     "text": "边框",
                     "bindKey": "itemBorder"
+                },
+
+                {
+                    "type": "group",
+                    "layoutType": "block",
+                    "text": "图标样式",
+                    "display": "@[styleType === 'iconAndTextAndTime' || styleType === 'iconAndText']",
+                    "children": [
+                        {
+                            "type": "box",
+                            "layoutType": "block",
+                            "text": "图标边距",
+                            "bindKey": "iconBox",
+                            "default": {
+                                "marginTopVal": "",
+                                "marginRightVal": "",
+                                "marginBottomVal": "",
+                                "marginLeftVal": "",
+                                "paddingTopVal": "",
+                                "paddingRightVal": "5px",
+                                "paddingBottomVal": "",
+                                "paddingLeftVal": ""
+                            }
+                        },
+
+                        {
+                            "type": "colorPicker",
+                            "layoutType": "inline",
+                            "desc": "设置图标颜色，会覆盖主题色",
+                            "text": "图标颜色",
+                            "bindKey": "titleIconFontColor"
+                        },
+                        {
+                            "type": "inputNumber",
+                            "layoutType": "inline",
+                            "text": "图标大小",
+                            "bindKey": "titleIconFontSize",
+                            "default": 7
+                        }
+                    ]
                 },
                 {
                     "type": "group",

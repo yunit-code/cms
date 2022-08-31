@@ -26,9 +26,16 @@
       "comLangue": "vue"
     },
     {
-      "classId": "idm.component.cms.tabcard",
-      "comName": "页签卡片",
-      "className": "ITabCard",
+      "classId": "idm.component.cms.tabheader",
+      "comName": "页签标题",
+      "className": "ITabHeader",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.catalogue",
+      "comName": "目录",
+      "className": "ICatalogue",
       "comType": "common",
       "comLangue": "vue"
     },
@@ -85,6 +92,13 @@
       "classId": "idm.component.cms.icommunicationtab",
       "comName": "互动交流tab",
       "className": "ICommunicationTab",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.articleDetails",
+      "comName": "文章详情",
+      "className": "IArticleDetails",
       "comType": "common",
       "comLangue": "vue"
     }

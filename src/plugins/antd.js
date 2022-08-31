@@ -7,7 +7,10 @@ import 'ant-design-vue/lib/col/style/css'
 import 'ant-design-vue/lib/modal/style/css'
 import 'ant-design-vue/lib/input/style/css'
 import 'ant-design-vue/lib/button/style/css'
-import { Breadcrumb, Row, Col, Tabs, Modal, Input, Button } from 'ant-design-vue'
+import 'ant-design-vue/lib/spin/style/css'
+import 'ant-design-vue/lib/empty/style/css'
+import 'ant-design-vue/lib/icon/style/css'
+import { Breadcrumb, Row, Col, Tabs, Modal, Input, Button, Spin, Empty, Icon } from 'ant-design-vue'
 
 /* v1.1.3+ registration methods */
 Vue.use(Breadcrumb)
@@ -18,4 +21,7 @@ Vue.use(Modal)
 Vue.use(Input)
 Vue.use(Input.TextArea)
 Vue.use(Button)
-Vue.use(Tabs);
+Vue.use(Tabs)
+Vue.use(Spin)
+Vue.use(Empty)
+Vue.use(Icon)

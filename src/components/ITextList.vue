@@ -1,5 +1,9 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
+        <div class="text-list-up" v-if="propData.isShowUpTitle">
+            <div class="text-list-up-title">{{ componentData.upTitle.title }}</div>
+            <div class="text-list-up-content">{{ componentData.upTitle.content }}</div>
+        </div>
         <div
             v-for="(item, index) in componentData.rows"
             :key="index"
@@ -7,7 +11,7 @@
             class="text-list-item d-flex align-c"
         >
             <div
-                class="d-flex align-c"
+                class="d-flex align-c text-list-left"
                 v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'"
             >
                 <svg
@@ -17,7 +21,7 @@
                 >
                     <use :xlink:href="`#${propData.titleIcon[0]}`"></use>
                 </svg>
-                <svg-icon v-else icon-class="square" className="text-list-left-icon"></svg-icon>
+                <svg-icon v-else icon-class="yuan" className="text-list-left-icon"></svg-icon>
             </div>
             <div v-if="propData.styleType === 'timeAndText'" class="text-list-time d-flex align-c">
                 {{ item.time }} |
@@ -67,7 +71,10 @@ export default {
                 iconObj = {},
                 itemStyleObj = {},
                 titleObj = {},
-                timeObj = {}
+                timeObj = {},
+                upTitleObj = {},
+                upContentObj = {},
+                leftObj = {}
             if (this.propData.bgSize && this.propData.bgSize == 'custom') {
                 styleObject['background-size'] =
                     (this.propData.bgSizeWidth
@@ -152,6 +159,9 @@ export default {
                         case 'itemBorder':
                             IDM.style.setBorderStyle(itemStyleObj, element)
                             break
+                        case 'iconBox':
+                            IDM.style.setBoxStyle(leftObj, element)
+                            break
                         // 标题样式
                         case 'titleBox':
                             IDM.style.setBoxStyle(titleObj, element)
@@ -166,6 +176,18 @@ export default {
                         case 'timeFont':
                             IDM.style.setFontStyle(timeObj, element)
                             break
+                        case 'upTitleBox':
+                            IDM.style.setBoxStyle(upTitleObj, element)
+                            break
+                        case 'upTitleFont':
+                            IDM.style.setFontStyle(upTitleObj, element)
+                            break
+                        case 'upContentBox':
+                            IDM.style.setBoxStyle(upContentObj, element)
+                            break
+                        case 'upContentFont':
+                            IDM.style.setFontStyle(upContentObj, element)
+                            break
                     }
                 }
             }
@@ -174,6 +196,9 @@ export default {
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-item', itemStyleObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-title', titleObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-time', timeObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-up-title', upTitleObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-up-content', upContentObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-left', leftObj)
             this.initData()
         },
         reload() {
@@ -209,7 +234,7 @@ export default {
         },
         handleItemClick(item) {
             if (this.moduleObject.env === 'develop') return
-            if(item.jumpUrl) {
+            if (item.jumpUrl) {
                 const url = IDM.url.getWebPath(item.jumpUrl)
                 window.open(url, this.propData.jumpStyle || '_blank')
             }
@@ -217,9 +242,9 @@ export default {
         initData() {
             if (this.moduleObject.env === 'develop') {
                 if (this.propData.styleType !== 'timeAndText') {
-                    this.componentData.rows = this.setFillBlankData(textListData)
+                    this.componentData = this.setFillBlankData(textListData)
                 } else {
-                    this.componentData.rows = this.setFillBlankData(textListData3)
+                    this.componentData = this.setFillBlankData(textListData3)
                 }
 
                 return

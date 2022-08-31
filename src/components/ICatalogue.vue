@@ -1,49 +1,51 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
-        <!-- 组件内部容器 增加class="drag_container" 必选 idm-ctrl-id：组件的id，这个必须不能为空 idm-container-index  组件的内部容器索引，不重复唯一且不变，必选 -->
-
-        <div class="ITabCard_app">
-            <a-tabs default-active-key="1" :type="propData.tabStyleType" :tabBarGutter="propData.tabBarGutter">
-                <a-tab-pane key="1" tab="Tab 1">
-                    <div class="tab_contant">
-                        <div class="tab_list flex_between">
-                            <div class="title">单独组件不能使用这种方式单独组件不能使用这种方式单独组件不能使用这种方式单独组件不能使用这种方式</div>
-                            <div class="time">2022-8-24 15:58</div>
-                        </div>
-                        <div class="tab_list flex_between">
-                            <div class="title">单独组件不能使用这种方式单独组件不能使用这种方式单独组件不能使用这种方式单独组件不能使用这种方式</div>
-                            <div class="time">2022-8-24 15:58</div>
-                        </div>
-                    </div>
-                </a-tab-pane>
-                <span slot="tabBarExtraContent">
-                    更多
-                </span>
-            </a-tabs>
+        <div class="ICatalogue_app">
+            <div class="title">新闻中心</div>
+            <div v-for="(item,index) in record_list" @click="changeRecordActive(item,index)" :key="index" class="list" :class="index == active_index ? 'list_active' : ''">{{ item.name }}</div>
         </div>
-        
     </div>
 </template>
 
 <script>
 export default {
-    name: 'ITabCard',
-    components: {
-    },
+    name: 'ICatalogue',
     data() {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
-                tabStyleType: 'line',
-                tabBarGutter: 5,
-            }
+                fontContent: "Hello Word"
+            },
+            record_list: [
+                {
+                    name: '本地要闻'
+                },
+                {
+                    name: '区县快讯'
+                },
+                {
+                    name: '部门动态'
+                },
+                {
+                    name: '政务公告'
+                },
+                {
+                    name: '便民公告'
+                },
+                {
+                    name: '民生资讯'
+                },
+                {
+                    name: '新闻发布会'
+                },
+            ],
+            active_index: 0,
         }
     },
     props: {
     },
     created() {
         this.moduleObject = this.$root.moduleObject
-        // console.log(this.moduleObject)
         this.convertAttrToStyleObject();
     },
     mounted() {
@@ -55,8 +57,24 @@ export default {
     },
     destroyed() { },
     methods: {
-        callback(e) {
-            console.log(e)
+        changeRecordActive(item,index) {
+            this.active_index = index;
+            let that = this;
+            if (this.moduleObject.env == "develop") {
+                return;
+            }
+            let urlObject = window.IDM.url.queryObject(),
+                pageId = window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : "";
+            
+            var clickFunction = this.propData.clickFunction;
+            clickFunction && clickFunction.forEach(item => {
+                window[item.name] && window[item.name].call(this, {
+                    urlData: urlObject,
+                    pageId,
+                    customParam: item.param,
+                    _this: this
+                });
+            })
         },
         /**
          * 提供父级组件调用的刷新prop数据组件
@@ -65,10 +83,113 @@ export default {
             this.propData = propData.compositeAttr || {};
             this.convertAttrToStyleObject();
         },
-        /**
-         * 把属性转换成样式对象
-         */
+        convertAttrToStyleObjectTitle() {
+            let styleObject = {};
+            for (const key in this.propData) {
+                if (this.propData.hasOwnProperty.call(this.propData, key)) {
+                    const element = this.propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "heightTitle":
+                            styleObject['height'] = element;
+                            styleObject['line-height'] = element;
+                            break;
+                        case "bgColorTitle":
+                            if (element && element.hex8) {
+                                styleObject["background-color"] = element.hex8;
+                            }
+                            break;
+                        case "fontTitle":
+                            styleObject["font-family"] = element.fontFamily;
+                            if (element.fontColors.hex8) {
+                                styleObject["color"] = element.fontColors.hex8;
+                            }
+                            styleObject["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                            styleObject["font-style"] = element.fontStyle;
+                            styleObject["font-size"] = element.fontSize + element.fontSizeUnit;
+                            styleObject["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                            styleObject["text-align"] = element.fontTextAlign;
+                            styleObject["text-decoration"] = element.fontDecoration;
+                            break;
+                    }
+                }
+            }
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .ICatalogue_app .title', styleObject);
+        },
+        convertAttrToStyleObjectList() {
+            let styleObject = {};
+            for (const key in this.propData) {
+                if (this.propData.hasOwnProperty.call(this.propData, key)) {
+                    const element = this.propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "heightList":
+                            styleObject['height'] = element;
+                            styleObject['line-height'] = element;
+                            break;
+                        case "bgColorList":
+                            if (element && element.hex8) {
+                                styleObject["background-color"] = element.hex8;
+                            }
+                            break;
+                        case "fontList":
+                            styleObject["font-family"] = element.fontFamily;
+                            if (element.fontColors.hex8) {
+                                styleObject["color"] = element.fontColors.hex8;
+                            }
+                            styleObject["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                            styleObject["font-style"] = element.fontStyle;
+                            styleObject["font-size"] = element.fontSize + element.fontSizeUnit;
+                            styleObject["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                            styleObject["text-align"] = element.fontTextAlign;
+                            styleObject["text-decoration"] = element.fontDecoration;
+                            break;
+                    }
+                }
+            }
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .ICatalogue_app .list', styleObject);
+        },
+        convertAttrToStyleObjectListActive() {
+            let styleObject = {};
+            for (const key in this.propData) {
+                if (this.propData.hasOwnProperty.call(this.propData, key)) {
+                    const element = this.propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "bgColorActive":
+                            if (element && element.hex8) {
+                                styleObject["background-color"] = element.hex8;
+                            }
+                            break;
+                        case "fontActive":
+                            styleObject["font-family"] = element.fontFamily;
+                            if (element.fontColors.hex8) {
+                                styleObject["color"] = element.fontColors.hex8;
+                            }
+                            styleObject["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                            styleObject["font-style"] = element.fontStyle;
+                            styleObject["font-size"] = element.fontSize + element.fontSizeUnit;
+                            styleObject["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                            styleObject["text-align"] = element.fontTextAlign;
+                            styleObject["text-decoration"] = element.fontDecoration;
+                            break;
+                    }
+                }
+            }
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .ICatalogue_app .list_active', styleObject);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .ICatalogue_app .list:hover', styleObject);
+        },
+        /** * 把属性转换成样式对象 */
         convertAttrToStyleObject() {
+            this.convertAttrToStyleObjectTitle()
+            this.convertAttrToStyleObjectList()
+            this.convertAttrToStyleObjectListActive()
             var styleObject = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {
                 styleObject["background-size"] = (this.propData.bgSizeWidth ? this.propData.bgSizeWidth.inputVal + this.propData.bgSizeWidth.selectVal : "auto") + " " + (this.propData.bgSizeHeight ? this.propData.bgSizeHeight.inputVal + this.propData.bgSizeHeight.selectVal : "auto")
@@ -193,7 +314,6 @@ export default {
                 }
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id, styleObject);
-            this.initData();
         },
         /**
          * 通用的url参数对象
@@ -293,35 +413,7 @@ export default {
          * 文本点击事件
          */
         textClickHandle() {
-            let that = this;
-            if (this.moduleObject.env == "develop") {
-                //开发模式下不执行此事件
-                return;
-            }
-            //获取所有的URL参数、页面ID（pageId）、以及所有组件的返回值（用范围值去调用IDM提供的方法取出所有的组件值）
-            let urlObject = window.IDM.url.queryObject(),
-                pageId = window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : "";
-            //自定义函数
-            /**
-             * [
-             * {name:"",param:{}}
-             * ]
-             */
-            var clickFunction = this.propData.clickFunction;
-            clickFunction && clickFunction.forEach(item => {
-                window[item.name] && window[item.name].call(this, {
-                    urlData: urlObject,
-                    pageId,
-                    customParam: item.param,
-                    _this: this
-                });
-            })
-        },
-        showThisModuleHandle() {
-            this.propData.defaultStatus = "default";
-        },
-        hideThisModuleHandle() {
-            this.propData.defaultStatus = "hidden";
+            
         },
         /**
          * 组件通信：接收消息的方法
@@ -335,11 +427,7 @@ export default {
          */
         receiveBroadcastMessage(object) {
             console.log("组件收到消息", object)
-            if (object.type && object.type == "linkageShowModule") {
-                this.showThisModuleHandle();
-            } else if (object.type && object.type == "linkageHideModule") {
-                this.hideThisModuleHandle();
-            }
+            
         },
         /**
          * 组件通信：发送消息的方法
@@ -378,21 +466,40 @@ export default {
 }
 </script>
 <style lang="scss">
-.ITabCard_app{
-    .tab_contant{
-        .tab_list{
-            .title,.time{
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            .time{
-                // width: 130px;
-                margin-left: 20px;
-                flex-shrink: 0;
-
-            }
+.ICatalogue_app{
+    text-align: center;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    overflow-y: auto;
+    .title{
+        height: 56px;
+        line-height: 56px;
+        color: white;
+        background: #1B60A4;
+    }
+    .list{
+        height: 50px;
+        line-height: 50px;
+        border-left: 1px solid;
+        border-right: 1px solid;
+        border-top: 1px solid;
+        border-color: rgba(225,225,225,1);
+        cursor: pointer;
+        &:last-child{
+            border-bottom: 1px solid;
+            border-color: rgba(225,225,225,1);
         }
+        &:hover{
+            color: #1B60A4;
+            font-weight: 400;
+            background: rgba(0,145,255,0.12);
+        }
+    }
+    .list_active{
+        color: #1B60A4;
+        background: rgba(0,145,255,0.12);
     }
 }
 </style>>
