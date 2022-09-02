@@ -101,6 +101,13 @@
       "className": "IArticleDetails",
       "comType": "common",
       "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.slideCard",
+      "comName": "滑动卡片",
+      "className": "ISlideCard",
+      "comType": "common",
+      "comLangue": "vue"
     }
   ]
 }
