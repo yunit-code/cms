@@ -1,42 +1,54 @@
 <template>
-    <div class="d-flex comment-list-container">
-        <img :src="IDM.url.getWebPath(itemData.formUserAvatar)" class="comment-list-avatar" alt="头像加载失败" />
-        <div class="common-list-right">
-            <div class="cursor-p">
-                <span class="comment-list-name mr-10">{{ itemData.formUserName }}</span>
-                <span class="common-list-author mr-10" v-if="itemData.isAuthor">作者</span>
-                <span v-if="itemData.toUserName">
-                    <span class="mr-10">回复</span>
-                    <span class="comment-list-name mr-10">
-                        {{ itemData.toUserName }}
+    <div class="d-flex just-b comment-list-container">
+        <div class="d-flex">
+            <img :src="IDM.url.getWebPath(itemData.formUserAvatar)" class="comment-list-avatar" alt="头像加载失败" />
+            <div class="common-list-right">
+                <div class="cursor-p">
+                    <span class="comment-list-name mr-10">{{ itemData.formUserName }}</span>
+                    <span class="common-list-author mr-10" v-if="itemData.fromUserId === componentData.authorId"
+                        >作者</span
+                    >
+                    <span v-if="itemData.toUserName">
+                        <span class="mr-10">回复</span>
+                        <span class="comment-list-name mr-10">
+                            {{ itemData.toUserName }}
+                        </span>
+                        <span v-if="itemData.toUserId === componentData.authorId" class="common-list-author"
+                            >作者</span
+                        >
                     </span>
-                    <span v-if="itemData.isAuthor" class="common-list-author">作者</span>
-                </span>
-            </div>
-            <div>{{ itemData.content }}</div>
-            <div class="comment-list-bottom">
-                <span class="mr-10 cursor-p">{{ itemData.createTime }}</span>
-                <span class="mr-10 cursor-p" @click.stop="$emit('showReply', { index: lIndex, sIndex: sIndex })">
-                    回复
-                </span>
-                <span class="mr-10 cursor-p">
-                    <span v-if="itemData.isLike">已赞</span> <span v-else>赞</span>
-                    <span v-if="propData.isFabulousNumber">({{ itemData.likeNum }})</span></span
-                >
-                <span
-                    class="comment-list-del-btn cursor-p"
-                    @click.stop="$emit('handleDelete', { item: itemData, index: lIndex, sIndex: sIndex })"
-                >
-                    删除
-                </span>
-            </div>
-            <div class="common-list-reply" v-if="itemData.isReply">
-                <a-input placeholder="请输入内容" allowClear v-model="replyContent" />
-                <div class="d-flex flex-d-r-r align-c comment-list-button-container">
-                    <a-button type="primary" size="small" :loading="btnLoading" @click="handleSubReply">回复</a-button>
+                </div>
+                <div>{{ itemData.content }}</div>
+                <div class="comment-list-bottom">
+                    <span class="mr-10 cursor-p">{{ itemData.createTime }}</span>
+                    <span class="mr-10 cursor-p" @click.stop="$emit('showReply', { index: lIndex, sIndex: sIndex })">
+                        回复
+                    </span>
+                    <span
+                        class="mr-10 cursor-p"
+                        @click.stop="$emit('handleLike', { item: itemData, index: lIndex, sIndex: sIndex })"
+                    >
+                        <span v-if="itemData.isLike">已赞</span> <span v-else>赞</span>
+                        <span v-if="propData.isFabulousNumber">({{ itemData.likeNum }})</span></span
+                    >
+                    <span
+                        class="comment-list-del-btn cursor-p"
+                        @click.stop="$emit('handleDelete', { item: itemData, index: lIndex, sIndex: sIndex })"
+                    >
+                        删除
+                    </span>
+                </div>
+                <div class="common-list-reply" v-if="itemData.isReply">
+                    <a-input placeholder="请输入内容" allowClear v-model="replyContent" />
+                    <div class="d-flex flex-d-r-r align-c comment-list-button-container">
+                        <a-button type="primary" size="small" :loading="btnLoading" @click="handleSubReply"
+                            >回复</a-button
+                        >
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="common-list-selected-speeches">精选发言</div>
     </div>
 </template>
 
@@ -63,6 +75,10 @@ export default {
         propData: {
             type: Object,
             default: () => {}
+        },
+        componentData: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
@@ -74,9 +90,24 @@ export default {
                 return
             }
             const { itemData, lIndex, sIndex } = this
-            this.replyContent = ''
-            this.$emit('handleSubReply', { item: itemData, index: lIndex, sIndex: sIndex })
+            this.$emit('handleSubReply', {
+                itemData: itemData,
+                index: lIndex,
+                sIndex: sIndex,
+                replyContent: this.replyContent
+            })
         }
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.comment-list-container {
+    padding: 0 10px 0 0;
+}
+.common-list-author {
+    padding: 2px 5px;
+    color: #fff;
+    border-radius: 4px;
+}
+</style>

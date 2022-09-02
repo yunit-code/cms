@@ -288,6 +288,94 @@
                             "hex8": "#577EF1FF"
                         }
                     }
+                },
+                {
+                    "type": "font",
+                    "text": "精选发言",
+                    "layoutType": "block",
+                    "bindKey": "selectSpeechFont",
+                    "default": {
+                        "fontColors": {}
+                    }
+                },
+                {
+                    "type": "font",
+                    "text": "作者文字",
+                    "layoutType": "block",
+                    "bindKey": "authorFont",
+                    "default": {
+                        "fontColors": {},
+                        "fontSize": 15,
+                        "fontSizeUnit": "px"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "table",
+            "text": "主题设置",
+            "desc": "点击？查看主题设置用法指南",
+            "bindKey": "themeList",
+            "tabText": "主题[index]",
+            "default": [
+                {
+                    "key": "blue",
+                    "mainColor": {
+                        "hex": "#0073CA",
+                        "hex8": "#0073CAFF"
+                    }
+                },
+                {
+                    "key": "red",
+                    "mainColor": {
+                        "hex": "#E21A1A",
+                        "hex8": "#E21A1AFF"
+                    }
+                },
+                {
+                    "key": "green",
+                    "mainColor": {
+                        "hex": "#0EAF64",
+                        "hex8": "#0EAF64FF"
+                    }
+                }
+            ],
+            "children": [
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "主题标识",
+                    "bindKey": "key",
+                    "multiple": false,
+                    "desc": "用于设置主题的标识，此项需要搭配自定义开发切换主题的功能，例如：蓝色标识为blue，用户切换主题的时候存储到数据库中的标识为blue，则这里填写为blue",
+                    "default": "",
+                    "placeholder": "例如：blue",
+                    "ctrlAttrObject": {
+                        "mode": "combobox"
+                    },
+                    "dictionary": [
+                        {
+                            "label": "blue",
+                            "value": "blue"
+                        },
+                        {
+                            "label": "red",
+                            "value": "red"
+                        },
+                        {
+                            "label": "green",
+                            "value": "green"
+                        }
+                    ]
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "主要颜色",
+                    "bindKey": "mainColor",
+                    "desc": "主题的主要颜色",
+                    "placeholder": "请选择颜色",
+                    "display": "@[key]"
                 }
             ]
         },
@@ -297,12 +385,50 @@
             "desc": "点击？查看高级设置用法指南",
             "children": [
                 {
-                    "type": "input",
-                    "layoutType": "inline",
-                    "text": "评论列表接口",
-                    "bindKey": "commentListInterface",
-                    "desc": "用于获取数据源的接口地址，请按照统一标准的返回格式返回文本数据，格式如下：{\"code\":\"200\",\"data\":\"\",...}",
-                    "default": "/ctrl/website/api/comment"
+                    "type": "group",
+                    "text": "功能接口",
+                    "children": [
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "评论列表",
+                            "bindKey": "commentListInterface",
+                            "desc": "请求方法：get",
+                            "default": "/ctrl/website/api/comment"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "评论添加",
+                            "bindKey": "addCommentInterface",
+                            "desc": "请求方法：post",
+                            "default": "/ctrl/website/api/comment"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "评论删除",
+                            "bindKey": "deleteCommentInterface",
+                            "desc": "请求方法：delete",
+                            "default": "/ctrl/website/api/comment"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "评论点赞",
+                            "bindKey": "likeCommentInterface",
+                            "desc": "请求方法：post",
+                            "default": "/ctrl/website/api/comment/like"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "取消点赞",
+                            "bindKey": "likeCommentInterface",
+                            "desc": "请求方法：delete",
+                            "default": "/ctrl/website/api/comment/like"
+                        }
+                    ]
                 }
             ]
         }

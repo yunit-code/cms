@@ -219,7 +219,7 @@ export default {
                     : 'idm-theme-'
             for (var i = 0; i < themeList.length; i++) {
                 var item = themeList[i]
-                let bgColorObj = {
+                let fillColorObj = {
                     fill: item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
                 }
                 IDM.setStyleToPageHead(
@@ -228,7 +228,7 @@ export default {
                         item.key +
                         (` #${this.moduleObject.id}` || 'module_demo') +
                         ' .text-list-left-icon',
-                    bgColorObj
+                    fillColorObj
                 )
             }
         },

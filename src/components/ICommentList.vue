@@ -16,9 +16,11 @@
                 :propData="propData"
                 :itemData="item"
                 :lIndex="index"
+                :componentData="componentData"
                 @showReply="showReply"
                 @handleDelete="handleDelete"
                 @handleSubReply="handleSubReply"
+                @handleLike="handleLike"
                 :btnLoading="btnLoading2"
             ></ICommentItem>
             <div class="comment-list-sub-comment" v-for="(items, indexs) in item.children" :key="indexs">
@@ -27,9 +29,11 @@
                     :lIndex="index"
                     :sIndex="indexs"
                     :itemData="items"
+                    :componentData="componentData"
                     @showReply="showReply"
                     @handleDelete="handleDelete"
                     @handleSubReply="handleSubReply"
+                    @handleLike="handleLike"
                     :btnLoading="btnLoading2"
                 ></ICommentItem>
                 <div class="d-flex just-c cursor-p" @click="handleSubClickMore(item)">查看更多回复</div>
@@ -55,7 +59,8 @@ export default {
             btnLoading: false,
             btnLoading2: false,
             componentData: {
-                rows: []
+                rows: [],
+                authorId: '123'
             },
             content: '',
             currentPage: 1
@@ -64,15 +69,15 @@ export default {
     created() {
         this.moduleObject = this.$root.moduleObject
         this.convertAttrToStyleObject()
+        this.convertThemeListAttrToStyleObject()
     },
     methods: {
         propDataWatchHandle(propData) {
             this.propData = propData.compositeAttr || {}
             this.convertAttrToStyleObject()
+            this.convertThemeListAttrToStyleObject()
         },
-        handleSubClickMore(item) {
-            
-        },
+        handleSubClickMore(item) {},
         // 显示回复
         showReply({ index, sIndex }) {
             if (this.moduleObject.env == 'develop') {
@@ -87,36 +92,105 @@ export default {
             }
             this.$set(this.componentData, 'rows', arr)
         },
+        // 点赞
+        handleLike({ item, sIndex, index }) {
+            if (this.moduleObject.env == 'develop') {
+                return
+            }
+            const requestText = item.isLike ? 'delete' : 'post'
+            this.propData.deleteCommentInterface &&
+                window.IDM.http[requestText](this.propData.deleteCommentInterface, {
+                    commentId: item.id
+                })
+                    .then((res) => {
+                        if (res.status == 200 && res.data.code == 200) {
+                            item.isLike = !item.isLike
+                            if (sIndex === -1) {
+                                this.$set(this.componentData['rows'], index, item)
+                            } else {
+                                this.$set(this.componentData['rows'][index].children, sIndex, item)
+                            }
+                        }
+                        IDM.message.error(res.data.message)
+                    })
+                    .catch(function (error) {})
+        },
         // 删除
         handleDelete({ item, index, sIndex }) {
             if (this.moduleObject.env == 'develop') {
                 return
             }
-            const arr = _.cloneDeep(this.componentData.rows)
-            if (sIndex === -1) {
-                arr.splice(index, 1)
-            } else {
-                arr[index].children.splice(sIndex, 1)
-            }
-            this.$set(this.componentData, 'rows', arr)
+            this.$confirm({
+                title: '提示',
+                content: '确认删除此条评论',
+                okText: '确定',
+                cancelText: '取消',
+                onOk() {
+                    this.propData.deleteCommentInterface &&
+                        window.IDM.http
+                            .delete(this.propData.deleteCommentInterface, {
+                                commentId: item.id
+                            })
+                            .then((res) => {
+                                if (res.status == 200 && res.data.code == 200) {
+                                    const arr = _.cloneDeep(this.componentData.rows)
+                                    if (sIndex === -1) {
+                                        arr.splice(index, 1)
+                                    } else {
+                                        arr[index].children.splice(sIndex, 1)
+                                    }
+                                    this.$set(this.componentData, 'rows', arr)
+                                }
+                                IDM.message.error(res.data.message)
+                            })
+                            .catch(function (error) {})
+                },
+                onCancel() {
+                    console.log('Cancel')
+                }
+            })
         },
         // 回复
-        handleSubReply() {
+        handleSubReply({ replyContent, itemData }) {
             this.btnLoading2 = true
-            const arr = _.cloneDeep(this.componentData.rows)
-            this.setIsReplyFalse(arr)
-            this.$set(this.componentData, 'rows', arr)
+            this.addComment(replyContent, itemData.id, () => {
+                const arr = _.cloneDeep(this.componentData.rows)
+                this.setIsReplyFalse(arr)
+                this.$set(this.componentData, 'rows', arr)
+            })
+        },
+        addComment(content, commentId, cb) {
+            if (!content) {
+            }
+            this.propData.addCommentInterface &&
+                window.IDM.http
+                    .post(this.propData.addCommentInterface, {
+                        content,
+                        commentId,
+                        contenId: '',
+                        showAvatar: false
+                    })
+                    .then((res) => {
+                        if (res.status == 200 && res.data.code == 200) {
+                            cb()
+                        }
+                        IDM.message.error(res.data.message)
+                    })
+                    .catch(function (error) {})
         },
         // 发布评论
         handlePublish() {
-            this.content = ''
-            console.log('Fabu..')
+            this.addComment(this.content, '', () => {
+                this.content = ''
+            })
         },
         convertAttrToStyleObject() {
             const styleObject = {},
                 avatarObj = {},
                 itemObj = {},
-                userNameFontObj = {}
+                userNameFontObj = {},
+                selectSpeechObj = {},
+                authorObj = {}
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key]
@@ -161,6 +235,13 @@ export default {
                             break
                         case 'userNameFont':
                             IDM.style.setFontStyle(userNameFontObj, element)
+                            break
+                        case 'selectSpeechFont':
+                            IDM.style.setFontStyle(selectSpeechObj, element)
+                            break
+                        case 'authorFont':
+                            IDM.style.setFontStyle(authorObj, element, true)
+                            break
                     }
                 }
             }
@@ -168,7 +249,37 @@ export default {
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .comment-list-avatar', avatarObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .comment-list-item', itemObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .comment-list-name', userNameFontObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .common-list-selected-speeches', selectSpeechObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .common-list-author', authorObj)
             this.initData()
+        },
+
+        /**
+         * 主题颜色
+         */
+        convertThemeListAttrToStyleObject() {
+            var themeList = this.propData.themeList
+            if (!themeList) {
+                return
+            }
+            const themeNamePrefix =
+                IDM.setting && IDM.setting.applications && IDM.setting.applications.themeNamePrefix
+                    ? IDM.setting.applications.themeNamePrefix
+                    : 'idm-theme-'
+            for (var i = 0; i < themeList.length; i++) {
+                var item = themeList[i]
+                let bgColorObj = {
+                    background: item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
+                }
+                IDM.setStyleToPageHead(
+                    '.' +
+                        themeNamePrefix +
+                        item.key +
+                        (` #${this.moduleObject.id}` || 'module_demo') +
+                        ' .common-list-author',
+                    bgColorObj
+                )
+            }
         },
         reload() {
             //请求数据源
