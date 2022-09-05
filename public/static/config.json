@@ -47,6 +47,13 @@
       "comLangue": "vue"
     },
     {
+      "classId": "idm.component.cms.footerbar",
+      "comName": "页面尾部",
+      "className": "IFooterBar",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
       "classId": "idm.component.cms.itextlist",
       "comName": "文字列表",
       "className": "ITextList",
@@ -99,6 +106,13 @@
       "classId": "idm.component.cms.articleDetails",
       "comName": "文章详情",
       "className": "IArticleDetails",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.slideCard",
+      "comName": "滑动卡片",
+      "className": "ISlideCard",
       "comType": "common",
       "comLangue": "vue"
     }

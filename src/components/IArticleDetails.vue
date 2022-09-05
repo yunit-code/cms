@@ -270,6 +270,7 @@ export default {
           break;
         case 'customFunction':
           this.articleData = this.customFormat({});
+          break;
       }
     },
     /**
@@ -752,6 +753,7 @@ export default {
               if (element.hex8) {
                 loadingIconStyleObject['color'] = IDM.hex8ToRgbaString(element.fontColors.hex8);
               }
+              break;
           }
         }
       }
@@ -802,10 +804,10 @@ export default {
           : 'idm-theme-';
       for (var i = 0; i < themeList.length; i++) {
         const item = themeList[i];
-        // if (item.key != IDM.theme.getCurrentThemeInfo()) {
-        //   //此处比对是不渲染输出不用的样式，如果页面会刷新就可以把此处放开
-        //   continue;
-        // }
+        if (item.key != IDM.theme.getCurrentThemeInfo()) {
+          //此处比对是不渲染输出不用的样式，如果页面会刷新就可以把此处放开
+          continue;
+        }
 
         const colorObject = {
           color: item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
@@ -838,7 +840,7 @@ export default {
 <style scoped lang="scss">
 .i-articleDetails-outer {
   width: auto;
-  height: 500px;
+  height: auto;
   box-sizing: border-box;
   padding: 10px;
   font-family: PingFangSC-Regular;

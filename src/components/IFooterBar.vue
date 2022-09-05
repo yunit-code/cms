@@ -1,236 +1,152 @@
 <template>
-    <div idm-ctrl="idm_module" :id="moduleObject.id" class="ISwiper_app" :idm-ctrl-id="moduleObject.id" >
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div v-for="(item,index) in data_list" :key="index" class="swiper-slide">
-                    <img :src="item.image" />
+    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
+        <div class="IFooterBar_app flex_between">
+            <div class="IFooterBar_app_left flex_start">
+                <div v-for="(item,index) in propData.leftLogoList" :key="index" :style="getLeftLogoStyleBox(item)" class="img_box">
+                    <img :src="IDM.url.getWebPath(item.logoImgSrc)" :style="getLeftLogoStyle(item)" />
+                    <!-- <img :src="item.logoImgSrc" :style="getLeftLogoStyle(item)" /> -->
                 </div>
             </div>
-            <div v-if="propData.direction == 'horizontal' && propData.showTitle" class="swiper-pagination"></div>
-        </div>
-        <div v-if="propData.direction == 'horizontal' && propData.showTitle" class="describe_horizontal">
-            <div class="title">{{ data_list[this.active_index] ? data_list[this.active_index].title : '' }}</div>
-            <div class="time">{{ data_list[this.active_index] ? data_list[this.active_index].time : '' }}</div>
-        </div>
-        <div v-if="propData.direction == 'vertical' && propData.showTitle" class="describe_vertical">
-            <div v-for="(item,index) in data_list" @click="onClickDescribe(item,index)" :key="index" class="describe_list" :class="index == active_index ? 'describe_list_active' : ''">
-                {{ item.title }}
+            <div class="IFooterBar_app_center">
+                <div class="IFooterBar_app_center_top flex_center">
+                    <div v-for="(item,index) in propData.centerTextList" :key="index" class="list">{{ item.text }}</div>
+                </div>
+                <div class="drag_container" :class="moduleObject.env == 'develop' || !IDM.env_dev ? 'drag_container_outer' : ''" idm-ctrl-inner :idm-ctrl-id="moduleObject.id" idm-container-index="1">
+                    
+                </div>
+            </div>
+            <div class="IFooterBar_app_right flex_center">
+                <!-- 组件内部容器 增加class="drag_container" 必选 idm-ctrl-id：组件的id，这个必须不能为空 idm-container-index  组件的内部容器索引，不重复唯一且不变，必选 -->
+                <div v-if="propData.showRightContain" class="drag_container" :class="moduleObject.env == 'develop' || !IDM.env_dev ? 'drag_container_outer' : ''" idm-ctrl-inner :idm-ctrl-id="moduleObject.id" idm-container-index="2">
+        
+                </div>
             </div>
         </div>
-
     </div>
 </template>
-
+  
 <script>
-import 'swiper/js/swiper'
-import 'swiper/css/swiper.css'
-import Swiper from "swiper"
 export default {
-    name: 'ISwiper',
+    name: 'IFooterBar',
     data() {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
-                direction: 'horizontal',
-                baseColumn: '',//指定显示哪个栏目下的图片新闻
-                pictureNumber: '',
-                intervalTime: '',
-                interchargeEffect: '',
-                showTitle: true,
-                objectFit: 'fill'
+                leftLogoList: [
+                    {
+                        logoImgSrc: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+                        logoImgWidth: '50px',
+                        logoImgHeight: '60px',
+                        marginRight: '20px',
+                        objectFit: 'cover'
+                    },
+                    {
+                        logoImgSrc: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+                        logoImgWidth: '50px',
+                        logoImgHeight: '60px',
+                        marginRight: '0px',
+                        objectFit: 'cover'
+                    }
+                ],
+                centerTextList: [
+                    {
+                        text: '网站地图'
+                    },
+                    {
+                        text: '联系我们'
+                    }
+                ],
+                showRightContain: true
             },
-            data_list: [
-                {
-                    img: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-                    title: '1-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    img: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-                    title: '2-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    img: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-                    title: '3-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    img: 'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg',
-                    title: '4-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    img: 'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg',
-                    title: '5-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    img: 'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
-                    title: '6-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    img: 'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
-                    title: '7-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                }
-            ],
-            my_swiper: null,
-            active_index: 0,
-            parentHeight: '',
+            innerAttr:this.$root.propData.innerAttr||[],
         }
     },
     props: {
     },
-    watch: {
-        'propData.direction': {
-            handler: function(value) {
-                this.active_index = 0;
-                this.updateSwiper()
-            },
-            deep: true
-        }
-    },
     created() {
         this.moduleObject = this.$root.moduleObject
         this.convertAttrToStyleObject();
-        this.reload()
     },
     mounted() {
-        this.resizeContentWrapperHeight()
-        this.initSwiper()
+        this.$nextTick(function (params) {
+            
+        });
     },
     destroyed() { },
     methods: {
-        getSwiperList() {
-            if( this.moduleObject.env=="develop" || !this.propData.customInterfaceUrl ){
-                return;
-            }
-            let urlParam = this.commonParam()
-            IDM.http.get(this.propData.customInterfaceUrl,{
-                pageId: urlParam.pageId,
-                componentId: this.moduleObject.comId,
-                columnId: this.propData.columnId || '',
-                limit: this.propData.limit
-            }).then((res) => {
-                if (res && res.data && res.data.code == '200' && res.data.data ) {
-                    let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.row;
-                    this.data_list = result || [];
-                    if ( !this.my_swiper ) {
-                        this.initSwiper()
+        getLeftLogoStyleBox(item) {
+            let styleObject = {};
+            for (const key in item) {
+                if (this.propData.hasOwnProperty.call(item, key)) {
+                    const element = item[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
                     }
-                } else {
-                    IDM.message.error(res.data.message);
-                }
-            })
-        },
-        updateSwiper() {
-            if ( this.my_swiper ) {
-                try {
-                    this.my_swiper.destroy(true,true)
-                } catch (error) {
-                    this.initSwiper()
-                }
-            }
-            this.initSwiper()
-        },
-        initSwiper() {
-            // if ( !this.parentHeight ) {
-            //     return
-            // }
-            let that = this;
-            let option = {
-                direction: this.propData.direction || 'horizontal',
-                // effect: this.propData.interchargeEffect || 'slide',
-                loop: true,
-                autoplay: {
-                    delay: this.propData.intervalTime || 5000,
-                    disableOnInteraction: false, //*手动操作轮播图后不会暂停*
-                },
-                on:{
-                    slideChange: function(){
-                        that.active_index = my_swiper.realIndex;
-                        let scroll_top = $('.describe_list')[my_swiper.realIndex] ? $('.describe_list')[my_swiper.realIndex].offsetTop : 0;
-                        $('.describe_vertical').scrollTop(scroll_top);
-                    },
-                },
-                // 如果需要分页器
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                    bulletClass : 'my-bullet',
-                    bulletActiveClass: 'my-bullet-active',
+                    switch (key) {
+                        case "logoImgWidth":
+                            styleObject["width"] = element;
+                            break;
+                        case "logoImgHeight":
+                            styleObject["height"] = element;
+                            break;
+                        case "logoMarginRight":
+                            styleObject["margin-right"] = element;
+                            break;
+                    }
                 }
             }
-            let my_swiper = new Swiper('.swiper-container', {
-                ...option
-            })
-            this.my_swiper = my_swiper;
+            return styleObject;
         },
-        onClickDescribe(item,index) {
-            if ( this.my_swiper ) {
-                this.my_swiper.slideToLoop(index, 1000, false);
-            }   
+        getLeftLogoStyle(item) {
+            let styleObject = {};
+            for (const key in item) {
+                if (this.propData.hasOwnProperty.call(item, key)) {
+                    const element = item[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "objectFit":
+                            styleObject["object-fit"] = element;
+                            break;
+                    }
+                }
+            }
+            return styleObject;
         },
         /**
          * 提供父级组件调用的刷新prop数据组件
          */
         propDataWatchHandle(propData) {
             this.propData = propData.compositeAttr || {};
-            this.updateSwiper()
-            this.resizeContentWrapperHeight()
+            this.innerAttr = propData.innerAttr||[];
+            this.convertAttrToStyleObject();
         },
-        resizeContentWrapperHeight(height) {
-            if ( this.moduleObject.env == 'develop' ) {
-                if ( this.propData.isAdaption ) {
-                    this.parentHeight = $('#' + this.moduleObject.packageid).parents('.fsl-region-element').height()
-                } else {
-                    this.parentHeight = ''
-                }
-                this.convertAttrToStyleObject()
-            } 
-        },
-        /**
-         * 把属性转换成样式对象
-         */
-        convertAttrToStyleObjectHorizontalTitle() {
-            var styleObject = {};
-            var styleObjectTitle = {};
-            var styleObjectTime = {};
-            for (const key in this.propData) {
-                if (this.propData.hasOwnProperty.call(this.propData, key)) {
-                    const element = this.propData[key];
+        /** * 把属性转换成样式对象 */
+        convertAttrToStyleObjectCenterContain() {
+            let styleObject = {};
+            let propData = {};
+            if( this.innerAttr && this.innerAttr.length>0 ){
+                this.innerAttr.forEach(element => {
+                    if ( element.containerIndex == '1' ) {
+                        propData = element.dataAttr
+                    }
+                });
+            }
+            for (const key in propData) {
+                if (propData.hasOwnProperty.call(propData, key)) {
+                    const element = propData[key];
                     if (!element && element !== false && element != 0) {
                         continue;
                     }
-                    switch ( key ) {
-                        case "heightHorizontalTitle":
-                            styleObject['height'] = element + 'px';
+                    switch (key) {
+                        case "widthCenterContain":
+                             styleObject['width'] = element;
                             break;
-                        case "fontHorizontalTitle":
-                            styleObjectTitle["font-family"] = element.fontFamily;
-                            if (element.fontColors.hex8) {
-                                styleObjectTitle["color"] = element.fontColors.hex8;
-                            }
-                            styleObjectTitle["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
-                            styleObjectTitle["font-style"] = element.fontStyle;
-                            styleObjectTitle["font-size"] = element.fontSize + element.fontSizeUnit;
-                            styleObjectTitle["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
-                            styleObjectTitle["text-align"] = element.fontTextAlign;
-                            styleObjectTitle["text-decoration"] = element.fontDecoration;
+                        case "heightCenterContain":
+                            styleObject['height'] = element;
                             break;
-                        case "fontHorizontalTime":
-                            styleObjectTime["font-family"] = element.fontFamily;
-                            if (element.fontColors.hex8) {
-                                styleObjectTime["color"] = element.fontColors.hex8;
-                            }
-                            styleObjectTime["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
-                            styleObjectTime["font-style"] = element.fontStyle;
-                            styleObjectTime["font-size"] = element.fontSize + element.fontSizeUnit;
-                            styleObjectTime["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
-                            styleObjectTime["text-align"] = element.fontTextAlign;
-                            styleObjectTime["text-decoration"] = element.fontDecoration;
-                            break;
-                        case "bgColorHorizontalTitle":
-                            if (element && element.hex8) {
-                                styleObject["background-color"] = element.hex8;
-                            }
-                            break;
-                        case "boxHorizontalTitle":
+                        case "boxCenterContain":
                             if (element.marginTopVal) {
                                 styleObject["margin-top"] = `${element.marginTopVal}`;
                             }
@@ -256,53 +172,7 @@ export default {
                                 styleObject["padding-left"] = `${element.paddingLeftVal}`;
                             }
                             break;
-                        case "boxHorizontalText":
-                            if (element.marginTopVal) {
-                                styleObjectTitle["margin-top"] = `${element.marginTopVal}`;
-                            }
-                            if (element.marginRightVal) {
-                                styleObjectTitle["margin-right"] = `${element.marginRightVal}`;
-                            }
-                            if (element.marginBottomVal) {
-                                styleObjectTitle["margin-bottom"] = `${element.marginBottomVal}`;
-                            }
-                            if (element.marginLeftVal) {
-                                styleObjectTitle["margin-left"] = `${element.marginLeftVal}`;
-                            }
-                            if (element.paddingTopVal) {
-                                styleObjectTitle["padding-top"] = `${element.paddingTopVal}`;
-                            }
-                            if (element.paddingRightVal) {
-                                styleObjectTitle["padding-right"] = `${element.paddingRightVal}`;
-                            }
-                            if (element.paddingBottomVal) {
-                                styleObjectTitle["padding-bottom"] = `${element.paddingBottomVal}`;
-                            }
-                            if (element.paddingLeftVal) {
-                                styleObjectTitle["padding-left"] = `${element.paddingLeftVal}`;
-                            }
-                            break;
-                    }
-                }
-            }
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .describe_horizontal', styleObject);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .describe_horizontal .title', styleObjectTitle);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .describe_horizontal .time', styleObjectTime);
-        },
-        convertAttrToStyleObjectVerticalTitle() {
-            var styleObject = {};
-            var styleObjectActive = {};
-            for (const key in this.propData) {
-                if (this.propData.hasOwnProperty.call(this.propData, key)) {
-                    const element = this.propData[key];
-                    if (!element && element !== false && element != 0) {
-                        continue;
-                    }
-                    switch ( key ) {
-                        case "widthVerticalTitle":
-                            styleObject['width'] = element;
-                            break;
-                        case "fontVerticalTitle":
+                        case "fontCenterContain":
                             styleObject["font-family"] = element.fontFamily;
                             if (element.fontColors.hex8) {
                                 styleObject["color"] = element.fontColors.hex8;
@@ -314,12 +184,35 @@ export default {
                             styleObject["text-align"] = element.fontTextAlign;
                             styleObject["text-decoration"] = element.fontDecoration;
                             break;
-                        case "bgColorVerticalTitle":
-                            if (element && element.hex8) {
-                                styleObject["background-color"] = element.hex8;
-                            }
+                    }
+                }
+            }
+            IDM.setStyleToPageHead(this.moduleObject.id+` .drag_container[idm-ctrl-id="${this.moduleObject.id}"][idm-container-index="${1}"]`,styleObject);
+        },
+        convertAttrToStyleObjectRightContain() {
+            let styleObject = {};
+            let propData = {};
+            if( this.innerAttr && this.innerAttr.length>0 ){
+                this.innerAttr.forEach(element => {
+                    if ( element.containerIndex == '2' ) {
+                        propData = element.dataAttr
+                    }
+                });
+            }
+            for (const key in propData) {
+                if (propData.hasOwnProperty.call(propData, key)) {
+                    const element = propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "widthRightContain":
+                             styleObject['width'] = element;
                             break;
-                        case "boxVerticalTitle":
+                        case "heightRightContain":
+                            styleObject['height'] = element;
+                            break;
+                        case "boxRightContain":
                             if (element.marginTopVal) {
                                 styleObject["margin-top"] = `${element.marginTopVal}`;
                             }
@@ -345,35 +238,72 @@ export default {
                                 styleObject["padding-left"] = `${element.paddingLeftVal}`;
                             }
                             break;
-                        case "fontVerticalTitleActive":
-                            styleObjectActive["font-family"] = element.fontFamily;
-                            if (element.fontColors.hex8) {
-                                styleObjectActive["color"] = element.fontColors.hex8;
+                    }
+                }
+            }
+            // window.IDM.setStyleToPageHead(this.moduleObject.id + " .IFooterBar_app_right>.drag_container_outer", styleObject);
+            IDM.setStyleToPageHead(this.moduleObject.id+` .drag_container[idm-ctrl-id="${this.moduleObject.id}"][idm-container-index="${2}"]`,styleObject);
+        },
+        convertAttrToStyleObjectCenterText() {
+            let styleObject = {};
+            for (const key in this.propData) {
+                if (this.propData.hasOwnProperty.call(this.propData, key)) {
+                    const element = this.propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "boxCenterTextList":
+                            if (element.marginTopVal) {
+                                styleObject["margin-top"] = `${element.marginTopVal}`;
                             }
-                            styleObjectActive["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
-                            styleObjectActive["font-style"] = element.fontStyle;
-                            styleObjectActive["font-size"] = element.fontSize + element.fontSizeUnit;
-                            styleObjectActive["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
-                            styleObjectActive["text-align"] = element.fontTextAlign;
-                            styleObjectActive["text-decoration"] = element.fontDecoration;
+                            if (element.marginRightVal) {
+                                styleObject["margin-right"] = `${element.marginRightVal}`;
+                            }
+                            if (element.marginBottomVal) {
+                                styleObject["margin-bottom"] = `${element.marginBottomVal}`;
+                            }
+                            if (element.marginLeftVal) {
+                                styleObject["margin-left"] = `${element.marginLeftVal}`;
+                            }
+                            if (element.paddingTopVal) {
+                                styleObject["padding-top"] = `${element.paddingTopVal}`;
+                            }
+                            if (element.paddingRightVal) {
+                                styleObject["padding-right"] = `${element.paddingRightVal}`;
+                            }
+                            if (element.paddingBottomVal) {
+                                styleObject["padding-bottom"] = `${element.paddingBottomVal}`;
+                            }
+                            if (element.paddingLeftVal) {
+                                styleObject["padding-left"] = `${element.paddingLeftVal}`;
+                            }
                             break;
-                        case "bgColorVerticalTitleActive":
-                            if (element && element.hex8) {
-                                styleObjectActive["background-color"] = element.hex8;
+                        case "fontCenterTextList":
+                            styleObject["font-family"] = element.fontFamily;
+                            if (element.fontColors.hex8) {
+                                styleObject["color"] = element.fontColors.hex8;
+                                styleObject["border-right-color"] = element.fontColors.hex8;
                             }
+                            styleObject["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                            styleObject["font-style"] = element.fontStyle;
+                            styleObject["font-size"] = element.fontSize + element.fontSizeUnit;
+                            styleObject["height"] = element.fontSize + element.fontSizeUnit;
+                            styleObject["line-height"] = element.fontSize + element.fontSizeUnit;
+                            styleObject["text-align"] = element.fontTextAlign;
+                            styleObject["text-decoration"] = element.fontDecoration;
                             break;
                     }
                 }
             }
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .describe_vertical', styleObject);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .describe_vertical .describe_list_active', styleObjectActive);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + " .IFooterBar_app_center .list", styleObject);
         },
+
         convertAttrToStyleObject() {
-            this.convertAttrToStyleObjectHorizontalTitle()
-            this.convertAttrToStyleObjectVerticalTitle()
+            this.convertAttrToStyleObjectCenterContain()
+            this.convertAttrToStyleObjectRightContain()
+            this.convertAttrToStyleObjectCenterText()
             var styleObject = {};
-            var styleObjectImg = {};
-            var styleObjectSwiper = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {
                 styleObject["background-size"] = (this.propData.bgSizeWidth ? this.propData.bgSizeWidth.inputVal + this.propData.bgSizeWidth.selectVal : "auto") + " " + (this.propData.bgSizeHeight ? this.propData.bgSizeHeight.inputVal + this.propData.bgSizeHeight.selectVal : "auto")
             } else if (this.propData.bgSize) {
@@ -385,9 +315,6 @@ export default {
             if (this.propData.positionY && this.propData.positionY.inputVal) {
                 styleObject["background-position-y"] = this.propData.positionY.inputVal + this.propData.positionY.selectVal;
             }
-            if ( this.propData.objectFit ) {
-                styleObjectImg['object-fit'] = this.propData.objectFit;
-            }
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key];
@@ -396,24 +323,8 @@ export default {
                     }
                     switch (key) {
                         case "width":
-                            styleObject[key] = element;
-                            break;
                         case "height":
-                            if ( this.propData.isAdaption && this.parentHeight ) {
-                                styleObject[key] = this.parentHeight + 'px';
-                            } else {
-                                styleObject[key] = element;
-                            }
-                            break;
-                        case "widthImg":
-                            styleObjectSwiper['width'] = element;
-                            break;
-                        case "heightImg":
-                            if ( this.propData.isAdaption && this.parentHeight ) {
-                                styleObjectSwiper['height'] = (this.parentHeight - (this.propData.heightHorizontalTitle ? this.propData.heightHorizontalTitle : 0)) + 'px';
-                            } else {
-                                styleObjectSwiper[key] = element;
-                            }
+                            styleObject[key] = element;
                             break;
                         case "bgColor":
                             if (element && element.hex8) {
@@ -516,8 +427,7 @@ export default {
                 }
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id, styleObject);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .swiper-slide img', styleObjectImg);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .swiper-container', styleObjectSwiper);
+            this.initData();
         },
         /**
          * 通用的url参数对象
@@ -550,7 +460,15 @@ export default {
             var params = that.commonParam();
             switch (this.propData.dataSourceType) {
                 case "customInterface":
-                    this.getSwiperList()
+                    this.propData.customInterfaceUrl && window.IDM.http.get(this.propData.customInterfaceUrl, params)
+                        .then((res) => {
+                            //res.data
+                            that.$set(that.propData, "fontContent", that.getExpressData("resultData", that.propData.dataFiled, res.data));
+                            // that.propData.fontContent = ;
+                        })
+                        .catch(function (error) {
+
+                        });
                     break;
                 case "pageCommonInterface":
                     //使用通用接口直接跳过，在setContextValue执行
@@ -562,7 +480,7 @@ export default {
                             resValue = window[this.propData.customFunction[0].name] && window[this.propData.customFunction[0].name].call(this, { ...params, ...this.propData.customFunction[0].param, moduleObject: this.moduleObject });
                         } catch (error) {
                         }
-                        that.propData.data_list = resValue;
+                        that.propData.fontContent = resValue;
                     }
                     break;
             }
@@ -606,6 +524,40 @@ export default {
             return _defaultVal;
         },
         /**
+         * 文本点击事件
+         */
+        textClickHandle() {
+            let that = this;
+            if (this.moduleObject.env == "develop") {
+                //开发模式下不执行此事件
+                return;
+            }
+            //获取所有的URL参数、页面ID（pageId）、以及所有组件的返回值（用范围值去调用IDM提供的方法取出所有的组件值）
+            let urlObject = window.IDM.url.queryObject(),
+                pageId = window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : "";
+            //自定义函数
+            /**
+             * [
+             * {name:"",param:{}}
+             * ]
+             */
+            var clickFunction = this.propData.clickFunction;
+            clickFunction && clickFunction.forEach(item => {
+                window[item.name] && window[item.name].call(this, {
+                    urlData: urlObject,
+                    pageId,
+                    customParam: item.param,
+                    _this: this
+                });
+            })
+        },
+        showThisModuleHandle() {
+            this.propData.defaultStatus = "default";
+        },
+        hideThisModuleHandle() {
+            this.propData.defaultStatus = "hidden";
+        },
+        /**
          * 组件通信：接收消息的方法
          * @param {
          *  type:"发送消息的时候定义的类型，这里可以自己用来要具体做什么，统一规定的type：linkageResult（组件联动传结果值）、linkageDemand（组件联动传需求值）、linkageReload（联动组件重新加载）
@@ -616,19 +568,11 @@ export default {
          * } object 
          */
         receiveBroadcastMessage(object) {
-            console.log("ISwiper组件收到消息", object)
-            if (object && object.type == "regionResize" && object.message && object.message.gridEleTarget) {
-                let gridEleTarget = object.message.gridEleTarget;
-                if (gridEleTarget && gridEleTarget.offsetHeight) {
-                    this.parentHeight = gridEleTarget.offsetHeight;
-                    this.$nextTick(() => {
-
-                        if ( this.propData.isAdaption && gridEleTarget.offsetHeight ) {
-                            this.convertAttrToStyleObject()
-                            this.updateSwiper()
-                        } 
-                    })
-                }
+            console.log("组件收到消息", object)
+            if (object.type && object.type == "linkageShowModule") {
+                this.showThisModuleHandle();
+            } else if (object.type && object.type == "linkageHideModule") {
+                this.hideThisModuleHandle();
             }
         },
         /**
@@ -660,66 +604,51 @@ export default {
             }
             //这里使用的是子表，所以要循环匹配所有子表的属性然后再去设置修改默认值
             if (object.key == this.propData.dataName) {
-                this.data_list = this.getExpressData(this.propData.dataName,this.propData.dataFiled,object.data);
+                // this.propData.fontContent = this.getExpressData(this.propData.dataName,this.propData.dataFiled,object.data);
+                this.$set(this.propData, "fontContent", this.getExpressData(this.propData.dataName, this.propData.dataFiled, object.data));
             }
         }
     }
 }
 </script>
 <style lang="scss">
-.ISwiper_app{
-    // height: 400px;
-    position: relative;
-    .swiper-container{
-        // height: 100%;
-    }
-    .swiper-slide{
-        img{
-            width: 100%;
-            height: 100%;
-        }
-    }
-    
-    .swiper-pagination{
-        .my-bullet{
-            display: inline-block;
-            width: 40px;
-            height: 4px;
-            margin-right: 10px;
-            background: rgba(0,0,0,0.19);
-            border-radius: 2px;
-            &:last-child{
-                margin-right: 0;
+.IFooterBar_app{
+    height: 200px;
+    // background: #1B60A4;
+    .IFooterBar_app_left{
+        .img_box{
+            overflow: hidden;
+            img{
+                max-width: 100%;
+                max-height: 100%;
+                width: 100%;
+                height: 100%;
             }
         }
-        .my-bullet-active{
-            background: white;
+    }
+    .IFooterBar_app_center{
+        .IFooterBar_app_center_top{
+            .list{
+                height: 14px;
+                line-height: 14px;
+                padding: 0 5px;
+                font-size: 14px;
+                color: #FFFFFF;
+                letter-spacing: 0;
+                text-align: center;
+                font-weight: 500;
+                border-right: 1px solid white;
+                &:last-child{
+                    border-right: none;
+                }
+            }
         }
     }
-    .describe_horizontal{
-        
-    }
-    .describe_vertical{
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 200px;
+    .IFooterBar_app_right{
         height: 100%;
-        color: white;
-        background: rgba(0,0,0,0.4);
-        z-index: 1;
-        overflow-y: auto;
-        .describe_list{
-            // height: 100px;
-            padding: 10px 15px;
-            cursor: pointer;
+        .drag_container_outer{
+            border: 1px dotted hsla(0,0%,100%,.6);
         }
-        .describe_list_active{
-            background: red;
-        }
-    }
-    .describe_vertical::-webkit-scrollbar {
-        width: 0;
     }
 }
 </style>

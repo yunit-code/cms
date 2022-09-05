@@ -1,8 +1,8 @@
 <template>
     <!-- 根目录规范(必须不能为空)： idm-ctrl：控件类型 drag_container：容器，drag_container_inlieblock：行内容器，idm_module：非容器的组件 id：使用moduleObject.id，如果id不使用这个将会被idm-ctrl-id属性替换 idm-ctrl-id：组件的id，这个必须不能为空 -->
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" class="IMenu_app">
-        <el-menu :default-active="activeIndex2" class="el-menu-demo" :class="propData.styleForm == '1' ? 'menu_button_style' : 'menu_line_style'" mode="horizontal" @select="handleSelect" :menu-trigger="propData.triggerType">
-            <MenuNavItem v-for="(item,index) in menu_list" :key="index" :menu_data="item"></MenuNavItem>
+        <el-menu :default-active="activeIndex2" class="el-menu-demo" :class="getMenuStyleClassName()" mode="horizontal" @select="handleSelect" :menu-trigger="propData.triggerType">
+            <MenuNavItem v-for="(item,index) in menu_list" :key="index" :menu_data="item" :prop_data="propData"></MenuNavItem>
         </el-menu>
     </div>
 </template>
@@ -16,38 +16,46 @@ export default {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
-                styleForm: 2,
-                triggerType: 1,
+                // styleForm: 3,
+                // triggerType: 1,
+                // showIcon: true
             },
             menu_list: [
                 {
-                    key: '1',
-                    name: '处理中心',
-                    icon: ''
+                    id: '1',
+                    title: '处理中心',
+                    shortTitle: '处理',
+                    jumpUrl: '',
+                    iconImgUrl: '',
+                    hoverIconImgUrl: ''
                 },
                 {
-                    key: '2',
-                    name: '我的工作台',
+                    id: '2',
+                    title: '我的工作台',
                     icon: '',
                     children: [
                         {
-                            key: '3',
-                            name: '选项 一',
+                            id: '3',
+                            title: '选项 一',
+                            shortTitle: '选项',
                             icon: ''
                         },
                         {
-                            key: '4',
-                            name: '选项二',
+                            id: '4',
+                            title: '选项二',
+                            shortTitle: '选项二',
                             icon: '',
                             children: [
                                 {
-                                    key: '5',
-                                    name: '选项2-1',
+                                    id: '5',
+                                    title: '选项2-1',
+                                    shortTitle: '选项2',
                                     icon: ''
                                 },
                                 {
-                                    key: '6',
-                                    name: '选项2-2',
+                                    id: '6',
+                                    title: '选项2-2',
+                                    shortTitle: '选项2',
                                     icon: ''
                                 }
                             ]
@@ -55,8 +63,9 @@ export default {
                     ]
                 },
                 {
-                    key: '7',
-                    name: '消息中心',
+                    id: '7',
+                    title: '消息中心',
+                    shortTitle: '消息中心',
                     icon: ''
                 },
             ],
@@ -80,6 +89,17 @@ export default {
     },
     destroyed() { },
     methods: {
+        getMenuStyleClassName() {
+            let name = ''
+            if ( this.propData.styleForm == '1' ) {
+                name = 'menu_button_style'
+            } else if ( this.propData.styleForm == '2' ) {
+                name = 'menu_line_style'
+            } else if ( this.propData.styleForm == '3' ) {
+                name = 'menu_line_triangle'
+            }
+            return name
+        },
         getInitDataApi() {
             if( this.moduleObject.env=="develop" || !this.propData.customInterfaceUrl ){
                 return;
@@ -88,18 +108,36 @@ export default {
             IDM.http.get(this.propData.customInterfaceUrl,{
                 pageId: urlParam.pageId,
                 componentId: this.moduleObject.comId,
-                id: this.propData.multiColumnId || ''
+                columnId: this.propData.columnId || '',
+                navigationColumn: this.propData.navigationColumn || ''
             }).then((res) => {
-                if (res && res.data && res.data.type == 'success' ) {
-                    let result = this.getExpressData('data',this.propData.dataFiled,res.data)
-                    if ( result ) {
-                        this.menu_list = result;
+                if (res && res.data && res.data.code == '200' && res.data.data ) {
+                    let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.row;
+                    this.menu_list = result || [];
+                    if ( this.menu_list && this.menu_list.length ) {
+                        this.activeIndex2 = this.menu_list[0].jumpUrl;
                     }
                 }
             })
         },
-        handleSelect(e) {
-            console.log(e)
+        handleSelect(index,indexPath) {
+            let item = this.getSelectedItem(index,this.menu_list)
+            if ( item && item.jumpUrl ) {
+                window.location.href = item.jumpUrl
+            }
+        },
+        getSelectedItem(id,data) {
+            let result = {};
+            for( let i = 0,maxi = data.length;i < maxi;i++ ) {
+                if ( data[i].id == id ) {
+                    result = data[i]
+                    return result
+                }
+                if ( data[i].children && data[i].children.length ) {
+                    result = this.getSelectedItem(id,data[i].children)
+                }
+            }
+            return result
         },
         /**
          * 提供父级组件调用的刷新prop数据组件
@@ -115,6 +153,8 @@ export default {
             var styleObject = {};
             var styleFont = {};
             var styleColor = {};
+            var styleObjectIcon = {};
+            var styleObjectTriangle = {};
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key];
@@ -139,6 +179,16 @@ export default {
                             styleFont["text-align"] = element.fontTextAlign;
                             styleFont["text-decoration"] = element.fontDecoration;
                             break;
+                        case "widthIcon":
+                            styleObjectIcon['width'] = element;
+                            break;
+                        case "heightIcon":
+                            styleObjectIcon['height'] = element;
+                            break;
+                        case "bgColorTriangle":
+                            if (element && element.hex8 && this.propData.styleForm == '3') {
+                                styleObjectTriangle['border-bottom-color'] = element.hex8;
+                            }
                     }
                 }
             }
@@ -149,6 +199,10 @@ export default {
 
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo>.el-menu-item', styleObject);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo>.el-submenu>.el-submenu__title', styleObject);
+
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo img', styleObjectIcon);
+
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .triangle', styleObjectTriangle);
         },
         convertAttrToStyleObjectMenuHover() {
             var styleBg = {};
@@ -234,6 +288,7 @@ export default {
             this.convertAttrToStyleObjectMenuHover()
             this.convertAttrToStyleObjectMenuActive()
             var styleObject = {};
+            var styleObjectMenuPop = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {
                 styleObject["background-size"] = (this.propData.bgSizeWidth ? this.propData.bgSizeWidth.inputVal + this.propData.bgSizeWidth.selectVal : "auto") + " " + (this.propData.bgSizeHeight ? this.propData.bgSizeHeight.inputVal + this.propData.bgSizeHeight.selectVal : "auto")
             } else if (this.propData.bgSize) {
@@ -259,6 +314,7 @@ export default {
                         case "bgColor":
                             if (element && element.hex8) {
                                 styleObject["background-color"] = element.hex8;
+                                styleObjectMenuPop["background-color"] = element.hex8;
                             }
                             break;
                         case "box":
@@ -346,6 +402,9 @@ export default {
                 }
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id, styleObject);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu--popup', styleObjectMenuPop);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu--popup .el-menu-item', styleObjectMenuPop);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu--popup .el-submenu__title', styleObjectMenuPop);
         },
         /**
          * 通用的url参数对象
@@ -391,7 +450,7 @@ export default {
                         } catch (error) {
 
                         }
-                        this.menu_list = resValue;
+                        this.menu_list = resValue || [];
                     }
                     break;
             }
@@ -486,9 +545,16 @@ export default {
 </script>
 <style lang="scss">
 .IMenu_app{
+    .el-menu.el-menu--horizontal{
+        border-bottom: none;
+    }
     // background: blue;
     .el-menu-demo{
         background: none;
+        img{
+            width: 30px;
+            height: 30px;
+        }
         // &>.el-menu-item{
         //     height: 50px;
         //     line-height: 50px;
@@ -497,10 +563,29 @@ export default {
         //     height: 50px;
         //     line-height: 50px;
         // }
+        .triangle{
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            margin-left: -10px;
+            width: 0;
+            height: 0;
+            border-bottom: 10px solid #1B60A4;
+            border-top: 10px solid transparent;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            display: none;
+        }
     }
     .menu_button_style{
         .el-submenu__title,.el-menu-item{
-            // border-bottom: none !important;
+            border-bottom: none !important;
+        }
+        .el-menu-item.is-active{
+            border-bottom: none !important;
+        }
+        .el-submenu.is-active .el-submenu__title{
+            border-bottom: none !important;
         }
         // .el-menu-item.is-active{
         //     color: white !important;
@@ -547,6 +632,23 @@ export default {
         .el-menu--popup{
             .el-submenu.is-active .el-submenu__title{
                 border-bottom: none !important;
+            }
+        }
+    }
+    .menu_line_triangle{
+        .el-menu-item,.el-submenu__title{
+            border-bottom: none !important;
+            border-bottom-color: none;
+        }
+        .el-menu-item.is-active{
+            border-bottom: none !important;
+        }
+        .el-submenu.is-active .el-submenu__title{
+            border-bottom: none !important;
+        }
+        .is-active{
+            .triangle{
+                display: block;
             }
         }
     }

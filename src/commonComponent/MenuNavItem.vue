@@ -1,16 +1,24 @@
 <template>
-    <el-submenu v-if="menu_data.children && menu_data.children.length" :index="menu_data.key" :key="menu_data.key" :popper-append-to-body="false">
-        <template slot="title"><span class="menu_text">{{ menu_data.name }}</span></template>
-        <MenuNavItem v-for="(item,index) in menu_data.children" :key="index" :menu_data="item"></MenuNavItem>
+    <el-submenu v-if="menu_data.children && menu_data.children.length" :index="menu_data.id" :popper-append-to-body="false">
+        <template slot="title">
+            <img v-if="prop_data && prop_data.showIcon && menu_data.iconImgUrl" :src="menu_data.iconImgUrl" alt="">
+            <span class="menu_text">{{ getMenuName }}</span>
+            <span class="triangle"></span>
+        </template>
+        <MenuNavItem v-for="(item,index) in menu_data.children" :key="index" :menu_data="item" :prop_data="prop_data"></MenuNavItem>
     </el-submenu>
-    <el-menu-item v-else :index="menu_data.key"><span class="menu_text">{{ menu_data.name }}</span></el-menu-item>
+    <el-menu-item v-else :index="menu_data.id">
+        <img v-if="prop_data && prop_data.showIcon && menu_data.iconImgUrl" :src="menu_data.iconImgUrl" alt="">
+        <span class="menu_text">{{ getMenuName }}</span>
+        <span class="triangle"></span>
+    </el-menu-item>
 </template>
 
 <script>
 import { Submenu, MenuItem } from 'element-ui'
 export default {
     name: 'MenuNavItem',
-    props: [ 'menu_data' ],
+    props: [ 'menu_data','prop_data' ],
     data() {
         return {
 
@@ -23,11 +31,37 @@ export default {
     created() {
 
     },
+    computed: {
+        getMenuName() {
+            if ( this.prop_data && this.prop_data.useShortName ) {
+                return this.menu_data[this.prop_data.dataFiledShortTitle ? this.prop_data.dataFiledShortTitle : 'shortTitle']
+            } else if ( this.prop_data ) {
+                return this.menu_data[this.prop_data.dataFiledTitle ? this.prop_data.dataFiledTitle : 'title']
+            } else {
+                return ''
+            }
+        }
+    },
     mounted() {
 
     },
     methods: {
-
+        convertAttrToStyle() {
+            var styleBg = {};
+            var styleFont = {};
+            var styleFontIcon = {};
+            for (const key in this.prop_data) {
+                if (this.prop_data.hasOwnProperty.call(this.prop_data, key)) {
+                    const element = this.prop_data[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        
+                    }
+                }
+            }
+        },
     }
 }
 </script>

@@ -22,7 +22,6 @@
             "children": [
                 {
                     "type": "radio",
-                    "styleType": "radio",
                     "layoutType": "inline",
                     "text": "样式风格",
                     "desc":"样式风格，按钮风格和线条风格",
@@ -36,6 +35,10 @@
                         {
                             "label": "线条",
                             "value": "2"
+                        },
+                        {
+                            "label": "三角",
+                            "value": "3"
                         }
                     ]
                 },
@@ -76,6 +79,38 @@
                             "value": false
                         }
                     ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "显示图标",
+                    "bindKey": "showIcon",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "根栏目ID",
+                    "bindKey": "columnId",
+                    "desc": "根据栏目id获取子栏目数据，若为空则返回根栏目下所有子栏目"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "导航栏目ID",
+                    "bindKey": "navigationColumn",
+                    "desc": "根据栏目id获取子栏目数据，若为空则返回根栏目下所有子栏目"
                 }
             ]
         },
@@ -86,8 +121,20 @@
                 {
                     "type": "input",
                     "layoutType": "inline",
-                    "text": "高度",
+                    "text": "菜单高度",
                     "bindKey": "heightMenu"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "图标宽",
+                    "bindKey": "widthIcon"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "图标高",
+                    "bindKey": "heightIcon"
                 },
                 {
                     "type": "font",
@@ -135,6 +182,15 @@
                     "bindKey": "bgColorActive",
                     "placeholder": "请选择颜色",
                     "display": "@[styleForm=='1']",
+                    "default": {}
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "三角符号",
+                    "bindKey": "bgColorTriangle",
+                    "placeholder": "请选择颜色",
+                    "display": "@[styleForm=='3']",
                     "default": {}
                 }
             ]
@@ -397,18 +453,11 @@
                 {
                     "type": "input",
                     "layoutType": "inline",
-                    "text": "栏目ID",
-                    "bindKey": "multiColumnId",
-                    "desc": "根据栏目id获取子栏目数据，若为空则返回根栏目下所有子栏目",
-                    "display": "@[dataSourceType=='customInterface']"
-                },
-                {
-                    "type": "input",
-                    "layoutType": "inline",
                     "text": "接口地址",
                     "bindKey": "customInterfaceUrl",
                     "desc": "用于获取数据源的接口地址，请按照统一标准的返回格式返回文本数据，格式如下：{\"code\":\"200\",\"data\":\"\",...}",
-                    "display": "@[dataSourceType=='customInterface']"
+                    "display": "@[dataSourceType=='customInterface']",
+                    "default": "/ctrl/website/api/navigation"
                 },
                 {
                     "type": "input",
@@ -428,6 +477,26 @@
                     "desc": "根据接口返回数据格式指定结果集的字段，比如结果集名为resultData（自定义接口忽略）且它的值为{data:{filedName:[{\"text\":\"\",\"value\":\"\",\"check\":true}]}}，则这里应该填写data.filedName",
                     "default": "",
                     "placeholder": "示例：data.filedName 或者 [0].data[0].filedName",
+                    "display": "@[dataSourceType!='customFunction']"
+                },
+                {
+                    "type": "textarea",
+                    "layoutType": "inline",
+                    "text": "栏目名称",
+                    "bindKey": "dataFiledTitle",
+                    "desc": "结果集中栏目名称所对应的字段key",
+                    "default": "title",
+                    "placeholder": "示例：title",
+                    "display": "@[dataSourceType!='customFunction']"
+                },
+                {
+                    "type": "textarea",
+                    "layoutType": "inline",
+                    "text": "栏目简称",
+                    "bindKey": "dataFiledShortTitle",
+                    "desc": "结果集中栏目简称所对应的字段key",
+                    "default": "shortTitle",
+                    "placeholder": "示例：dataFiledShortTitle",
                     "display": "@[dataSourceType!='customFunction']"
                 },
                 {
