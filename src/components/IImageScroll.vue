@@ -137,6 +137,7 @@ export default {
                             if (res.data.data.rows && res.data.data.rows.length > 1) {
                                 res.data.data.rows = res.data.data.rows.sort((a, b) => a.index - b.index)
                             }
+                            res.data.data.rows = this.setFillBlankData(res.data.data.rows)
                             this.componentData = res.data.data
                         } else {
                             IDM.message.error(res.data.message)
