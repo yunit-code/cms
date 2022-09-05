@@ -24,6 +24,24 @@
                     "type": "radio",
                     "styleType": "radio",
                     "layoutType": "inline",
+                    "text": "评论头像",
+                    "bindKey": "isShowAvatar",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "显示",
+                            "value": true
+                        },
+                        {
+                            "label": "隐藏",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
                     "text": "点赞数量",
                     "bindKey": "isFabulousNumber",
                     "default": true,
@@ -35,6 +53,27 @@
                         {
                             "label": "隐藏",
                             "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "checkbox",
+                    "layoutType": "inline",
+                    "text": "默认排序",
+                    "bindKey": "sortType",
+                    "default": [1],
+                    "dictionary": [
+                        {
+                            "label": "按时间排序",
+                            "value": 1
+                        },
+                        {
+                            "label": "按热度排序",
+                            "value": 2
+                        },
+                        {
+                            "label": "按点赞排序",
+                            "value": 3
                         }
                     ]
                 },
@@ -188,7 +227,7 @@
                             "bindKey": "avatarBox",
                             "default": {
                                 "marginTopVal": "10px",
-                                "marginRightVal": "",
+                                "marginRightVal": "20px",
                                 "marginBottomVal": "",
                                 "marginLeftVal": "",
                                 "paddingTopVal": "",
@@ -305,7 +344,7 @@
                     "bindKey": "authorFont",
                     "default": {
                         "fontColors": {},
-                        "fontSize": 15,
+                        "fontSize": 13,
                         "fontSizeUnit": "px"
                     }
                 }

@@ -1,11 +1,11 @@
 <template>
     <div class="d-flex just-b comment-list-container">
         <div class="d-flex">
-            <img :src="IDM.url.getWebPath(itemData.formUserAvatar)" class="comment-list-avatar" alt="头像加载失败" />
+            <img :src="IDM.url.getWebPath(itemData.fromUserAvatar)" v-if="propData.isShowAvatar" class="comment-list-avatar" alt="头像加载失败" />
             <div class="common-list-right">
                 <div class="cursor-p">
-                    <span class="comment-list-name mr-10">{{ itemData.formUserName }}</span>
-                    <span class="common-list-author mr-10" v-if="itemData.fromUserId === componentData.authorId"
+                    <span class="comment-list-name mr-10">{{ itemData.fromUserName }}</span>
+                    <span class="common-list-author mr-10" v-if="itemData.fromUserId == authorId"
                         >作者</span
                     >
                     <span v-if="itemData.toUserName">
@@ -13,7 +13,7 @@
                         <span class="comment-list-name mr-10">
                             {{ itemData.toUserName }}
                         </span>
-                        <span v-if="itemData.toUserId === componentData.authorId" class="common-list-author"
+                        <span v-if="itemData.toUserId == authorId" class="common-list-author"
                             >作者</span
                         >
                     </span>
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="common-list-selected-speeches">精选发言</div>
+        <div class="common-list-selected-speeches" v-if="itemData.isFeatured">精选发言</div>
     </div>
 </template>
 
@@ -76,15 +76,19 @@ export default {
             type: Object,
             default: () => {}
         },
-        componentData: {
-            type: Object,
-            default: () => {}
+        authorId: {
+            type: String,
+            default: ''
         }
     },
     data() {
         return { replyContent: '' }
     },
     methods: {
+        isAuthor(id) {
+            console.log(id)
+            console.log(this.itemData.fromUserId)
+        },
         handleSubReply() {
             if (this.moduleObject.env == 'develop') {
                 return

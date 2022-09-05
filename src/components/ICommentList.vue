@@ -9,14 +9,26 @@
             v-model="content"
         />
         <div class="d-flex flex-d-r-r align-c comment-list-button-container">
-            <a-button type="primary" @click="handlePublish">发布</a-button>
+            <a-button type="primary" @click="handlePublish" style="margin: 0 0 0 20px">发布</a-button>
+            <a-select
+                v-if="propData.sortType && propData.sortType.length > 1"
+                mode="multiple"
+                style="width: 140px"
+                :disabled="moduleObject.env === 'develop'"
+                v-model="currentSort"
+                @change="handleSelectChange"
+            >
+                <a-select-option v-for="item in componentTypeList" :key="item.value" :value="item.value">{{
+                    item.label
+                }}</a-select-option>
+            </a-select>
         </div>
         <div v-for="(item, index) in componentData.rows" :key="index" class="comment-list-item">
             <ICommentItem
                 :propData="propData"
                 :itemData="item"
                 :lIndex="index"
-                :componentData="componentData"
+                :authorId="componentData.authorId"
                 @showReply="showReply"
                 @handleDelete="handleDelete"
                 @handleSubReply="handleSubReply"
@@ -29,7 +41,7 @@
                     :lIndex="index"
                     :sIndex="indexs"
                     :itemData="items"
-                    :componentData="componentData"
+                    :authorId="componentData.authorId"
                     @showReply="showReply"
                     @handleDelete="handleDelete"
                     @handleSubReply="handleSubReply"
@@ -45,6 +57,20 @@
 <script>
 import ICommentItem from '../commonComponent/ICommentItem'
 import { getCommentListData } from '../mock/mockData'
+const sortTypeList = [
+    {
+        label: '按时间排序',
+        value: 1
+    },
+    {
+        label: '按热度排序',
+        value: 2
+    },
+    {
+        label: '按点赞排序',
+        value: 3
+    }
+]
 export default {
     name: 'ICommentList',
     components: {
@@ -62,8 +88,10 @@ export default {
                 rows: [],
                 authorId: '123'
             },
+            currentSort: [],
             content: '',
-            currentPage: 1
+            currentPage: 1,
+            componentTypeList: []
         }
     },
     created() {
@@ -72,6 +100,9 @@ export default {
         this.convertThemeListAttrToStyleObject()
     },
     methods: {
+        handleSelectChange(value) {
+            this.initData()
+        },
         propDataWatchHandle(propData) {
             this.propData = propData.compositeAttr || {}
             this.convertAttrToStyleObject()
@@ -299,6 +330,15 @@ export default {
             })
         },
         initData() {
+            
+            let sortDir = ''
+            if (this.propData.sortType && this.propData.sortType.length > 0) {
+                sortDir = this.currentSort[0] = this.propData.sortType[0]
+                if (this.propData.sortType.length > 1) {
+                    this.componentTypeList = sortTypeList.filter((el) => this.propData.sortType.includes(el.value))
+                    sortDir = this.currentSort.join(',')
+                }
+            }
             if (this.moduleObject.env === 'develop') {
                 this.componentData.rows = this.setIsReplyFalse(getCommentListData.call(this))
                 return
@@ -310,13 +350,11 @@ export default {
                         showLike: this.propData.isFabulousNumber,
                         page: this.currentPage,
                         showNum: this.propData.showNum,
-                        childShowNum: this.propData.childShowNum
+                        childShowNum: this.propData.childShowNum,
+                        sortDir
                     })
                     .then((res) => {
                         if (res.status == 200 && res.data.code == 200) {
-                            if (res.data.data.rows && res.data.data.rows.length > 1) {
-                                res.data.data.rows = res.data.data.rows.sort((a, b) => a.index - b.index)
-                            }
                             this.componentData = res.data.data
                         } else {
                             IDM.message.error(res.data.message)
@@ -371,12 +409,9 @@ export default {
 .comment-list-button-container {
     margin: 10px 0;
 }
-.common-list-right {
-    margin: 0 0 0 20px;
-}
 .comment-list-sub-comment {
     margin: 20px 0 0 70px;
-    padding: 10px 0 10px 10px;
+    padding: 10px 0 10px 20px;
     background: #ddd;
 }
 .comment-list-name {

@@ -202,17 +202,17 @@ export const getCommentListData = function () {
             isLike: true, // 是否点过赞
             isFeatured: true, //	boolean	必须		是否精选
             createTime: '2022-05-09', //	string	必须		评论时间
-            formUserId: '123', //	string	必须		评论用户Id
-            formUserName: '小小', //	string	必须		评论用户名
-            formUserAvatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject), //	string	非必须		评论用户头像
+            fromUserId: '123', //	string	必须		评论用户Id
+            fromUserName: '小小', //	string	必须		评论用户名
+            fromUserAvatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject), //	string	非必须		评论用户头像
             children: [
                 {
                     createTime: '2022-05-09',
                     likeNum: 30,
                     isFeatured: false,
                     content: '磐石在线学习1',
-                    formUserName: '小小',
-                    formUserAvatar: IDM.url.getModuleAssetsWebPath(
+                    fromUserName: '小小',
+                    fromUserAvatar: IDM.url.getModuleAssetsWebPath(
                         require('../assets/image-list.png'),
                         _this.moduleObject
                     ),
@@ -229,18 +229,18 @@ export const getCommentListData = function () {
             content: '磐石在线学习2',
             isFeatured: false,
             isLike: true,
-            formUserName: '小小',
+            fromUserName: '小小',
             id: '1',
-            formUserAvatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
+            fromUserAvatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         },
         {
             createTime: '2022-05-09',
             likeNum: 30,
             content: '磐石在线学习3',
             isFeatured: false,
-            formUserName: '小小',
+            fromUserName: '小小',
             id: '1',
-            formUserAvatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
+            fromUserAvatar: IDM.url.getModuleAssetsWebPath(require('../assets/image-list.png'), _this.moduleObject)
         }
     ]
 }
