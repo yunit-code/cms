@@ -1,7 +1,7 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
         <a-row :gutter="[propData.horizontalGutter, propData.verticalGutter]">
-            <a-col :span="propData.itemSpan || 1" v-for="(item, index) in componentData" :key="index">
+            <a-col :span="propData.itemSpan || 1" v-for="(item, index) in componentData.rows" :key="index">
                 <div class="video-list-item">
                     <div class="video-list-image-container position-r">
                         <img :src="IDM.url.getWebPath(item.poster)" alt="封面加载失败" class="video-list-image" />

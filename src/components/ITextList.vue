@@ -242,11 +242,10 @@ export default {
         initData() {
             if (this.moduleObject.env === 'develop') {
                 if (this.propData.styleType !== 'timeAndText') {
-                    this.componentData = this.setFillBlankData(textListData)
+                    this.componentData.rows = this.setFillBlankData(textListData)
                 } else {
-                    this.componentData = this.setFillBlankData(textListData3)
+                    this.componentData.rows = this.setFillBlankData(textListData3)
                 }
-
                 return
             }
             this.propData.customInterfaceUrl &&

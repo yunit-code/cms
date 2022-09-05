@@ -330,7 +330,6 @@ export default {
             })
         },
         initData() {
-            
             let sortDir = ''
             if (this.propData.sortType && this.propData.sortType.length > 0) {
                 sortDir = this.currentSort[0] = this.propData.sortType[0]
