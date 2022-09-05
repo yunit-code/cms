@@ -242,9 +242,11 @@ export default {
         initData() {
             if (this.moduleObject.env === 'develop') {
                 if (this.propData.styleType !== 'timeAndText') {
-                    this.componentData.rows = this.setFillBlankData(textListData)
+                    textListData.rows = this.setFillBlankData(textListData.rows)
+                    this.componentData = textListData
                 } else {
-                    this.componentData.rows = this.setFillBlankData(textListData3)
+                    textListData3.rows = this.setFillBlankData(textListData3.rows)
+                    this.componentData = textListData3
                 }
                 return
             }
