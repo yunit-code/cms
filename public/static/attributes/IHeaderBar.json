@@ -24,6 +24,25 @@
                     "type": "radio",
                     "styleType": "radio",
                     "layoutType": "inline",
+                    "text": "显示顶部",
+                    "desc": "是否显示顶部容器",
+                    "bindKey": "showTopContain",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
                     "text": "显示搜索",
                     "bindKey": "showSearch",
                     "default": true,
@@ -131,7 +150,8 @@
                     "placeholder": "示例：data.filedName 或者 [0].data[0].filedName",
                     "display": "@[topLeftShowType=='text'&&topLeftShowTextResource=='customInterface']"
                 }
-            ]
+            ],
+            "display":"@[showTopContain]"
         },
         {
             "type": "group",
@@ -194,6 +214,25 @@
             "text": "搜索框属性",
             "desc": "设置搜索框属性",
             "children": [
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "搜索按钮",
+                    "desc": "是否显示后缀搜索按钮",
+                    "bindKey": "showSearchButton",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
                 {
                     "type": "input",
                     "layoutType": "inline",
@@ -273,7 +312,8 @@
                     "text": "文字",
                     "bindKey": "fontTop"
                 }
-            ]
+            ],
+            "display":"@[showTopContain]"
         },
         {
             "type": "group",

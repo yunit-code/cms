@@ -47,6 +47,13 @@
       "comLangue": "vue"
     },
     {
+      "classId": "idm.component.cms.footerbar",
+      "comName": "页面尾部",
+      "className": "IFooterBar",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
       "classId": "idm.component.cms.itextlist",
       "comName": "文字列表",
       "className": "ITextList",

@@ -1,7 +1,7 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
         <div class="IHeaderBar_app">
-            <div class="IHeaderBar_app_top flex_between">
+            <div v-if="propData.showTopContain" class="IHeaderBar_app_top flex_between">
                 <div class="left">
                     <div v-if="propData.topLeftShowType == 'time'" class="time">
                         {{ time + ' ' + getCurrentWeek() }}
@@ -9,7 +9,7 @@
                     <div v-else class="text">{{ propData.topLeftShowText }}</div>
                 </div>
                 <div v-if="propData.showSearch && propData.searchPosition == 'top'" class="right search_block">
-                    <a-input-search v-model="search_text" :placeholder="propData.searchPlaceholder" style="width: 200px" @search="onSearch" />
+                    <a-input-search v-model="search_text" :enter-button="propData.showSearchButton" :placeholder="propData.searchPlaceholder" style="width: 200px" @search="onSearch" />
                 </div>
             </div>
             <div class="IHeaderBar_app_main flex_between">
@@ -17,7 +17,7 @@
                     <img v-if="propData.logoImgSrc" :src="IDM.url.getWebPath(propData.logoImgSrc)" alt="">
                 </div>
                 <div v-if="propData.showSearch && propData.searchPosition == 'bottom'" class="search_block">
-                    <a-input-search v-model="search_text" :placeholder="propData.searchPlaceholder" style="width: 200px" @search="onSearch" />
+                    <a-input-search v-model="search_text" :enter-button="propData.showSearchButton" :placeholder="propData.searchPlaceholder" style="width: 200px" @search="onSearch" />
                 </div>
             </div>
         </div>
@@ -32,11 +32,13 @@ export default {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
-                topLeftShowType: 'time',
-                topLeftShowText: '你好，地图',
-                showSearch: true,
-                searchPosition: 'top',
-                logoImgSrc: '',
+                // showTopContain: true,
+                // topLeftShowType: 'time',
+                // topLeftShowText: '你好，地图',
+                // showSearch: true,
+                // showSearchButton: false,
+                // searchPosition: 'top',
+                // logoImgSrc: '',
             },
             time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
             search_text: ''
@@ -106,7 +108,7 @@ export default {
                     return '星期六'
             }
         },
-                /** * 主题颜色 */
+        /** * 主题颜色 */
         convertThemeListAttrToStyleObject() {
             const themeList = this.propData.themeList;
             if ( (!themeList) || !themeList.length ) {
@@ -123,13 +125,29 @@ export default {
                 let fontStyleObject = {
                     "color": item.mainColor ? item.mainColor.hex8 : "",
                 }
+                let fontStyleObjectButton = {
+                    "color": '#fff',
+                }
                 let borderStyleObject = {
                     'border-color': item.mainColor ? item.mainColor.hex8 : "",
                 }
+                let backgroundBorderObject = {
+                    'color': '#fff',
+                    'background-color': item.mainColor ? item.mainColor.hex8 : "",
+                    'border-color': item.mainColor ? item.mainColor.hex8 : ""
+                }
+                let backgroundBorderObjectHover = {
+                    'color': '#fff',
+                    'background-color': item.minorColor ? item.minorColor.hex8 : "",
+                    'border-color': item.minorColor ? item.minorColor.hex8 : "",
+                }
                 IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .anticon", fontStyleObject );
-                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .idm_search_svg_icon", fontStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-btn-primary", backgroundBorderObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-btn-primary .anticon", fontStyleObjectButton );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-btn-primary:hover", backgroundBorderObjectHover );
                 IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled)", borderStyleObject );
                 IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input:focus", borderStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input:hover", borderStyleObject );
             }
         },
         /**
@@ -684,9 +702,9 @@ export default {
 </script>
 <style lang="scss">
 .IHeaderBar_app{
+    // background: ghostwhite;
     .IHeaderBar_app_top{
         padding: 4px 20px;
-        // background: blue;
     }
     .IHeaderBar_app_main{
         height: 100px;

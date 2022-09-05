@@ -1,6 +1,8 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" :idm-refresh-container="activeTab">
-        <div class="ITabHeader_app">
+        <div class="ITabHeader_app flex_start">
+            <div v-if="propData.showLeftIcon" class="header_line"></div>
+
             <a-tabs class="idm_itableslayout" :activeKey="activeTab" :size="propData.size || 'default'" :tabPosition="propData.tabPosition || 'top'" :type="propData.type || 'line'"
                 :tabBarGutter="propData.tabBarGutter == 0 ? 0 : propData.tabBarGutter || null"
                 :animated="propData.animated !== false ? true : false" @change="changeCallback"
@@ -193,6 +195,60 @@ export default {
             this.convertAttrToStyleObject();
             this.convertTabAttrToStyleObject();
             this.convertChooseTabAttrToStyleObject()
+            this.convertAttrToStyleObjectLeftIcon()
+        },
+        convertAttrToStyleObjectLeftIcon() {
+            let styleObject = {};
+            let propData = this.propData;
+            for (const key in propData) {
+                if (propData.hasOwnProperty.call(propData, key)) {
+                    const element = propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "widthLeftIcon":
+                             styleObject['width'] = element;
+                            break;
+                        case "heightLeftIcon":
+                            styleObject['height'] = element;
+                            break;
+                        case "boxLeftIcon":
+                            if (element.marginTopVal) {
+                                styleObject["margin-top"] = `${element.marginTopVal}`;
+                            }
+                            if (element.marginRightVal) {
+                                styleObject["margin-right"] = `${element.marginRightVal}`;
+                            }
+                            if (element.marginBottomVal) {
+                                styleObject["margin-bottom"] = `${element.marginBottomVal}`;
+                            }
+                            if (element.marginLeftVal) {
+                                styleObject["margin-left"] = `${element.marginLeftVal}`;
+                            }
+                            if (element.paddingTopVal) {
+                                styleObject["padding-top"] = `${element.paddingTopVal}`;
+                            }
+                            if (element.paddingRightVal) {
+                                styleObject["padding-right"] = `${element.paddingRightVal}`;
+                            }
+                            if (element.paddingBottomVal) {
+                                styleObject["padding-bottom"] = `${element.paddingBottomVal}`;
+                            }
+                            if (element.paddingLeftVal) {
+                                styleObject["padding-left"] = `${element.paddingLeftVal}`;
+                            }
+                            break;
+                        case "bgColorLeftIcon":
+                            if (element && element.hex8) {
+                                styleObject["background-color"] = element.hex8;
+                            }
+                            break;
+                    }
+                }
+            }
+            // window.IDM.setStyleToPageHead(this.moduleObject.id + " .IFooterBar_app_right>.drag_container_outer", styleObject);
+            IDM.setStyleToPageHead(this.moduleObject.id+` .header_line`,styleObject);
         },
         /**
         * 提供父级组件调用的刷新prop数据组件
@@ -808,6 +864,14 @@ export default {
 .ITabHeader_app {
     height: 100%;
     position: relative;
+    .header_line{
+        width: 8px;
+        height: 20px;
+        background: #1B60A4;
+    }
+    .idm_itableslayout{
+        width: 100%;
+    }
     .triangle{
         position: absolute;
         bottom: -10px;
