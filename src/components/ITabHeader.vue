@@ -244,6 +244,12 @@ export default {
                                 styleObject["background-color"] = element.hex8;
                             }
                             break;
+                        case "widthLeftIconPositionY":
+                            styleObject['top'] = element;
+                            break;
+                        case "widthLeftIconPositionX":
+                            styleObject['left'] = element;
+                            break;
                     }
                 }
             }
@@ -578,16 +584,7 @@ export default {
         convertAttrToStyleObject() {
             let styleObject = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {
-                styleObject["background-size"] =
-                    (this.propData.bgSizeWidth
-                        ? this.propData.bgSizeWidth.inputVal +
-                        this.propData.bgSizeWidth.selectVal
-                        : "auto") +
-                    " " +
-                    (this.propData.bgSizeHeight
-                        ? this.propData.bgSizeHeight.inputVal +
-                        this.propData.bgSizeHeight.selectVal
-                        : "auto");
+                styleObject["background-size"] = (this.propData.bgSizeWidth ? this.propData.bgSizeWidth.inputVal + this.propData.bgSizeWidth.selectVal : "auto") + " " + (this.propData.bgSizeHeight ? this.propData.bgSizeHeight.inputVal + this.propData.bgSizeHeight.selectVal : "auto");
             } else if (this.propData.bgSize) {
                 styleObject["background-size"] = this.propData.bgSize;
             }
@@ -610,8 +607,14 @@ export default {
                             styleObject["box-shadow"] = element;
                             break;
                         case "width":
-                        case "height":
                             styleObject[key] = element;
+                            break;
+                        case "height":
+                            if ( this.propData.isAdaption && this.parentHeight ) {
+                                styleObject[key] = this.parentHeight + 'px';
+                            } else {
+                                styleObject[key] = element;
+                            }
                             break;
                         case "bgColor":
                             if (element && element.hex8) {
@@ -849,6 +852,17 @@ export default {
         */
         receiveBroadcastMessage(object) {
             console.log('组件收到消息', object);
+            if (object && object.type == "regionResize" && object.message && object.message.gridEleTarget) {
+                let gridEleTarget = object.message.gridEleTarget;
+                if (gridEleTarget && gridEleTarget.offsetHeight) {
+                    this.parentHeight = gridEleTarget.offsetHeight;
+                    this.$nextTick(() => {
+                        if ( this.propData.isAdaption && gridEleTarget.offsetHeight ) {
+                            this.convertAttrToStyleObject()
+                        } 
+                    })
+                }
+            }
         },
         /**
         * 交互功能：设置组件的上下文内容值
@@ -864,9 +878,11 @@ export default {
 .ITabHeader_app {
     height: 100%;
     position: relative;
+    align-items: flex-start;
     .header_line{
         width: 8px;
         height: 20px;
+        position: relative;
         background: #1B60A4;
     }
     .idm_itableslayout{

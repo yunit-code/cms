@@ -41,31 +41,31 @@ export default {
             },
             data_list: [
                 {
-                    img: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+                    image: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
                     title: '1-习近平：在庆祝中国共产党成立100周年大会上的讲话'
                 },
                 {
-                    img: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
+                    image: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
                     title: '2-习近平：在庆祝中国共产党成立100周年大会上的讲话'
                 },
                 {
-                    img: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
+                    image: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
                     title: '3-习近平：在庆祝中国共产党成立100周年大会上的讲话'
                 },
                 {
-                    img: 'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg',
+                    image: 'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg',
                     title: '4-习近平：在庆祝中国共产党成立100周年大会上的讲话'
                 },
                 {
-                    img: 'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg',
+                    image: 'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg',
                     title: '5-习近平：在庆祝中国共产党成立100周年大会上的讲话'
                 },
                 {
-                    img: 'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
+                    image: 'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
                     title: '6-习近平：在庆祝中国共产党成立100周年大会上的讲话'
                 },
                 {
-                    img: 'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
+                    image: 'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
                     title: '7-习近平：在庆祝中国共产党成立100周年大会上的讲话'
                 }
             ],
@@ -133,9 +133,8 @@ export default {
             //     return
             // }
             let that = this;
-            let option = {
+            let my_swiper = new Swiper('.swiper-container', {
                 direction: this.propData.direction || 'horizontal',
-                // effect: this.propData.interchargeEffect || 'slide',
                 loop: true,
                 autoplay: {
                     delay: this.propData.intervalTime || 5000,
@@ -143,8 +142,11 @@ export default {
                 },
                 on:{
                     slideChange: function(){
-                        that.active_index = my_swiper.realIndex;
-                        let scroll_top = $('.describe_list')[my_swiper.realIndex] ? $('.describe_list')[my_swiper.realIndex].offsetTop : 0;
+                        if ( that.propData.direction != 'vertical' ) {
+                            return
+                        }
+                        that.active_index = my_swiper ? my_swiper.realIndex : 0;
+                        let scroll_top = ($('.describe_list') && $('.describe_list')[my_swiper.realIndex]) ? $('.describe_list')[my_swiper.realIndex].offsetTop : 0;
                         $('.describe_vertical').scrollTop(scroll_top);
                     },
                 },
@@ -155,9 +157,6 @@ export default {
                     bulletClass : 'my-bullet',
                     bulletActiveClass: 'my-bullet-active',
                 }
-            }
-            let my_swiper = new Swiper('.swiper-container', {
-                ...option
             })
             this.my_swiper = my_swiper;
         },
