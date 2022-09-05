@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="IHeaderBar_app_main flex_between">
-                <div class="img_box">
+                <div class="img_box flex_start">
                     <img v-if="propData.logoImgSrc" :src="IDM.url.getWebPath(propData.logoImgSrc)" alt="">
                 </div>
                 <div v-if="propData.showSearch && propData.searchPosition == 'bottom'" class="search_block">
@@ -702,13 +702,14 @@ export default {
 </script>
 <style lang="scss">
 .IHeaderBar_app{
+    height: 100%;
     // background: ghostwhite;
     .IHeaderBar_app_top{
         padding: 4px 20px;
     }
     .IHeaderBar_app_main{
         height: 100px;
-        padding: 30px 20px;
+        // padding: 30px 20px;
         .img_box{
             width: 70%;
             height: 70px;
