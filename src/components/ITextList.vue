@@ -1,8 +1,8 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
         <div class="text-list-up" v-if="propData.isShowUpTitle">
-            <div class="text-list-up-title">{{ componentData.upTitle.title }}</div>
-            <div class="text-list-up-content">{{ componentData.upTitle.content }}</div>
+            <div class="text-list-up-title">{{ componentData.title }}</div>
+            <div class="text-list-up-content">{{ componentData.content }}</div>
         </div>
         <div
             v-for="(item, index) in componentData.rows"
