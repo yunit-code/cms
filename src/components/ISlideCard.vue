@@ -319,6 +319,22 @@ export default {
         }
       }
     },
+    setContextValue(object) {
+      if (
+        object.type == 'pageCommonInterface' &&
+        this.propData.dataSourceType == 'pageCommonInterface' &&
+        object.key == this.propData.dataName
+      ) {
+        let resData = this.getExpressData(
+          this.propData.dataName,
+          this.propData.dataFiled,
+          object.data
+        );
+        resData = this.customFormat(resData);
+        resData = this.getExpressData('data', this.propData.resDataField || 'rows', resData);
+        this.articleData = resData;
+      }
+    },
     resizeContentWrapperHeight(wrapperHeight) {
       let moduleHeight =
         this.propData.heightType == 'adaptive'
@@ -435,7 +451,12 @@ export default {
               .get(this.propData.url)
               .done(res => {
                 if (res.type === 'success') {
-                  const resultData = this.customFormat(this.propData.customFunction, res.data);
+                  let resultData = this.customFormat(this.propData.customFunction, res.data);
+                  resultData = this.getExpressData(
+                    'data',
+                    this.propData.resDataField || 'rows',
+                    resultData
+                  );
                   this.setRows(resultData);
                 } else {
                   IDM.message.error(res.message || '操作失败!');
@@ -1256,7 +1277,7 @@ export default {
         };
         const minorColor = {
           color: item.minorColor ? IDM.hex8ToRgbaString(item.minorColor.hex8) : ''
-        }
+        };
 
         IDM.setStyleToPageHead(
           '.' +
@@ -1451,7 +1472,7 @@ export default {
         justify-content: space-between;
         flex-wrap: nowrap;
         .i-slideCard-content-empty {
-          opacity: 0
+          opacity: 0;
         }
         .i-slideCard-content-item {
           height: 90px;

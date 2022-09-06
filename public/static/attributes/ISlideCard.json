@@ -170,6 +170,13 @@
           "display": "@[dataSourceType=='static']",
           "children": [
             {
+              "type": "input",
+              "layoutType": "inline",
+              "text": "key标识",
+              "desc": "设置此项的唯一标识",
+              "bindKey": "key"
+            },
+            {
               "type": "uploadImage",
               "layoutType": "inline",
               "text": "图片",
@@ -341,6 +348,14 @@
           "display": "@[dataSourceType!='static']",
           "desc": "用来设置每个item在标准格式下的取值字段",
           "children": [
+            {
+              "type": "input",
+              "layoutType": "inline",
+              "text": "循环字段",
+              "desc": "举例：返回的数据中rows是要取的数组，则此处使用rows",
+              "bindKey": "resDataField",
+              "default": "rows"
+            },
             {
               "type": "input",
               "layoutType": "inline",
