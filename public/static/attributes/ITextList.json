@@ -58,9 +58,9 @@
                     "type": "radio",
                     "styleType": "radio",
                     "layoutType": "inline",
-                    "text": "上方标题",
-                    "desc": "设置文字列表上方标题显示状态",
-                    "bindKey": "isShowUpTitle",
+                    "text": "时间换行",
+                    "desc": "设置时间和文本不在一行显示，换行显示",
+                    "bindKey": "isTimeWrap",
                     "default": false,
                     "dictionary": [
                         {
@@ -69,6 +69,25 @@
                         },
                         {
                             "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "上方标题",
+                    "desc": "设置文字列表上方标题显示状态",
+                    "bindKey": "isShowUpTitle",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "显示",
+                            "value": true
+                        },
+                        {
+                            "label": "隐藏",
                             "value": false
                         }
                     ]

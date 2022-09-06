@@ -8,29 +8,43 @@
             v-for="(item, index) in componentData.rows"
             :key="index"
             @click="handleItemClick(item)"
-            class="text-list-item d-flex align-c"
+            class="text-list-item"
         >
-            <div
-                class="d-flex align-c text-list-left"
-                v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'"
-            >
-                <svg
-                    v-if="propData.titleIcon && propData.titleIcon.length"
-                    class="text-list-left-icon"
-                    aria-hidden="true"
+            <div class="d-flex" :class="[propData.isTimeWrap ? '' : 'align-c']">
+                <div
+                    class="d-flex align-c text-list-left"
+                    v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'"
                 >
-                    <use :xlink:href="`#${propData.titleIcon[0]}`"></use>
-                </svg>
-                <svg-icon v-else icon-class="yuan" className="text-list-left-icon"></svg-icon>
-            </div>
-            <div v-if="propData.styleType === 'timeAndText'" class="text-list-time d-flex align-c">
-                {{ item.time }} |
-            </div>
-            <div class="flex-1 d-flex align-c">
-                <div class="over-h text-list-title">{{ item.title }}</div>
+                    <svg
+                        v-if="propData.titleIcon && propData.titleIcon.length"
+                        class="text-list-left-icon"
+                        aria-hidden="true"
+                    >
+                        <use :xlink:href="`#${propData.titleIcon[0]}`"></use>
+                    </svg>
+                    <svg-icon v-else icon-class="yuan" className="text-list-left-icon"></svg-icon>
+                </div>
+                <div v-if="propData.styleType === 'timeAndText'" class="text-list-time d-flex align-c">
+                    {{ item.time }} |
+                </div>
+                <div class="flex-1 d-flex align-c">
+                    <div class="over-h text-list-title">{{ item.title }}</div>
+                </div>
+                <div
+                    v-if="
+                        !propData.isTimeWrap &&
+                        (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
+                    "
+                    class="text-list-time"
+                >
+                    {{ item.time }}
+                </div>
             </div>
             <div
-                v-if="propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime'"
+                v-if="
+                    propData.isTimeWrap &&
+                    (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
+                "
                 class="text-list-time"
             >
                 {{ item.time }}
