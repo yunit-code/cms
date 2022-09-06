@@ -3,10 +3,10 @@
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <div v-for="(item,index) in data_list" :key="index" class="swiper-slide">
-                    <img :src="item.image" />
+                    <img v-if="item.image" :src="IDM.url.getWebPath(item.image)" />
                 </div>
             </div>
-            <div v-if="propData.direction == 'horizontal' && propData.showTitle" class="swiper-pagination"></div>
+            <div v-if="propData.direction == 'horizontal'" class="swiper-pagination"></div>
         </div>
         <div v-if="propData.direction == 'horizontal' && propData.showTitle" class="describe_horizontal">
             <div class="title">{{ data_list[this.active_index] ? data_list[this.active_index].title : '' }}</div>
@@ -108,7 +108,7 @@ export default {
                 limit: this.propData.limit
             }).then((res) => {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {
-                    let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.row;
+                    let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.rows;
                     this.data_list = result || [];
                     if ( !this.my_swiper ) {
                         this.initSwiper()
@@ -411,7 +411,7 @@ export default {
                             if ( this.propData.isAdaption && this.parentHeight ) {
                                 styleObjectSwiper['height'] = (this.parentHeight - (this.propData.heightHorizontalTitle ? this.propData.heightHorizontalTitle : 0)) + 'px';
                             } else {
-                                styleObjectSwiper[key] = element;
+                                styleObjectSwiper['height'] = element;
                             }
                             break;
                         case "bgColor":

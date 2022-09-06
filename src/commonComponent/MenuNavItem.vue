@@ -38,7 +38,7 @@ export default {
             } else if ( this.prop_data ) {
                 return this.menu_data[this.prop_data.dataFiledTitle ? this.prop_data.dataFiledTitle : 'title']
             } else {
-                return ''
+                return '菜单'
             }
         }
     },

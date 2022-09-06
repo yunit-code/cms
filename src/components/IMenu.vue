@@ -112,9 +112,9 @@ export default {
                 navigationColumn: this.propData.navigationColumn || ''
             }).then((res) => {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {
-                    let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.row;
+                    let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.rows;
                     this.menu_list = result || [];
-                    if ( this.menu_list && this.menu_list.length ) {
+                    if ( this.menu_list && this.menu_list.length && this.menu_list[0] && this.menu_list[0].jumpUrl ) {
                         this.activeIndex2 = this.menu_list[0].jumpUrl;
                     }
                 }
@@ -549,7 +549,13 @@ export default {
         border-bottom: none;
     }
     // background: blue;
+    .el-menu:after, .el-menu:before {
+        display: none;
+        content: "";
+    }
     .el-menu-demo{
+        display: flex;
+        justify-content: space-between;
         background: none;
         img{
             width: 30px;
