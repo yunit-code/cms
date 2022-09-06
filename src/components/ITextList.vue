@@ -28,7 +28,7 @@
                     {{ item.time }} |
                 </div>
                 <div class="flex-1 d-flex align-c">
-                    <div class="over-h text-list-title">{{ item.title }}</div>
+                    <div class="text-list-title text-o-e-2">{{ item.title }}</div>
                 </div>
                 <div
                     v-if="
@@ -182,6 +182,10 @@ export default {
                             break
                         case 'titleFont':
                             IDM.style.setFontStyle(titleObj, element)
+                            break
+                        case 'titleClamp':
+                            titleObj['line-clamp'] = element
+                            titleObj['-webkit-line-clamp'] = element
                             break
                         // 时间样式
                         case 'timeBox':
