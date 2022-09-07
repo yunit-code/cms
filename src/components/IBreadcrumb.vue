@@ -40,6 +40,19 @@ export default {
         this.convertThemeListAttrToStyleObject()
     },
     methods: {
+        /**
+         * 通用的url参数对象
+         * 所有地址的url参数转换
+         */
+        commonParam() {
+            let urlObject = IDM.url.queryObject()
+            var params = {
+                pageId:
+                    window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : '',
+                ...urlObject
+            }
+            return params
+        },
         handleItemClick(item) {
             if (this.moduleObject.env === 'develop') return
             if (this.propData.customClickFunction && this.propData.customClickFunction.length > 0) {
@@ -179,7 +192,7 @@ export default {
             this.propData.customInterfaceUrl &&
                 window.IDM.http
                     .get(this.propData.customInterfaceUrl, {
-                        columnId: this.propData.columnId
+                        columnId: this.propData.columnId || this.commonParam.columnId
                     })
                     .then((res) => {
                         if (res.status == 200 && res.data.code == 200) {
@@ -218,19 +231,6 @@ export default {
         },
         sendBroadcastMessage(object) {
             window.IDM.broadcast && window.IDM.broadcast.send(object)
-        },
-        /**
-         * 通用的url参数对象
-         * 所有地址的url参数转换
-         */
-        commonParam() {
-            let urlObject = IDM.url.queryObject()
-            var params = {
-                pageId:
-                    window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : '',
-                urlData: JSON.stringify(urlObject)
-            }
-            return params
         }
     }
 }

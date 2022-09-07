@@ -27,7 +27,7 @@ export default {
             var params = {
                 pageId:
                     window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : '',
-                urlData: JSON.stringify(urlObject)
+                ...urlObject
             }
             return params
         }

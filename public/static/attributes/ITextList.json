@@ -93,6 +93,25 @@
                     ]
                 },
                 {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "是否分页",
+                    "desc": "设置文字列表上方标题显示状态",
+                    "bindKey": "isShowPagination",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
                     "type": "select",
                     "layoutType": "inline",
                     "text": "跳转方式",
@@ -155,6 +174,23 @@
                     "layoutType": "block",
                     "text": "内外边距",
                     "bindKey": "box"
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "display": "@[isShowPagination]",
+                    "text": "分页边距",
+                    "bindKey": "paginationBox",
+                    "default": {
+                        "marginTopVal": "20px",
+                        "marginRightVal": "",
+                        "marginBottomVal": "",
+                        "marginLeftVal": "",
+                        "paddingTopVal": "",
+                        "paddingRightVal": "",
+                        "paddingBottomVal": "",
+                        "paddingLeftVal": ""
+                    }
                 },
                 {
                     "type": "inlineGroup",
@@ -376,16 +412,16 @@
                 {
                     "type": "box",
                     "layoutType": "block",
-                    "text": "标题边距",
+                    "text": "容器边距",
                     "bindKey": "upTitleBox",
                     "default": {
                         "marginTopVal": "",
                         "marginRightVal": "",
                         "marginBottomVal": "",
                         "marginLeftVal": "",
-                        "paddingTopVal": "10px",
+                        "paddingTopVal": "",
                         "paddingRightVal": "",
-                        "paddingBottomVal": "10px",
+                        "paddingBottomVal": "",
                         "paddingLeftVal": ""
                     }
                 },
@@ -398,24 +434,118 @@
                         "marginTopVal": "",
                         "marginRightVal": "",
                         "marginBottomVal": "",
-                        "marginLeftVal": "",
-                        "paddingTopVal": "",
-                        "paddingRightVal": "10px",
-                        "paddingBottomVal": "20px",
-                        "paddingLeftVal": "10px"
+                        "marginLeftVal": "10px",
+                        "paddingTopVal": "10px",
+                        "paddingRightVal": "20px",
+                        "paddingBottomVal": "10px",
+                        "paddingLeftVal": "20px"
                     }
                 },
                 {
-                    "type": "font",
+                    "type": "border",
                     "layoutType": "block",
-                    "text": "标题文字",
-                    "bindKey": "upTitleFont",
+                    "text": "容器边框",
+                    "bindKey": "upTitleBorder",
                     "default": {
-                        "fontColors": {},
-                        "fontTextAlign": "center",
-                        "fontSize": 16,
-                        "fontWeight": "600 Semi Bold",
-                        "fontSizeUnit": "px"
+                        "border": {
+                            "top": {
+                                "style": "",
+                                "width": 0,
+                                "widthUnit": "px",
+                                "colors": {}
+                            },
+                            "right": {
+                                "style": "",
+                                "width": 0,
+                                "widthUnit": "px",
+                                "colors": {}
+                            },
+                            "bottom": {
+                                "style": "solid",
+                                "width": 1,
+                                "widthUnit": "px",
+                                "colors": {
+                                    "hex": "#DBDBDB",
+                                    "hex8": "#DBDBDBFF"
+                                }
+                            },
+                            "left": {
+                                "style": "",
+                                "width": 0,
+                                "widthUnit": "px",
+                                "colors": {}
+                            }
+                        },
+                        "radius": {
+                            "leftTop": {
+                                "radius": 0,
+                                "radiusUnit": "px"
+                            },
+                            "rightTop": {
+                                "radius": 0,
+                                "radiusUnit": "px"
+                            },
+                            "leftBottom": {
+                                "radius": 0,
+                                "radiusUnit": "px"
+                            },
+                            "rightBottom": {
+                                "radius": 0,
+                                "radiusUnit": "px"
+                            }
+                        }
+                    }
+                },
+                {
+                    "type": "border",
+                    "layoutType": "block",
+                    "text": "内容边框",
+                    "bindKey": "upContentBorder",
+                    "default": {
+                        "border": {
+                            "top": {
+                                "style": "",
+                                "width": 0,
+                                "widthUnit": "px",
+                                "colors": {}
+                            },
+                            "right": {
+                                "style": "",
+                                "width": 0,
+                                "widthUnit": "px",
+                                "colors": {}
+                            },
+                            "bottom": {
+                                "style": "solid",
+                                "width": 2,
+                                "widthUnit": "px",
+                                "colors": {}
+                            },
+                            "left": {
+                                "style": "",
+                                "width": 0,
+                                "widthUnit": "px",
+                                "colors": {}
+                            }
+                        },
+                        "radius": {
+                            "leftTop": {
+                                "radius": 0,
+                                "radiusUnit": "px"
+                            },
+                            "rightTop": {
+                                "radius": 0,
+                                "radiusUnit": "px"
+                            },
+                            "leftBottom": {
+                                "radius": 0,
+                                "radiusUnit": "px"
+                            },
+                            "rightBottom": {
+                                "radius": 0,
+                                "radiusUnit": "px"
+                            }
+                        }
                     }
                 },
                 {
@@ -424,10 +554,9 @@
                     "text": "内容文字",
                     "bindKey": "upContentFont",
                     "default": {
-                        "fontColors": {
-                            "hex": "#999999",
-                            "hex8": "#999999FF"
-                        }
+                        "fontColors": {},
+                        "fontSize": 16,
+                        "fontSizeUnit": "px"
                     }
                 }
             ]
