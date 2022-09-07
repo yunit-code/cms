@@ -1,8 +1,7 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
-        <div class="text-list-up" v-if="propData.isShowUpTitle">
-            <div class="text-list-up-title">{{ componentData.title }}</div>
-            <div class="text-list-up-content">{{ componentData.content }}</div>
+        <div class="text-list-up-title d-flex" v-if="propData.isShowUpTitle">
+            <div class="text-list-up-content">{{ componentData.title }}</div>
         </div>
         <div
             v-for="(item, index) in componentData.rows"
@@ -50,6 +49,17 @@
                 {{ item.time }}
             </div>
         </div>
+        <div class="d-flex just-c">
+            <a-pagination
+             class="text-list-pagination"
+                v-model="currentPage"
+                v-if="propData.isShowPagination"
+                show-quick-jumper
+                :page-size="propData.contentNumber"
+                :total="componentData.total"
+                @change="onChange"
+            />
+        </div>
     </div>
 </template>
 <script>
@@ -63,8 +73,10 @@ export default {
             propData: this.$root.propData.compositeAttr || {
                 fontContent: 'Hello Word'
             },
+            currentPage: 1,
             componentData: {
-                rows: []
+                rows: [],
+                total: 3
             }
         }
     },
@@ -75,6 +87,9 @@ export default {
         this.convertThemeListAttrToStyleObject()
     },
     methods: {
+        onChange() {
+            this.initData()
+        },
         propDataWatchHandle(propData) {
             this.propData = propData.compositeAttr || {}
             this.convertAttrToStyleObject()
@@ -88,7 +103,8 @@ export default {
                 timeObj = {},
                 upTitleObj = {},
                 upContentObj = {},
-                leftObj = {}
+                leftObj = {},
+                paginationObj = {}
             if (this.propData.bgSize && this.propData.bgSize == 'custom') {
                 styleObject['background-size'] =
                     (this.propData.bgSizeWidth
@@ -194,17 +210,27 @@ export default {
                         case 'timeFont':
                             IDM.style.setFontStyle(timeObj, element)
                             break
+                        case 'upTitleBorder':
+                            IDM.style.setBorderStyle(upTitleObj, element)
+                            break
                         case 'upTitleBox':
                             IDM.style.setBoxStyle(upTitleObj, element)
                             break
                         case 'upTitleFont':
                             IDM.style.setFontStyle(upTitleObj, element)
                             break
+
+                        case 'upContentBorder':
+                            IDM.style.setBorderStyle(upContentObj, element)
+                            break
                         case 'upContentBox':
                             IDM.style.setBoxStyle(upContentObj, element)
                             break
                         case 'upContentFont':
                             IDM.style.setFontStyle(upContentObj, element)
+                            break
+                        case 'paginationBox':
+                            IDM.style.setBoxStyle(paginationObj, element)
                             break
                     }
                 }
@@ -217,6 +243,7 @@ export default {
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-up-title', upTitleObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-up-content', upContentObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-left', leftObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-pagination', paginationObj)
             this.initData()
         },
         reload() {
@@ -248,6 +275,17 @@ export default {
                         ' .text-list-left-icon',
                     fillColorObj
                 )
+                IDM.setStyleToPageHead(
+                    '.' +
+                        themeNamePrefix +
+                        item.key +
+                        (` #${this.moduleObject.id}` || 'module_demo') +
+                        ' .text-list-up-content',
+                    {
+                        color: item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : '',
+                        'border-bottom-color': item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : '',
+                    }
+                )
             }
         },
         handleItemClick(item) {
@@ -271,8 +309,9 @@ export default {
             this.propData.customInterfaceUrl &&
                 window.IDM.http
                     .get(this.propData.customInterfaceUrl, {
-                        columnId: this.propData.columnId,
-                        start: 0,
+                        ...this.commonParam(),
+                        columnId: this.propData.columnId || this.commonParam().columnId,
+                        start: this.currentPage,
                         limit: this.propData.contentNumber
                     })
                     .then((res) => {
@@ -287,11 +326,6 @@ export default {
         },
         receiveBroadcastMessage(object) {
             console.log('组件收到消息', object)
-            if (object.type && object.type == 'linkageShowModule') {
-                this.showThisModuleHandle()
-            } else if (object.type && object.type == 'linkageHideModule') {
-                this.hideThisModuleHandle()
-            }
         },
         setContextValue(object) {
             console.log('统一接口设置的值', object)
@@ -310,19 +344,6 @@ export default {
         },
         sendBroadcastMessage(object) {
             window.IDM.broadcast && window.IDM.broadcast.send(object)
-        },
-        /**
-         * 通用的url参数对象
-         * 所有地址的url参数转换
-         */
-        commonParam() {
-            let urlObject = IDM.url.queryObject()
-            var params = {
-                pageId:
-                    window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : '',
-                urlData: JSON.stringify(urlObject)
-            }
-            return params
         }
     }
 }

@@ -1,7 +1,6 @@
 export const textListData = {
-    title: '我省实施产业扶贫三大行动',
-    content:
-        '目前，省农委、省林业厅出台意见，在全省实施产业扶贫项目提升行动、四带一自深化行动、贫困村一村一品推进行动等产品扶贫三大行动…',
+    title: '本地要闻',
+    total: 3,
     rows: [
         {
             jumpUrl: '',

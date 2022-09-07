@@ -1,8 +1,8 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
         <div class="ICatalogue_app">
-            <div class="title">新闻中心</div>
-            <div v-for="(item,index) in record_list" @click="changeRecordActive(item,index)" :key="index" class="list" :class="index == active_index ? 'list_active' : ''">{{ item.name }}</div>
+            <div v-for="(item,index) in column_data" :key="index" @click="changeRecordActive(item,index)" class="title">{{ item.title }}</div>
+            <div v-for="(item,index) in record_list" @click="changeRecordActive(item,index)" :key="index" class="list" :class="item.id == active_index ? 'list_active' : ''">{{ item.title }}</div>
         </div>
     </div>
 </template>
@@ -16,30 +16,9 @@ export default {
             propData: this.$root.propData.compositeAttr || {
                 fontContent: "Hello Word"
             },
-            record_list: [
-                {
-                    name: '本地要闻'
-                },
-                {
-                    name: '区县快讯'
-                },
-                {
-                    name: '部门动态'
-                },
-                {
-                    name: '政务公告'
-                },
-                {
-                    name: '便民公告'
-                },
-                {
-                    name: '民生资讯'
-                },
-                {
-                    name: '新闻发布会'
-                },
-            ],
-            active_index: 0,
+            column_data: [],
+            record_list: [ ],
+            active_index: '',
         }
     },
     props: {
@@ -47,6 +26,9 @@ export default {
     created() {
         this.moduleObject = this.$root.moduleObject
         this.convertAttrToStyleObject();
+        this.getCurrenteId()
+        this.getInitData()
+        this.getCurrentTitle()
     },
     mounted() {
         //赋值给window提供跨页面调用
@@ -57,14 +39,93 @@ export default {
     },
     destroyed() { },
     methods: {
+        getCurrenteId() {
+            let params = this.commonParam()
+            if ( params && params.columnId ) {
+                this.active_index = params.columnId
+            }
+        },
+        getInitData() {
+            if (this.moduleObject.env == "develop" || !this.propData.getColumnListApiUrl) {
+                this.record_list = [
+                    {
+                        title: '本地要闻1'
+                    },
+                    {
+                        title: '区县快讯'
+                    },
+                    {
+                        title: '部门动态'
+                    },
+                    {
+                        title: '政务公告'
+                    },
+                    {
+                        title: '便民公告'
+                    },
+                    {
+                        title: '民生资讯'
+                    },
+                    {
+                        title: '新闻发布会'
+                    },
+                ]
+                return;
+            }
+            var params = this.commonParam().urlData;
+            window.IDM.http.get(this.propData.getColumnListApiUrl, {
+                columnId: params ? JSON.parse(params).columnId : ''
+            }).then((res) => {
+                if ( res && res.data && res.data.code == '200' ) {
+                    if ( this.propData.dataFiled ) {
+                        this.record_list = this.getExpressData("resultData", that.propData.dataFiled, res.data.data);
+                    } else {
+                        this.record_list = res.data.data.rows
+                    }
+                } else {
+                    IDM.message.error(res.data.message);
+                }
+            }).catch(function (error) {
+
+            });
+        },
+        getCurrentTitle() {
+            if (this.moduleObject.env == "develop" || !this.propData.getColumnListApiUrl) {
+                this.column_data = [
+                    {
+                        title: '新闻中心'
+                    }
+                ]
+                return;
+            }
+            var params = this.commonParam().urlData;
+            window.IDM.http.get(this.propData.getColumnListApiUrl, {
+                navigationColumn: params ? JSON.parse(params).columnId : ''
+            }).then((res) => {
+                if ( res && res.data && res.data.code == '200' ) {
+                    if ( this.propData.dataFiled ) {
+                        this.column_data = [ this.getExpressData("resultData", that.propData.dataFiled, res.data.data) ];
+                    } else {
+                        this.column_data = [ res.data.data.rows ];
+                    }
+                    console.log('column_data',this.column_data)
+                } else {
+                    IDM.message.error(res.data.message);
+                }
+            }).catch(function (error) {
+
+            });
+        },
+        clickRecordActive() {
+
+        },
         changeRecordActive(item,index) {
-            this.active_index = index;
             let that = this;
             if (this.moduleObject.env == "develop") {
                 return;
             }
             let urlObject = window.IDM.url.queryObject(),
-                pageId = window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : "";
+            pageId = window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : "";
             
             var clickFunction = this.propData.clickFunction;
             clickFunction && clickFunction.forEach(item => {
@@ -75,6 +136,7 @@ export default {
                     _this: this
                 });
             })
+            window.open(item.jumpUrl, this.propData.jumpStyle || '_target')
         },
         /**
          * 提供父级组件调用的刷新prop数据组件
@@ -472,7 +534,8 @@ export default {
     white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
-    overflow-y: auto;
+    overflow-y: hidden;
+    // height: 100%;
     .title{
         height: 56px;
         line-height: 56px;

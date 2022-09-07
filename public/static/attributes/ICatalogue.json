@@ -18,31 +18,23 @@
         {
             "type": "group",
             "text": "基本属性",
-            "desc": "提供设置组件能达到展示效果的基本属性设置信息",
             "children": [
                 {
-                    "type": "input",
+                    "type": "select",
                     "layoutType": "inline",
-                    "text": "栏目id",
-                    "bindKey": "columnId",
-                    "default": ""
-                },
-                {
-                    "type": "input",
-                    "layoutType": "inline",
-                    "text": "接口地址",
-                    "bindKey": "getColumnListApiUrl",
-                    "default": ""
-                },
-                {
-                    "type": "textarea",
-                    "layoutType": "inline",
-                    "text": "显示字段",
-                    "bindKey": "dataFiled",
-                    "desc": "根据接口返回数据格式指定结果集的字段，比如结果集名为resultData（自定义接口忽略）且它的值为{data:{filedName:[{\"text\":\"\",\"value\":\"\",\"check\":true}]}}，则这里应该填写data.filedName",
-                    "default": "",
-                    "placeholder": "示例：data.filedName 或者 [0].data[0].filedName",
-                    "display": "@[dataSourceType!='customFunction']"
+                    "text": "跳转方式",
+                    "bindKey": "jumpStyle",
+                    "dictionary": [
+                        {
+                            "label": "当前页打开",
+                            "value": "_target"
+                        },
+                        {
+                            "label": "新页签打开",
+                            "value": "_blank"
+                        }
+                    ],
+                    "default": "_target"
                 }
             ]
         },
@@ -350,6 +342,30 @@
                     "layoutType": "block",
                     "text": "文字",
                     "bindKey": "font"
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "数据源",
+            "desc": "提供设置组件能达到展示效果的基本属性设置信息",
+            "children": [
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "接口地址",
+                    "bindKey": "getColumnListApiUrl",
+                    "default": "/ctrl/website/api/navigation"
+                },
+                {
+                    "type": "textarea",
+                    "layoutType": "inline",
+                    "text": "显示字段",
+                    "bindKey": "dataFiled",
+                    "desc": "根据接口返回数据格式指定结果集的字段，比如结果集名为resultData（自定义接口忽略）且它的值为{data:{filedName:[{\"text\":\"\",\"value\":\"\",\"check\":true}]}}，则这里应该填写data.filedName",
+                    "default": "",
+                    "placeholder": "示例：data.filedName 或者 [0].data[0].filedName",
+                    "display": "@[dataSourceType!='customFunction']"
                 }
             ]
         },

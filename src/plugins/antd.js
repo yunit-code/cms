@@ -10,7 +10,8 @@ import 'ant-design-vue/lib/button/style/css'
 import 'ant-design-vue/lib/spin/style/css'
 import 'ant-design-vue/lib/empty/style/css'
 import 'ant-design-vue/lib/icon/style/css'
-import { Breadcrumb, Row, Col, Tabs, Modal, Input, Button, Spin, Empty, Icon, Select } from 'ant-design-vue'
+import 'ant-design-vue/lib/pagination/style/css'
+import { Breadcrumb, Row, Col, Tabs, Modal, Input, Button, Spin, Empty, Icon, Select, Pagination } from 'ant-design-vue'
 
 /* v1.1.3+ registration methods */
 Vue.use(Breadcrumb)
@@ -27,3 +28,4 @@ Vue.use(Empty)
 Vue.use(Icon)
 Vue.use(Select)
 Vue.use(Select.Option)
+Vue.use(Pagination)

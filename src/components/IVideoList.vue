@@ -178,7 +178,8 @@ export default {
             this.propData.customInterfaceUrl &&
                 window.IDM.http
                     .get(this.propData.customInterfaceUrl, {
-                        columnId: this.propData.columnId,
+                        ...this.commonParam(),
+                        columnId: this.propData.columnId || this.commonParam().columnId,
                         start: 0,
                         limit: this.propData.contentNumber
                     })

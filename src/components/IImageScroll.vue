@@ -130,7 +130,8 @@ export default {
             this.propData.customInterfaceUrl &&
                 window.IDM.http
                     .get(this.propData.customInterfaceUrl, {
-                        columnId: this.propData.columnId
+                        ...this.commonParam(),
+                        columnId: this.propData.columnId || this.commonParam().columnId
                     })
                     .then((res) => {
                         if (res.status == 200 && res.data.code == 200) {
