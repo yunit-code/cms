@@ -39,36 +39,7 @@ export default {
                 showTitle: true,
                 objectFit: 'fill'
             },
-            data_list: [
-                {
-                    image: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-                    title: '1-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    image: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-                    title: '2-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    image: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-                    title: '3-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    image: 'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg',
-                    title: '4-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    image: 'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg',
-                    title: '5-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    image: 'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
-                    title: '6-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                },
-                {
-                    image: 'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
-                    title: '7-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                }
-            ],
+            data_list: [ ],
             my_swiper: null,
             active_index: 0,
             parentHeight: '',
@@ -80,7 +51,9 @@ export default {
         'propData.direction': {
             handler: function(value) {
                 this.active_index = 0;
-                this.updateSwiper()
+                if ( this.moduleObject.env == 'develop' ) {
+                    this.updateSwiper()
+                }
             },
             deep: true
         }
@@ -88,16 +61,32 @@ export default {
     created() {
         this.moduleObject = this.$root.moduleObject
         this.convertAttrToStyleObject();
-        this.reload()
     },
     mounted() {
         this.resizeContentWrapperHeight()
-        this.initSwiper()
+        this.reload()
     },
     destroyed() { },
     methods: {
         getSwiperList() {
             if( this.moduleObject.env=="develop" || !this.propData.customInterfaceUrl ){
+                this.data_list = [
+                    {
+                        image: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+                        title: '1-习近平：在庆祝中国共产党成立100周年大会上的讲话'
+                    },
+                    {
+                        image: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
+                        title: '2-习近平：在庆祝中国共产党成立100周年大会上的讲话'
+                    },
+                    {
+                        image: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
+                        title: '3-习近平：在庆祝中国共产党成立100周年大会上的讲话'
+                    }
+                ];
+                this.$nextTick(() => {
+                    this.initSwiper()
+                })
                 return;
             }
             let urlParam = this.commonParam()
@@ -110,9 +99,9 @@ export default {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {
                     let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.rows;
                     this.data_list = result || [];
-                    if ( !this.my_swiper ) {
+                    this.$nextTick(() => {
                         this.initSwiper()
-                    }
+                    })
                 } else {
                     IDM.message.error(res.data.message);
                 }
@@ -170,7 +159,9 @@ export default {
          */
         propDataWatchHandle(propData) {
             this.propData = propData.compositeAttr || {};
-            this.updateSwiper()
+            if ( this.moduleObject.env == 'develop' ) {
+                this.updateSwiper()
+            }
             this.resizeContentWrapperHeight()
         },
         resizeContentWrapperHeight(height) {
@@ -620,13 +611,6 @@ export default {
                 let gridEleTarget = object.message.gridEleTarget;
                 if (gridEleTarget && gridEleTarget.offsetHeight) {
                     this.parentHeight = gridEleTarget.offsetHeight;
-                    this.$nextTick(() => {
-
-                        if ( this.propData.isAdaption && gridEleTarget.offsetHeight ) {
-                            this.convertAttrToStyleObject()
-                            this.updateSwiper()
-                        } 
-                    })
                 }
             }
         },
@@ -659,7 +643,7 @@ export default {
             }
             //这里使用的是子表，所以要循环匹配所有子表的属性然后再去设置修改默认值
             if (object.key == this.propData.dataName) {
-                this.data_list = this.getExpressData(this.propData.dataName,this.propData.dataFiled,object.data);
+                // this.data_list = this.getExpressData(this.propData.dataName,this.propData.dataFiled,object.data);
             }
         }
     }

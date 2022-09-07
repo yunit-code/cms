@@ -251,7 +251,15 @@ export default {
           if (!this.propData.url) return;
           this.isLoading = true;
           IDM.http
-            .get(this.propData.url)
+            .get(
+              IDM.express.replace(this.propData.url, {
+                ...IDM.url.queryObject(),
+                pageId:
+                  window.IDM.broadcast && window.IDM.broadcast.pageModule
+                    ? window.IDM.broadcast.pageModule.id
+                    : ''
+              })
+            )
             .done(res => {
               if (res.type === 'success') {
                 this.articleData = this.customFormat(res.data);
