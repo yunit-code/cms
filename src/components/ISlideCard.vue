@@ -331,7 +331,7 @@ export default {
           object.data
         );
         resData = this.customFormat(resData);
-        resData = this.getExpressData('data', this.propData.resDataField || 'rows', resData);
+        resData = this.propData.resDataField ? this.getExpressData('data', this.propData.resDataField, resData) : resData;
         this.articleData = resData;
       }
     },
@@ -452,11 +452,11 @@ export default {
               .done(res => {
                 if (res.type === 'success') {
                   let resultData = this.customFormat(this.propData.customFunction, res.data);
-                  resultData = this.getExpressData(
+                  resultData = this.propData.resDataField ? this.getExpressData(
                     'data',
-                    this.propData.resDataField || 'rows',
+                    this.propData.resDataField,
                     resultData
-                  );
+                  ) : resultData;
                   this.setRows(resultData);
                 } else {
                   IDM.message.error(res.message || '操作失败!');
@@ -1140,10 +1140,10 @@ export default {
               extraTextStyleObject['text-decoration'] = element.fontDecoration;
               break;
             case 'itemImgWidth':
-              itemImgStyleObject['width'] = `${element}px`;
+              itemImgStyleObject['width'] = `${element}`;
               break;
             case 'itemImgHeight':
-              itemImgStyleObject['height'] = `${element}px`;
+              itemImgStyleObject['height'] = `${element}`;
               break;
             case 'itemIconSize':
               itemImgStyleObject['font-size'] = `${element}px`;
@@ -1159,10 +1159,10 @@ export default {
               }
               break;
             case 'itemBoxWidth':
-              itemStyleObject['width'] = `${element}px`;
+              itemStyleObject['width'] = `${element}`;
               break;
             case 'itemBoxHeight':
-              itemStyleObject['height'] = `${element}px`;
+              itemStyleObject['height'] = `${element}`;
               break;
             case 'emptyImageHeight':
               emptyImgStyleObject['height'] = element + 'px';

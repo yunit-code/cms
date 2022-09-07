@@ -526,18 +526,20 @@
           "text": "图片图标样式",
           "children": [
             {
-              "type": "inputNumber",
+              "type": "input",
               "layoutType": "inline",
               "text": "宽",
+              "desc": "图片区域的宽，可设置auto，px，%",
               "bindKey": "itemImgWidth",
-              "default": 50
+              "default": "50px"
             },
             {
-              "type": "inputNumber",
+              "type": "input",
               "layoutType": "inline",
               "text": "高",
+              "desc": "图片区域的高，可设置auto，px，%",
               "bindKey": "itemImgHeight",
-              "default": 50
+              "default": "50px"
             },
             {
               "type": "box",
@@ -579,18 +581,20 @@
           "text": "item样式",
           "children": [
             {
-              "type": "inputNumber",
+              "type": "input",
               "layoutType": "inline",
               "text": "item宽",
+              "desc": "item区域的宽，可设置auto，px，%",
               "bindKey": "itemBoxWidth",
-              "default": 90
+              "default": "90px"
             },
             {
-              "type": "inputNumber",
+              "type": "input",
               "layoutType": "inline",
               "text": "item高",
+              "desc": "item区域的高，可设置auto，px，%",
               "bindKey": "itemBoxHeight",
-              "default": 90
+              "default": "90px"
             },
             {
               "type": "inputNumber",
