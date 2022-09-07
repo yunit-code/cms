@@ -169,28 +169,33 @@
 </template>
 
 <script>
-const devResult = [
+const devResult = _this => [
   {
+    imgUrl: IDM.url.getModuleAssetsWebPath(require('../assets/logo.png'), _this.moduleObject),
     name: '学习强国',
     text1: '15篇文章',
     text2: '3.5w人已学习'
   },
   {
+    imgUrl: IDM.url.getModuleAssetsWebPath(require('../assets/logo.png'), _this.moduleObject),
     name: '学习强国',
     text1: '15篇文章',
     text2: '3.5w人已学习'
   },
   {
+    imgUrl: IDM.url.getModuleAssetsWebPath(require('../assets/logo.png'), _this.moduleObject),
     name: '学习强国',
     text1: '15篇文章',
     text2: '3.5w人已学习'
   },
   {
+    imgUrl: IDM.url.getModuleAssetsWebPath(require('../assets/logo.png'), _this.moduleObject),
     name: '学习强国',
     text1: '15篇文章',
     text2: '3.5w人已学习'
   },
   {
+    imgUrl: IDM.url.getModuleAssetsWebPath(require('../assets/logo.png'), _this.moduleObject),
     name: '学习强国',
     text1: '15篇文章',
     text2: '3.5w人已学习'
@@ -331,7 +336,9 @@ export default {
           object.data
         );
         resData = this.customFormat(resData);
-        resData = this.propData.resDataField ? this.getExpressData('data', this.propData.resDataField, resData) : resData;
+        resData = this.propData.resDataField
+          ? this.getExpressData('data', this.propData.resDataField, resData)
+          : resData;
         this.articleData = resData;
       }
     },
@@ -440,7 +447,7 @@ export default {
     initData() {
       if (this.propData.dataSourceType != 'static') {
         if (!this.moduleObject.env || this.moduleObject.env == 'develop') {
-          this.setRows(devResult);
+          this.setRows(devResult(this));
           return;
         }
         switch (this.propData.dataSourceType) {
@@ -452,11 +459,9 @@ export default {
               .done(res => {
                 if (res.type === 'success') {
                   let resultData = this.customFormat(this.propData.customFunction, res.data);
-                  resultData = this.propData.resDataField ? this.getExpressData(
-                    'data',
-                    this.propData.resDataField,
-                    resultData
-                  ) : resultData;
+                  resultData = this.propData.resDataField
+                    ? this.getExpressData('data', this.propData.resDataField, resultData)
+                    : resultData;
                   this.setRows(resultData);
                 } else {
                   IDM.message.error(res.message || '操作失败!');
@@ -477,7 +482,7 @@ export default {
         }
       } else if (this.propData.dataStaticSet) {
         if (this.propData.dataStaticSet[0] && !this.propData.dataStaticSet[0].name) {
-          this.setRows(devResult);
+          this.setRows(devResult(this));
         } else {
           this.setRows(this.propData.dataStaticSet);
         }
