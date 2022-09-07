@@ -473,6 +473,7 @@ export default {
     overflow-x: hidden;
     text-overflow: ellipsis;
     overflow-y: auto;
+    height: 100%;
     .title{
         height: 56px;
         line-height: 56px;
