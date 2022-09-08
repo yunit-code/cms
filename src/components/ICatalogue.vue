@@ -78,7 +78,7 @@ export default {
             }).then((res) => {
                 if ( res && res.data && res.data.code == '200' ) {
                     if ( this.propData.dataFiled ) {
-                        this.record_list = this.getExpressData("resultData", that.propData.dataFiled, res.data.data);
+                        this.record_list = this.getExpressData("resultData", this.propData.dataFiled, res.data.data);
                     } else {
                         this.record_list = res.data.data.rows
                     }
@@ -104,11 +104,10 @@ export default {
             }).then((res) => {
                 if ( res && res.data && res.data.code == '200' ) {
                     if ( this.propData.dataFiled ) {
-                        this.column_data = [ this.getExpressData("resultData", that.propData.dataFiled, res.data.data) ];
+                        this.column_data = [ this.getExpressData("resultData", this.propData.dataFiled, res.data.data) ];
                     } else {
                         this.column_data = [ res.data.data.rows ];
                     }
-                    console.log('column_data',this.column_data)
                 } else {
                     IDM.message.error(res.data.message);
                 }
@@ -275,6 +274,12 @@ export default {
                         case "height":
                             styleObject[key] = element;
                             break;
+                        case 'minWidth':
+                            styleObject['min-width'] = element;
+                            break;
+                        case 'minHeight':
+                            styleObject['min-height'] = element;
+                            break;
                         case "bgColor":
                             if (element && element.hex8) {
                                 styleObject["background-color"] = element.hex8;
@@ -410,9 +415,7 @@ export default {
                 case "customInterface":
                     this.propData.customInterfaceUrl && window.IDM.http.get(this.propData.customInterfaceUrl, params)
                         .then((res) => {
-                            //res.data
                             that.$set(that.propData, "fontContent", that.getExpressData("resultData", that.propData.dataFiled, res.data));
-                            // that.propData.fontContent = ;
                         })
                         .catch(function (error) {
 

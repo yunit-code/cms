@@ -42,6 +42,9 @@
                             </a-tooltip>
                         </div>
                     </template>
+                    <div @click="jumpMorePage" v-if="propData.isShowMore" class="more">
+                        <SvgIcon icon-class="more" ></SvgIcon>
+                    </div>
                 </div>
             </a-tabs>
         </div>
@@ -50,8 +53,11 @@
 </template>
 
 <script>
+import SvgIcon from '../icons/SvgIcon.vue';
+
 export default {
     name: 'ITabHeader',
+    components: {SvgIcon},
     data() {
         return {
             moduleObject: {},
@@ -142,13 +148,14 @@ export default {
                 size: 'default',
                 tabBarGutter: 20,
                 animated: true,
-                bgColorChoose: null
+                bgColorChoose: null,
+                isShowMore: true
             },
             //当前所有的tab集合
             allTabList: [
                 {
                     key: '1',
-                    tab: '通知哦公告'
+                    tab: '通知公告'
                 },
                 {
                     key: '2',
@@ -176,6 +183,12 @@ export default {
         });
     },
     methods: {
+        jumpMorePage() {
+            if ( this.propData.selectColumn && this.propData.moreJumpUrl ) {
+                let url = IDM.url.getWebPath(this.propData.moreJumpUrl) + '?columnId=' + this.propData.selectColumn.id;
+                window.open(url, this.propData.jumpStyle || '_target')
+            }
+        },
         setFontStyle(item) {
             let obj = {};
             if (item) {
@@ -194,8 +207,61 @@ export default {
             this.initBaseAttrToModule();
             this.convertAttrToStyleObject();
             this.convertTabAttrToStyleObject();
-            this.convertChooseTabAttrToStyleObject()
-            this.convertAttrToStyleObjectLeftIcon()
+            this.convertChooseTabAttrToStyleObject();
+            this.convertAttrToStyleObjectLeftIcon();
+            this.convertAttrToStyleObjectMoreIcon()
+        },
+        convertAttrToStyleObjectMoreIcon() {
+            let styleObject = {};
+            let propData = this.propData;
+            for (const key in propData) {
+                if (propData.hasOwnProperty.call(propData, key)) {
+                    const element = propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "moreIconFontSize":
+                             styleObject['font-size'] = element;
+                            break;
+                        case "bgColorMoreIcon":
+                            if (propData.bgColorMoreIcon && propData.bgColorMoreIcon.hex8) {
+                                styleObject["color"] = propData.bgColorMoreIcon.hex8;
+                            }
+                            break;
+                        case "moreIconTop":
+                            styleObject['top'] = element;
+                            break;
+                        case "boxMoreIcon":
+                            if (element.marginTopVal) {
+                                styleObject["margin-top"] = `${element.marginTopVal}`;
+                            }
+                            if (element.marginRightVal) {
+                                styleObject["margin-right"] = `${element.marginRightVal}`;
+                            }
+                            if (element.marginBottomVal) {
+                                styleObject["margin-bottom"] = `${element.marginBottomVal}`;
+                            }
+                            if (element.marginLeftVal) {
+                                styleObject["margin-left"] = `${element.marginLeftVal}`;
+                            }
+                            if (element.paddingTopVal) {
+                                styleObject["padding-top"] = `${element.paddingTopVal}`;
+                            }
+                            if (element.paddingRightVal) {
+                                styleObject["padding-right"] = `${element.paddingRightVal}`;
+                            }
+                            if (element.paddingBottomVal) {
+                                styleObject["padding-bottom"] = `${element.paddingBottomVal}`;
+                            }
+                            if (element.paddingLeftVal) {
+                                styleObject["padding-left"] = `${element.paddingLeftVal}`;
+                            }
+                            break;
+                    }
+                }
+            }
+            IDM.setStyleToPageHead(this.moduleObject.id + ' .more .svg-icon',styleObject);
         },
         convertAttrToStyleObjectLeftIcon() {
             let styleObject = {};
@@ -254,7 +320,7 @@ export default {
                 }
             }
             // window.IDM.setStyleToPageHead(this.moduleObject.id + " .IFooterBar_app_right>.drag_container_outer", styleObject);
-            IDM.setStyleToPageHead(this.moduleObject.id+` .header_line`,styleObject);
+            IDM.setStyleToPageHead(this.moduleObject.id + ' .header_line',styleObject);
         },
         /**
         * 提供父级组件调用的刷新prop数据组件
@@ -879,6 +945,11 @@ export default {
     height: 100%;
     position: relative;
     align-items: flex-start;
+    .more{
+        .svg-icon{
+            position: relative;
+        }
+    }
     .header_line{
         width: 8px;
         height: 20px;

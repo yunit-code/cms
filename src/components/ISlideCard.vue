@@ -1480,6 +1480,7 @@ export default {
           opacity: 0;
         }
         .i-slideCard-content-item {
+          cursor: pointer;
           height: 90px;
           width: 90px;
           overflow: hidden;
