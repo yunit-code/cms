@@ -7,7 +7,7 @@
             v-for="(item, index) in componentData.rows"
             :key="index"
             @click="handleItemClick(item)"
-            class="text-list-item"
+            class="text-list-item cursor-p"
         >
             <div class="d-flex" :class="[propData.isTimeWrap ? '' : 'align-c']">
                 <div
@@ -299,10 +299,8 @@ export default {
         initData() {
             if (this.moduleObject.env === 'develop') {
                 if (this.propData.styleType !== 'timeAndText') {
-                    textListData.rows = this.setFillBlankData(textListData.rows)
                     this.componentData = textListData
                 } else {
-                    textListData3.rows = this.setFillBlankData(textListData3.rows)
                     this.componentData = textListData3
                 }
                 return
@@ -317,7 +315,6 @@ export default {
                     })
                     .then((res) => {
                         if (res.status == 200 && res.data.code == 200) {
-                            res.data.data.rows = this.setFillBlankData(res.data.data.rows)
                             this.componentData = res.data.data
                         } else {
                             IDM.message.error(res.data.message)

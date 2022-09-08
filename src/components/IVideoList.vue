@@ -172,7 +172,7 @@ export default {
         },
         initData() {
             if (this.moduleObject.env === 'develop') {
-                this.componentData.rows = this.setFillBlankData(getVideoListData.call(this))
+                this.componentData.rows = getVideoListData.call(this)
                 return
             }
             this.propData.customInterfaceUrl &&
@@ -185,7 +185,6 @@ export default {
                     })
                     .then((res) => {
                         if (res.status == 200 && res.data.code == 200) {
-                            res.data.data.rows = this.setFillBlankData(res.data.data.rows)
                             this.componentData = res.data.data
                         } else {
                             IDM.message.error(res.data.message)

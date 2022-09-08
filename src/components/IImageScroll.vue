@@ -124,7 +124,7 @@ export default {
         },
         initData() {
             if (this.moduleObject.env === 'develop') {
-                this.componentData.rows = this.setFillBlankData(getImageScrollData.call(this))
+                this.componentData.rows = getImageScrollData.call(this)
                 return
             }
             this.propData.customInterfaceUrl &&
@@ -138,7 +138,6 @@ export default {
                             if (res.data.data.rows && res.data.data.rows.length > 1) {
                                 res.data.data.rows = res.data.data.rows.sort((a, b) => a.index - b.index)
                             }
-                            res.data.data.rows = this.setFillBlankData(res.data.data.rows)
                             this.componentData = res.data.data
                         } else {
                             IDM.message.error(res.data.message)
