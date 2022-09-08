@@ -53,25 +53,6 @@
                     "default": 10
                 },
                 {
-                    "type": "radio",
-                    "styleType": "radio",
-                    "layoutType": "inline",
-                    "text": "是否补空",
-                    "desc": "数量不足时是否填入空行",
-                    "bindKey": "fillBlank",
-                    "default": true,
-                    "dictionary": [
-                        {
-                            "label": "是",
-                            "value": true
-                        },
-                        {
-                            "label": "否",
-                            "value": false
-                        }
-                    ]
-                },
-                {
                     "type": "inputNumber",
                     "layoutType": "inline",
                     "text": "切换时间",

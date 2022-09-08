@@ -36,25 +36,6 @@
                     "default": 8
                 },
                 {
-                    "type": "radio",
-                    "styleType": "radio",
-                    "layoutType": "inline",
-                    "text": "是否补空",
-                    "desc": "数量不足时是否填入空行",
-                    "bindKey": "fillBlank",
-                    "default": true,
-                    "dictionary": [
-                        {
-                            "label": "是",
-                            "value": true
-                        },
-                        {
-                            "label": "否",
-                            "value": false
-                        }
-                    ]
-                },
-                {
                     "type": "select",
                     "layoutType": "inline",
                     "text": "跳转方式",
