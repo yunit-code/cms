@@ -17,8 +17,27 @@
         },
         {
             "type": "group",
-            "text": "页签属性",
+            "text": "基础属性",
             "children": [
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "显示更多",
+                    "desc":"是否显示更多操作按钮",
+                    "bindKey": "isShowMore",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
                 {
                     "type": "radio",
                     "styleType": "radio",
@@ -39,6 +58,46 @@
                     ]
                 }
             ]
+        },
+        {
+            "type": "group",
+            "text": "更多按钮属性",
+            "children": [
+                {
+                    "type": "treeSelect",
+                    "layoutType": "inline",
+                    "text": "选择栏目",
+                    "bindKey": "selectColumn",
+                    "dataSourceUrl": "/ctrl/website/api/channelTree",
+                    "default": "",
+                    "openGroup": true
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "跳转地址",
+                    "bindKey": "moreJumpUrl",
+                    "default": "/ctrl/website/api/columnJump"
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "跳转方式",
+                    "bindKey": "jumpStyle",
+                    "dictionary": [
+                        {
+                            "label": "当前页打开",
+                            "value": "_target"
+                        },
+                        {
+                            "label": "新页签打开",
+                            "value": "_blank"
+                        }
+                    ],
+                    "default": "_target"
+                }
+            ],
+            "display":"@[isShowMore]"
         },
         {
             "type": "group",
@@ -658,6 +717,42 @@
                 }
             ],
             "display":"@[showLeftIcon]"
+        },
+        {
+            "type": "group",
+            "text": "更多按钮样式",
+            "children": [
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "图标大小",
+                    "bindKey": "moreIconFontSize",
+                    "default": ""
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "垂直位移",
+                    "desc": "垂直方向上相对元素自身的位移，可填写：5px",
+                    "bindKey": "moreIconTop",
+                    "default": "5px"
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "图标颜色",
+                    "bindKey": "colorMoreIcon",
+                    "placeholder": "请选择颜色",
+                    "default": {}
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "图标内外边距",
+                    "bindKey": "boxMoreIcon"
+                }
+            ],
+            "display":"@[isShowMore]"
         },
         {
             "type": "group",

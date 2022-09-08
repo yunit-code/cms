@@ -76,7 +76,8 @@ export default {
             currentPage: 1,
             componentData: {
                 rows: [],
-                total: 3
+                total: 3,
+                title: ''
             }
         }
     },
