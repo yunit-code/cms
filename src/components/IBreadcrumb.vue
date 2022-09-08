@@ -13,7 +13,7 @@
                 v-for="(item, index) in componentData.rows"
                 :key="index"
                 class="cursor-p"
-                @click="handleItemClick(item)"
+                @click.native="handleItemClick(item)"
                 >{{ item.title }}</a-breadcrumb-item
             >
         </a-breadcrumb>
