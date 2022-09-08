@@ -1,6 +1,7 @@
 export default {
     methods: {
         setFillBlankData(data) {
+            if(data.length === 0) return []
             const arr = []
             if (this.propData.fillBlank) {
                 if (this.propData.contentNumber > data.length) {
