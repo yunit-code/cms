@@ -3,7 +3,7 @@
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <div v-for="(item,index) in data_list" :key="index" class="swiper-slide">
-                    <img v-if="item.image" :src="IDM.url.getWebPath(item.image)" />
+                    <img @click="jumpPage(item)" v-if="item.image" :src="IDM.url.getWebPath(item.image)" />
                 </div>
             </div>
             <div v-if="propData.direction == 'horizontal'" class="swiper-pagination"></div>
@@ -68,6 +68,13 @@ export default {
     },
     destroyed() { },
     methods: {
+        jumpPage(item) {
+            if ( (!item) || !item.jumpUrl ) {
+                return
+            }
+            let url = IDM.url.getWebPath(item.jumpUrl);
+            window.open(url, this.propData.jumpStyle || '_target')
+        },
         getSwiperList() {
             if( this.moduleObject.env=="develop" || !this.propData.customInterfaceUrl ){
                 this.data_list = [
