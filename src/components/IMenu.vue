@@ -10,6 +10,8 @@
 <script>
 import MenuNavItem from '../commonComponent/MenuNavItem.vue'
 import { Menu,Button } from 'element-ui'
+import { menuList } from '../mock/IMenu.js'
+
 export default {
     name: 'IMenu',
     data() {
@@ -20,55 +22,7 @@ export default {
                 // triggerType: 1,
                 // showIcon: true
             },
-            menu_list: [
-                {
-                    id: '1',
-                    title: '处理中心',
-                    shortTitle: '处理',
-                    jumpUrl: '',
-                    iconImgUrl: '',
-                    hoverIconImgUrl: ''
-                },
-                {
-                    id: '2',
-                    title: '我的工作台',
-                    icon: '',
-                    children: [
-                        {
-                            id: '3',
-                            title: '选项 一',
-                            shortTitle: '选项',
-                            icon: ''
-                        },
-                        {
-                            id: '4',
-                            title: '选项二',
-                            shortTitle: '选项二',
-                            icon: '',
-                            children: [
-                                {
-                                    id: '5',
-                                    title: '选项2-1',
-                                    shortTitle: '选项2',
-                                    icon: ''
-                                },
-                                {
-                                    id: '6',
-                                    title: '选项2-2',
-                                    shortTitle: '选项2',
-                                    icon: ''
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    id: '7',
-                    title: '消息中心',
-                    shortTitle: '消息中心',
-                    icon: ''
-                },
-            ],
+            menu_list: [ ],
             activeIndex2: '1',
         }
     },
@@ -102,20 +56,25 @@ export default {
         },
         getInitDataApi() {
             if( this.moduleObject.env=="develop" || !this.propData.customInterfaceUrl ){
+                this.menu_list = menuList;
+                this.activeIndex2 = menuList[0].id;
                 return;
             }
             let urlParam = this.commonParam()
             IDM.http.get(this.propData.customInterfaceUrl,{
                 pageId: urlParam.pageId,
                 componentId: this.moduleObject.comId,
-                columnId: this.propData.columnId || '',
-                navigationColumn: this.propData.navigationColumn || ''
+                columnId: this.propData.selectColumn ? this.propData.selectColumn.id : ''
             }).then((res) => {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {
                     let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.rows;
                     this.menu_list = result || [];
-                    if ( this.menu_list && this.menu_list.length && this.menu_list[0] && this.menu_list[0].jumpUrl ) {
-                        this.activeIndex2 = this.menu_list[0].jumpUrl;
+                    
+                    let queryData = IDM.url.queryObject();
+                    if ( queryData && queryData.menuId ) {
+                        this.activeIndex2 = queryData.menuId;
+                    } else if ( this.menu_list && this.menu_list.length && this.menu_list[0] && this.menu_list[0].id ) {
+                        this.activeIndex2 = this.menu_list[0].id;
                     }
                 }
             })
@@ -124,6 +83,7 @@ export default {
             let item = this.getSelectedItem(index,this.menu_list)
             if ( item && item.jumpUrl ) {
                 window.location.href = item.jumpUrl
+                window.location.reload()
             }
         },
         getSelectedItem(id,data) {

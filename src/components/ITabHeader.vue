@@ -183,10 +183,20 @@ export default {
         });
     },
     methods: {
+        getActiveItemData() {
+            let item = this.allTabList.find((item) => {
+                return item.key == this.activeTab
+            })
+            return item
+        },
         jumpMorePage() {
-            if ( this.propData.selectColumn && this.propData.moreJumpUrl ) {
-                let url = IDM.url.getWebPath(this.propData.moreJumpUrl) + '?columnId=' + this.propData.selectColumn.id;
-                window.open(url, this.propData.jumpStyle || '_target')
+            console.log('activeTab',this.activeTab);
+            let item = this.getActiveItemData()
+            console.log('item',item);
+            console.log('allTabList',this.allTabList);
+            if ( item && item.selectColumn && item.moreJumpUrl ) {
+                let url = IDM.url.getWebPath(item.moreJumpUrl) + '?columnId=' + item.selectColumn.id;
+                window.open(url, item.jumpStyle || '_self')
             }
         },
         setFontStyle(item) {

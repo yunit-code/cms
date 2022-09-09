@@ -73,7 +73,7 @@ export default {
                 return
             }
             let url = IDM.url.getWebPath(item.jumpUrl);
-            window.open(url, this.propData.jumpStyle || '_target')
+            window.open(url, this.propData.jumpStyle || '_self')
         },
         getSwiperList() {
             if( this.moduleObject.env=="develop" || !this.propData.customInterfaceUrl ){

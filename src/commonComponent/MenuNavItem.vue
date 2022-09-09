@@ -46,22 +46,7 @@ export default {
 
     },
     methods: {
-        convertAttrToStyle() {
-            var styleBg = {};
-            var styleFont = {};
-            var styleFontIcon = {};
-            for (const key in this.prop_data) {
-                if (this.prop_data.hasOwnProperty.call(this.prop_data, key)) {
-                    const element = this.prop_data[key];
-                    if (!element && element !== false && element != 0) {
-                        continue;
-                    }
-                    switch (key) {
-                        
-                    }
-                }
-            }
-        },
+        
     }
 }
 </script>

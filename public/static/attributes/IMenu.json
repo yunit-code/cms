@@ -99,18 +99,13 @@
                     ]
                 },
                 {
-                    "type": "input",
+                    "type": "treeSelect",
                     "layoutType": "inline",
-                    "text": "根栏目ID",
-                    "bindKey": "columnId",
-                    "desc": "根据栏目id获取子栏目数据，若为空则返回根栏目下所有子栏目"
-                },
-                {
-                    "type": "input",
-                    "layoutType": "block",
-                    "text": "导航栏目ID",
-                    "bindKey": "navigationColumn",
-                    "desc": "根据栏目id获取子栏目数据，若为空则返回根栏目下所有子栏目"
+                    "text": "选择栏目",
+                    "bindKey": "selectColumn",
+                    "dataSourceUrl": "/ctrl/website/api/channelTree",
+                    "default": "",
+                    "openGroup": true
                 }
             ]
         },

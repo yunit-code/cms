@@ -135,7 +135,8 @@ export default {
                     _this: this
                 });
             })
-            window.open(item.jumpUrl, this.propData.jumpStyle || '_target')
+            window.open(item.jumpUrl, this.propData.jumpStyle || '_self')
+            window.location.reload()
         },
         /**
          * 提供父级组件调用的刷新prop数据组件
