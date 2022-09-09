@@ -95,11 +95,13 @@
                     "default": "_self"
                 },
                 {
-                    "type": "input",
+                    "type": "treeSelect",
                     "layoutType": "inline",
-                    "text": "栏目ID",
-                    "bindKey": "columnId",
-                    "desc": "指定显示哪个栏目下的图片新闻"
+                    "text": "选择栏目",
+                    "bindKey": "selectColumn",
+                    "dataSourceUrl": "/ctrl/website/api/channelTree",
+                    "default": "",
+                    "openGroup": true
                 },
                 {
                     "type": "input",

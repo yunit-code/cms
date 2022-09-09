@@ -23,7 +23,7 @@ export default {
                 // showIcon: true
             },
             menu_list: [ ],
-            activeIndex2: '1',
+            activeIndex2: '',
         }
     },
     components: {
@@ -55,16 +55,19 @@ export default {
             return name
         },
         getInitDataApi() {
-            if( this.moduleObject.env=="develop" || !this.propData.customInterfaceUrl ){
+            if( this.moduleObject.env=="develop" ){
                 this.menu_list = menuList;
                 this.activeIndex2 = menuList[0].id;
+                return;
+            }
+            if( !this.propData.customInterfaceUrl ){
                 return;
             }
             let urlParam = this.commonParam()
             IDM.http.get(this.propData.customInterfaceUrl,{
                 pageId: urlParam.pageId,
                 componentId: this.moduleObject.comId,
-                columnId: this.propData.selectColumn ? this.propData.selectColumn.id : ''
+                columnId: this.propData.selectColumn ? this.propData.selectColumn.id : '0'
             }).then((res) => {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {
                     let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.rows;

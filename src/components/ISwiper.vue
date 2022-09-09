@@ -100,7 +100,7 @@ export default {
             IDM.http.get(this.propData.customInterfaceUrl,{
                 pageId: urlParam.pageId,
                 componentId: this.moduleObject.comId,
-                columnId: this.propData.columnId || '',
+                columnId: this.propData.selectColumn ? this.propData.selectColumn.id : '',
                 limit: this.propData.limit
             }).then((res) => {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {
