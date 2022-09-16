@@ -68,8 +68,8 @@ export default {
             }
             if (item.jumpUrl) {
                 const url = IDM.url.getWebPath(item.jumpUrl)
-                const toUrl = window.location.pathname + location.href.split(location.pathname)[1]
-                if (toUrl === url && this.propData.jumpStyle === '_self') {
+                if (this.propData.jumpStyle === '_self') {
+                    window.open(url, this.propData.jumpStyle || '_blank')
                     window.location.reload()
                     return
                 }
