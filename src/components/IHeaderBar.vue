@@ -9,7 +9,14 @@
                     <div v-else class="text">{{ propData.topLeftShowText }}</div>
                 </div>
                 <div v-if="propData.showSearch && propData.searchPosition == 'top'" class="right search_block">
-                    <a-input-search v-model="search_text" :enter-button="propData.showSearchButton" :placeholder="propData.searchPlaceholder" style="width: 200px" @search="onSearch" />
+                    <a-input v-model="search_text" :size="propData.size" :placeholder="propData.searchPlaceholder" :style="{ 'width': propData.widthSearch }">
+                        <div v-if="propData.showSearchButton" @click="onSearch" class="search_button flex_start" slot="addonAfter">
+                            <svg class="idm_button_svg_icon" v-if="propData.searchButtonIcon && propData.searchButtonIcon.length > 0" aria-hidden="true" > 
+                                <use :xlink:href="`#${propData.searchButtonIcon[0]}`"></use>
+                            </svg >
+                            <span v-if="propData.searchButtonText" class="text">{{ propData.searchButtonText }}</span>
+                        </div>
+                    </a-input>
                 </div>
             </div>
             <div class="IHeaderBar_app_main flex_between">
@@ -17,7 +24,14 @@
                     <img v-if="propData.logoImgSrc" :src="IDM.url.getWebPath(propData.logoImgSrc)" alt="">
                 </div>
                 <div v-if="propData.showSearch && propData.searchPosition == 'bottom'" class="search_block">
-                    <a-input-search v-model="search_text" :enter-button="propData.showSearchButton" :placeholder="propData.searchPlaceholder" style="width: 200px" @search="onSearch" />
+                    <a-input v-model="search_text" :size="propData.size" :placeholder="propData.searchPlaceholder" :style="{ 'width': propData.widthSearch }">
+                        <div v-if="propData.showSearchButton" @click="onSearch" class="search_button" slot="addonAfter">
+                            <svg class="idm_button_svg_icon" v-if="propData.searchButtonIcon && propData.searchButtonIcon.length > 0" aria-hidden="true" > 
+                                <use :xlink:href="`#${propData.searchButtonIcon[0]}`"></use>
+                            </svg >
+                            <span v-if="propData.searchButtonText">{{ propData.searchButtonText }}</span>
+                        </div>
+                    </a-input>
                 </div>
             </div>
         </div>
@@ -32,13 +46,16 @@ export default {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
-                // showTopContain: true,
-                // topLeftShowType: 'time',
-                // topLeftShowText: '你好，地图',
-                // showSearch: true,
-                // showSearchButton: false,
-                // searchPosition: 'top',
-                // logoImgSrc: '',
+                showTopContain: true,
+                topLeftShowType: 'time',
+                topLeftShowText: '你好，地图',
+                showSearch: true,
+                showSearchButton: true,
+                searchPosition: 'top',
+                logoImgSrc: '',
+                size: 'large',
+                widthSearch: '300px',
+                searchButtonText: '搜索'
             },
             time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
             search_text: ''
@@ -141,13 +158,10 @@ export default {
                     'background-color': item.minorColor ? item.minorColor.hex8 : "",
                     'border-color': item.minorColor ? item.minorColor.hex8 : "",
                 }
-                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .anticon", fontStyleObject );
-                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-btn-primary", backgroundBorderObject );
-                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-btn-primary .anticon", fontStyleObjectButton );
-                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-btn-primary:hover", backgroundBorderObjectHover );
                 IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled)", borderStyleObject );
                 IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input:focus", borderStyleObject );
                 IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input:hover", borderStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input-group-addon", backgroundBorderObject );
             }
         },
         /**
@@ -161,7 +175,7 @@ export default {
          * 把属性转换成样式对象
          */
         convertAttrToStyleObjectLogo() {
-                        var styleObject = {};
+            var styleObject = {};
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key];
@@ -283,8 +297,7 @@ export default {
         },
         convertAttrToStyleObjectMain() {
             var styleObject = {};
-            var styleObjectSearch = {};
-            var styleObjectInput = {};
+            
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key];
@@ -376,6 +389,34 @@ export default {
                             styleObject["text-align"] = element.fontTextAlign;
                             styleObject["text-decoration"] = element.fontDecoration;
                             break;
+                        
+                    }
+                }
+            }
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IHeaderBar_app .IHeaderBar_app_main', styleObject);
+            
+        },
+        convertAttrToStyleObjectSearch() {
+            var styleObjectSearch = {};
+            var styleObjectInput = {};
+            var styleObjectSearchButtonText = {};
+            var styleObjectSearchButtonIcon = {};
+            var styleObjectSearchButton = {};
+            for (const key in this.propData) {
+                if (this.propData.hasOwnProperty.call(this.propData, key)) {
+                    const element = this.propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "searchButtonIconFont":
+                            styleObjectSearchButtonIcon['width'] = element;
+                            styleObjectSearchButtonIcon['height'] = element;
+                            styleObjectSearchButtonIcon['font-size'] = element;
+                            break;
+                        case "searchButtonIconColor":
+                            styleObjectSearchButtonIcon['color'] = element.hex8;
+                            break;
                         case "bgColorSearch":
                             if (element && element.hex8) {
                                 styleObjectSearch["background-color"] = element.hex8;
@@ -427,17 +468,39 @@ export default {
                             styleObjectInput["text-align"] = element.fontTextAlign;
                             styleObjectInput["text-decoration"] = element.fontDecoration;
                             break;
+                        case "fontInputSearch":
+                            styleObjectSearchButtonText["font-family"] = element.fontFamily;
+                            if (element.fontColors.hex8) {
+                                styleObjectSearchButtonText["color"] = element.fontColors.hex8;
+                            }
+                            styleObjectSearchButtonText["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                            styleObjectSearchButtonText["font-style"] = element.fontStyle;
+                            styleObjectSearchButtonText["font-size"] = element.fontSize + element.fontSizeUnit;
+                            styleObjectSearchButtonText["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                            styleObjectSearchButtonText["text-align"] = element.fontTextAlign;
+                            styleObjectSearchButtonText["text-decoration"] = element.fontDecoration;
+                            break;
+                        case "bgColorSearchButton":
+                            if (element && element.hex8) {
+                                styleObjectSearchButton["background-color"] = element.hex8;
+                            }
+                            break;
+                        case "searchButtonWidth":
+                            styleObjectSearchButton["width"] = element;
                     }
                 }
             }
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IHeaderBar_app .IHeaderBar_app_main', styleObject);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .search_block .ant-input', styleObjectSearch);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .search_block input', styleObjectInput);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .search_block .search_button', styleObjectSearchButton);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IHeaderBar_app .search_block .idm_button_svg_icon', styleObjectSearchButtonIcon);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IHeaderBar_app .search_block .text', styleObjectSearchButtonText);
         },
         convertAttrToStyleObject() {
             this.convertAttrToStyleObjectLogo()
             this.convertAttrToStyleObjectTop()
             this.convertAttrToStyleObjectMain()
+            this.convertAttrToStyleObjectSearch()
             var styleObject = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {
                 styleObject["background-size"] = (this.propData.bgSizeWidth ? this.propData.bgSizeWidth.inputVal + this.propData.bgSizeWidth.selectVal : "auto") + " " + (this.propData.bgSizeHeight ? this.propData.bgSizeHeight.inputVal + this.propData.bgSizeHeight.selectVal : "auto")
@@ -719,6 +782,21 @@ export default {
                 max-width: 100%;
                 max-height: 100%;
             }
+        }
+    }
+    .search_block{
+        cursor: pointer;
+        .idm_button_svg_icon{
+            font-size: 14px;
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+            vertical-align: -0.15em;
+            outline: none;
+            flex-shrink: 0;
+        }
+        .span{
+            margin-left: 4px;
         }
     }
 }

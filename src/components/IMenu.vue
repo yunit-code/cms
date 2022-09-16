@@ -34,9 +34,8 @@ export default {
     props: { },
     created() {
         this.moduleObject = this.$root.moduleObject;
-
-        this.reload()
         this.convertAttrToStyleObject();
+        this.reload()
     },
     mounted() {
         
@@ -102,12 +101,51 @@ export default {
             }
             return result
         },
+        convertThemeListAttrToStyleObject() {
+            const themeList = this.propData.themeList;
+            if ( (!themeList) || !themeList.length ) {
+                return
+            }
+            const themeNamePrefix = IDM.setting && IDM.setting.applications && IDM.setting.applications.themeNamePrefix ? IDM.setting.applications.themeNamePrefix : "idm-theme-";
+            for (var i = 0; i < themeList.length; i++) {
+                var item = themeList[i];
+                
+                if(item.key!=IDM.theme.getCurrentThemeInfo()){
+                    //此处比对是不渲染输出不用的样式，如果页面会刷新就可以把此处放开
+                    continue;
+                }
+                let fontStyleObject = {
+                    "color": item.mainColor ? item.mainColor.hex8 : "",
+                }
+                let fontStyleObjectButton = {
+                    "color": '#fff',
+                }
+                let borderStyleObject = {
+                    'border-color': item.mainColor ? item.mainColor.hex8 : "",
+                }
+                let backgroundBorderObject = {
+                    'color': '#fff',
+                    'background-color': item.mainColor ? item.mainColor.hex8 : "",
+                    'border-color': item.mainColor ? item.mainColor.hex8 : ""
+                }
+                let backgroundBorderObjectHover = {
+                    'color': '#fff',
+                    'background-color': item.minorColor ? item.minorColor.hex8 : "",
+                    'border-color': item.minorColor ? item.minorColor.hex8 : "",
+                }
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled)", borderStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input:focus", borderStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input:hover", borderStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input-group-addon", backgroundBorderObject );
+            }
+        },
         /**
          * 提供父级组件调用的刷新prop数据组件
          */
         propDataWatchHandle(propData) {
             this.propData = propData.compositeAttr || {};
             this.convertAttrToStyleObject();
+            this.reload()
         },
         /**
          * 把属性转换成样式对象
@@ -250,6 +288,7 @@ export default {
             this.convertAttrToStyleObjectMenu()
             this.convertAttrToStyleObjectMenuHover()
             this.convertAttrToStyleObjectMenuActive()
+            this.convertThemeListAttrToStyleObject()
             var styleObject = {};
             var styleObjectMenuPop = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {

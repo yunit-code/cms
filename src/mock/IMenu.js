@@ -14,7 +14,7 @@ export const menuList = [
         iconImgUrl: null,
         id: "252",
         jumpUrl: "/DreamWeb/p1000/idm/index.html#/preview/220908160012n75YTaH2I4RAAPRI0Bn?columnId=252",
-        shortTitle: "communication",
+        shortTitle: "交流互动",
         title: "交流互动"
     },
     {
