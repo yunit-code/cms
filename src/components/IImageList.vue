@@ -158,7 +158,7 @@ export default {
                 window.IDM.http
                     .get(this.propData.customInterfaceUrl, {
                         ...this.commonParam(),
-                        columnId: this.propData.columnId || this.commonParam().columnId,
+                        columnId: this.propData.selectColumn ? this.propData.selectColumn.id : this.commonParam().columnId,
                         start: 0,
                         limit: this.propData.contentNumber
                     })
