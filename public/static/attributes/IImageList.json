@@ -36,14 +36,14 @@
                     "dictionary": [
                         {
                             "label": "当前页打开",
-                            "value": "_target"
+                            "value": "_self"
                         },
                         {
                             "label": "新页签打开",
                             "value": "_blank"
                         }
                     ],
-                    "default": "_target"
+                    "default": "_self"
                 },
                 {
                     "type": "select",

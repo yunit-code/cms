@@ -68,6 +68,11 @@ export default {
             }
             if (item.jumpUrl) {
                 const url = IDM.url.getWebPath(item.jumpUrl)
+                const toUrl = window.location.pathname + location.href.split(location.pathname)[1]
+                if (toUrl === url && this.propData.jumpStyle === '_self') {
+                    window.location.reload()
+                    return
+                }
                 window.open(url, this.propData.jumpStyle || '_blank')
             }
         },
@@ -192,7 +197,9 @@ export default {
             this.propData.customInterfaceUrl &&
                 window.IDM.http
                     .get(this.propData.customInterfaceUrl, {
-                        columnId: this.propData.selectColumn ? this.propData.selectColumn.id : this.commonParam().columnId
+                        columnId: this.propData.selectColumn
+                            ? this.propData.selectColumn.id
+                            : this.commonParam().columnId
                     })
                     .then((res) => {
                         if (res.status == 200 && res.data.code == 200) {
