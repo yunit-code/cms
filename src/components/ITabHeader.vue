@@ -190,10 +190,7 @@ export default {
             return item
         },
         jumpMorePage() {
-            console.log('activeTab',this.activeTab);
             let item = this.getActiveItemData()
-            console.log('item',item);
-            console.log('allTabList',this.allTabList);
             if ( item && item.selectColumn && item.moreJumpUrl ) {
                 let url = IDM.url.getWebPath(item.moreJumpUrl) + '?columnId=' + item.selectColumn.id;
                 window.open(url, item.jumpStyle || '_self')
@@ -233,10 +230,11 @@ export default {
                     switch (key) {
                         case "moreIconFontSize":
                              styleObject['font-size'] = element;
+                             styleObject['width'] = element;
                             break;
-                        case "bgColorMoreIcon":
-                            if (propData.bgColorMoreIcon && propData.bgColorMoreIcon.hex8) {
-                                styleObject["color"] = propData.bgColorMoreIcon.hex8;
+                        case "colorMoreIcon":
+                            if (propData.colorMoreIcon && propData.colorMoreIcon.hex8) {
+                                styleObject["color"] = propData.colorMoreIcon.hex8;
                             }
                             break;
                         case "moreIconTop":
@@ -958,6 +956,7 @@ export default {
     .more{
         .svg-icon{
             position: relative;
+            max-height: 20px;
         }
     }
     .header_line{
