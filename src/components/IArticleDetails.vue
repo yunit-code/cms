@@ -253,11 +253,7 @@ export default {
           IDM.http
             .get(
               IDM.express.replace(this.propData.url, {
-                ...IDM.url.queryObject(),
-                pageId:
-                  window.IDM.broadcast && window.IDM.broadcast.pageModule
-                    ? window.IDM.broadcast.pageModule.id
-                    : ''
+                ...IDM.url.queryObject()
               })
             )
             .done(res => {
