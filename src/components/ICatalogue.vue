@@ -49,7 +49,7 @@ export default {
             if (this.moduleObject.env == "develop" || !this.propData.getColumnListApiUrl) {
                 this.record_list = [
                     {
-                        title: '本地要闻1'
+                        title: '本地要闻'
                     },
                     {
                         title: '区县快讯'

@@ -3,7 +3,7 @@
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <div v-for="(item,index) in data_list" :key="index" class="swiper-slide">
-                    <img @click="jumpPage(item)" v-if="item.image" :src="IDM.url.getWebPath(item.image)" />
+                    <img @click="jumpPage(item)" v-if="item.image" :src="item.image" />
                 </div>
             </div>
             <div v-if="propData.direction == 'horizontal'" class="swiper-pagination"></div>
@@ -13,11 +13,10 @@
             <div class="time">{{ data_list[this.active_index] ? data_list[this.active_index].time : '' }}</div>
         </div>
         <div v-if="propData.direction == 'vertical' && propData.showTitle" class="describe_vertical">
-            <div v-for="(item,index) in data_list" @click="onClickDescribe(item,index)" :key="index" class="describe_list" :class="index == active_index ? 'describe_list_active' : ''">
+            <div v-for="(item,index) in data_list" @click.stop="onClickDescribe(item,index)" :key="index" class="describe_list" :class="index == active_index ? 'describe_list_active' : ''">
                 {{ item.title }}
             </div>
         </div>
-
     </div>
 </template>
 
@@ -31,13 +30,14 @@ export default {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
-                direction: 'horizontal',
-                baseColumn: '',//指定显示哪个栏目下的图片新闻
-                pictureNumber: '',
-                intervalTime: '',
-                interchargeEffect: '',
-                showTitle: true,
-                objectFit: 'fill'
+                // direction: 'vertical',
+                // baseColumn: '',//指定显示哪个栏目下的图片新闻
+                // pictureNumber: '',
+                // intervalTime: '',
+                // interchargeEffect: '',
+                // showTitle: true,
+                // objectFit: 'fill',
+                // height: '400px'
             },
             data_list: [ ],
             my_swiper: null,
@@ -64,7 +64,7 @@ export default {
     },
     mounted() {
         this.resizeContentWrapperHeight()
-        this.reload()
+        this.getSwiperList()
     },
     destroyed() { },
     methods: {
@@ -125,9 +125,6 @@ export default {
             this.initSwiper()
         },
         initSwiper() {
-            // if ( !this.parentHeight ) {
-            //     return
-            // }
             let that = this;
             let my_swiper = new Swiper('.swiper-container', {
                 direction: this.propData.direction || 'horizontal',
@@ -141,9 +138,9 @@ export default {
                         if ( that.propData.direction != 'vertical' ) {
                             return
                         }
-                        that.active_index = my_swiper ? my_swiper.realIndex : 0;
-                        let scroll_top = ($('.describe_list') && $('.describe_list')[my_swiper.realIndex]) ? $('.describe_list')[my_swiper.realIndex].offsetTop : 0;
-                        $('.describe_vertical').scrollTop(scroll_top);
+                        that.active_index = that.my_swiper && that.my_swiper.realIndex ?  that.my_swiper.realIndex : 0;
+                        let scroll_top = ($('.describe_list') && $('.describe_list')[that.active_index]) ? $('.describe_list')[that.active_index].offsetTop : 0;
+                        $('.describe_vertical') && $('.describe_vertical').scrollTop(scroll_top);
                     },
                 },
                 // 如果需要分页器
@@ -158,6 +155,7 @@ export default {
         },
         onClickDescribe(item,index) {
             if ( this.my_swiper ) {
+                this.active_index = index;
                 this.my_swiper.slideToLoop(index, 1000, false);
             }   
         },
@@ -531,39 +529,7 @@ export default {
             };
             return params;
         },
-        /**
-         * 重新加载
-         */
-        reload() {
-            //请求数据源
-            this.initData();
-        },
-        /**
-         * 加载动态数据
-         */
-        initData() {
-            let that = this;
-            //所有地址的url参数转换
-            var params = that.commonParam();
-            switch (this.propData.dataSourceType) {
-                case "customInterface":
-                    this.getSwiperList()
-                    break;
-                case "pageCommonInterface":
-                    //使用通用接口直接跳过，在setContextValue执行
-                    break;
-                case "customFunction":
-                    if (this.propData.customFunction && this.propData.customFunction.length > 0) {
-                        var resValue = "";
-                        try {
-                            resValue = window[this.propData.customFunction[0].name] && window[this.propData.customFunction[0].name].call(this, { ...params, ...this.propData.customFunction[0].param, moduleObject: this.moduleObject });
-                        } catch (error) {
-                        }
-                        that.propData.data_list = resValue;
-                    }
-                    break;
-            }
-        },
+
         /**
          * 通用的获取表达式匹配后的结果
          */
