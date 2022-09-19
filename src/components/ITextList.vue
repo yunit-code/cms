@@ -76,7 +76,7 @@ export default {
             currentPage: 1,
             componentData: {
                 rows: [],
-                total: 3,
+                total: 0,
                 title: ''
             }
         }
@@ -297,12 +297,17 @@ export default {
             }
         },
         initData() {
-            if (this.moduleObject.env === 'develop') {
+            if (!this.propData.selectColumn || !this.propData.selectColumn.id) {
+                let itemData = null
                 if (this.propData.styleType !== 'timeAndText') {
-                    this.componentData = textListData
+                    itemData = _.cloneDeep(textListData.rows[0])
                 } else {
-                    this.componentData = textListData3
+                    itemData = _.cloneDeep(textListData3.rows[0])
                 }
+                this.componentData = textListData
+                this.componentData.total = this.propData.contentNumber
+                this.componentData.rows.length = this.propData.contentNumber
+                this.componentData.rows.fill(itemData)
                 return
             }
             this.propData.customInterfaceUrl &&
