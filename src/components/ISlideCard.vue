@@ -241,6 +241,14 @@ export default {
     this.loadIconFile();
     this.initData();
   },
+  watch: {
+    'propData.selectColumn': {
+      handler(value) {
+        this.initData();
+      },
+      deep: true
+    }
+  },
   methods: {
     initAttrToModule() {
       this.convertAttrToStyleObject();
@@ -441,12 +449,24 @@ export default {
           });
       }
     },
+    commonParam() {
+      let urlObject = IDM.url.queryObject();
+      var params = {
+        pageId:
+          window.IDM.broadcast && window.IDM.broadcast.pageModule
+            ? window.IDM.broadcast.pageModule.id
+            : '',
+        urlData: JSON.stringify(urlObject)
+      };
+      return params;
+    },
     /**
      * 请求数据
      */
     initData() {
+      const urlParam = this.commonParam();
       if (this.propData.dataSourceType != 'static') {
-        if (!this.moduleObject.env || this.moduleObject.env == 'develop') {
+        if (!this.propData.selectColumn || !this.propData.selectColumn.id || !this.propData.url) {
           this.setRows(devResult(this));
           return;
         }
@@ -455,7 +475,12 @@ export default {
             if (!this.propData.url) return;
             this.isLoading = true;
             IDM.http
-              .get(this.propData.url)
+              .get(this.propData.url, {
+                columnId: this.propData.selectColumn.id,
+                componentId: this.moduleObject.comId,
+                pageId: urlParam.pageId,
+                limit: this.propData.limit || ''
+              })
               .done(res => {
                 if (res.type === 'success') {
                   let resultData = this.customFormat(this.propData.customFunction, res.data);
