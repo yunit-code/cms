@@ -101,7 +101,8 @@
                     "bindKey": "selectColumn",
                     "dataSourceUrl": "/ctrl/website/api/channelTree",
                     "default": "",
-                    "openGroup": true
+                    "openGroup": true,
+                    "multiple": true
                 },
                 {
                     "type": "input",
@@ -147,7 +148,7 @@
                     "layoutType": "inline",
                     "text": "填充方式",
                     "bindKey": "objectFit",
-                    "desc": "轮播图图片填充方式",
+                    "desc": "fill:不保证保持原有的比例，内容拉伸填充整个内容容器;contain:保持原有尺寸比例。内容被缩放;cover:保持原有尺寸比例。但部分内容可能被剪切;none:保留原有元素内容的长度和宽度，也就是说内容不会被重置",
                     "dictionary": [
                         {
                             "label": "fill",

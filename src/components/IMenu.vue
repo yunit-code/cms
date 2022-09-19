@@ -37,6 +37,20 @@ export default {
         this.convertAttrToStyleObject();
         this.reload()
     },
+    watch: {
+        'propData.selectColumn': {
+            handler(value) {
+                if ( this.propData.applicationList && this.propData.applicationList.length && !this.propData.isMyApplication ) {
+                    let applicationList = this.changeApplicationIconAndUrl(this.propData.applicationList)
+                    this.application_data = JSON.parse(JSON.stringify(applicationList))
+                } else {
+                    this.application_data = [];
+                }
+                this.changeLines()
+            },
+            deep: true
+        },
+    },
     mounted() {
         
     },
@@ -66,7 +80,8 @@ export default {
             IDM.http.get(this.propData.customInterfaceUrl,{
                 pageId: urlParam.pageId,
                 componentId: this.moduleObject.comId,
-                columnId: this.propData.selectColumn ? this.propData.selectColumn.id : '0'
+                columnId: this.propData.selectColumn ? this.propData.selectColumn.id : '0',
+                limit: this.propData.limit || ''
             }).then((res) => {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {
                     let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.rows;
@@ -85,6 +100,7 @@ export default {
             let item = this.getSelectedItem(index,this.menu_list)
             if ( item && item.jumpUrl ) {
                 window.location.href = item.jumpUrl
+                // return
                 window.location.reload()
             }
         },

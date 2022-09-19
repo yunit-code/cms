@@ -56,6 +56,12 @@ export default {
                 }
             },
             deep: true
+        },
+        'propData.selectColumn': {
+            handler: function(value) {
+                this.getSwiperList()
+            },
+            deep: true
         }
     },
     created() {
@@ -76,7 +82,7 @@ export default {
             window.open(url, this.propData.jumpStyle || '_self')
         },
         getSwiperList() {
-            if( this.moduleObject.env=="develop" || !this.propData.customInterfaceUrl ){
+            if( (!this.propData.selectColumn) || (!this.propData.selectColumn.length) || !this.propData.customInterfaceUrl ){
                 this.data_list = [
                     {
                         image: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
@@ -97,10 +103,17 @@ export default {
                 return;
             }
             let urlParam = this.commonParam()
+            let columnId = '';
+            let columnId_arr = [];
+            if ( this.propData.selectColumn && this.propData.selectColumn.length ) {
+                columnId_arr = this.propData.selectColumn.map((item) => item.id);
+                columnId = columnId_arr.join(',');
+            }
+
             IDM.http.get(this.propData.customInterfaceUrl,{
                 pageId: urlParam.pageId,
                 componentId: this.moduleObject.comId,
-                columnId: this.propData.selectColumn ? this.propData.selectColumn.id : '',
+                columnId: columnId,
                 limit: this.propData.limit
             }).then((res) => {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {

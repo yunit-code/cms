@@ -106,6 +106,13 @@
                     "dataSourceUrl": "/ctrl/website/api/channelTree",
                     "default": "",
                     "openGroup": true
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "显示数量",
+                    "bindKey": "limit",
+                    "default": ""
                 }
             ]
         },

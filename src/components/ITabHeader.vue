@@ -956,7 +956,7 @@ export default {
     .more{
         .svg-icon{
             position: relative;
-            max-height: 20px;
+            max-height: 20px !important;
         }
     }
     .header_line{
