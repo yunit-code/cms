@@ -291,9 +291,11 @@ export default {
           IDM.http
             .get(
               IDM.express.replace(this.propData.url, {
-                ...IDM.url.queryObject(),
+                ...IDM.url.queryObject()
+              }),
+              {
                 columnId: this.propData.selectColumn.id
-              })
+              }
             )
             .done(res => {
               if (res.type === 'success') {
