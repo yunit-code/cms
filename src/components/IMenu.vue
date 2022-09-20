@@ -101,7 +101,7 @@ export default {
             if ( item && item.jumpUrl ) {
                 window.location.href = item.jumpUrl
                 // return
-                window.location.reload()
+                // window.location.reload()
             }
         },
         getSelectedItem(id,data) {

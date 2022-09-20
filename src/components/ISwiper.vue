@@ -2,15 +2,15 @@
     <div idm-ctrl="idm_module" :id="moduleObject.id" class="ISwiper_app" :idm-ctrl-id="moduleObject.id" >
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div v-for="(item,index) in data_list" :key="index" class="swiper-slide">
+                <div v-for="(item,index) in data_list" :key="item.id" class="swiper-slide">
                     <img @click="jumpPage(item)" v-if="item.image" :src="item.image" />
                 </div>
             </div>
             <div v-if="propData.direction == 'horizontal'" class="swiper-pagination"></div>
         </div>
-        <div v-if="propData.direction == 'horizontal' && propData.showTitle" class="describe_horizontal">
+        <div v-if="propData.direction == 'horizontal' && propData.showTitle" class="describe_horizontal" :class="propData.titlePosition == 'inner' ? 'describe_horizontal_inner' : 'describe_horizontal_outer'">
             <div class="title">{{ data_list[this.active_index] ? data_list[this.active_index].title : '' }}</div>
-            <div class="time">{{ data_list[this.active_index] ? data_list[this.active_index].time : '' }}</div>
+            <div v-if="propData.showTitleTime" class="time">{{ data_list[this.active_index] ? data_list[this.active_index].time : '' }}</div>
         </div>
         <div v-if="propData.direction == 'vertical' && propData.showTitle" class="describe_vertical">
             <div v-for="(item,index) in data_list" @click.stop="onClickDescribe(item,index)" :key="index" class="describe_list" :class="index == active_index ? 'describe_list_active' : ''">
@@ -30,19 +30,20 @@ export default {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
-                // direction: 'vertical',
+                // direction: 'horizontal',
                 // baseColumn: '',//指定显示哪个栏目下的图片新闻
                 // pictureNumber: '',
                 // intervalTime: '',
                 // interchargeEffect: '',
                 // showTitle: true,
                 // objectFit: 'fill',
-                // height: '400px'
+                // height: '400px',
+                // heightImg: '100%',
+                // titlePosition: 'inner'
             },
             data_list: [ ],
             my_swiper: null,
             active_index: 0,
-            parentHeight: '',
         }
     },
     props: {
@@ -62,26 +63,32 @@ export default {
                 this.getSwiperList()
             },
             deep: true
+        },
+        'propData.limit': {
+            handler: function(value) {
+                this.getSwiperList()
+            },
+            deep: true
         }
     },
     created() {
-        this.moduleObject = this.$root.moduleObject
+        this.moduleObject = this.$root.moduleObject;
         this.convertAttrToStyleObject();
     },
     mounted() {
-        this.resizeContentWrapperHeight()
         this.getSwiperList()
     },
     destroyed() { },
     methods: {
         jumpPage(item) {
-            if ( (!item) || !item.jumpUrl ) {
+            if ( (!item) || !item.jumpUrl || this.moduleObject.env == 'develop' ) {
                 return
             }
             let url = IDM.url.getWebPath(item.jumpUrl);
             window.open(url, this.propData.jumpStyle || '_self')
         },
         getSwiperList() {
+            console.log('获取swiper数据')
             if( (!this.propData.selectColumn) || (!this.propData.selectColumn.length) || !this.propData.customInterfaceUrl ){
                 this.data_list = [
                     {
@@ -97,9 +104,9 @@ export default {
                         title: '3-习近平：在庆祝中国共产党成立100周年大会上的讲话'
                     }
                 ];
-                this.$nextTick(() => {
+                if ( this.moduleObject.env != 'develop' ) {
                     this.initSwiper()
-                })
+                }
                 return;
             }
             let urlParam = this.commonParam()
@@ -119,9 +126,11 @@ export default {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {
                     let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.rows;
                     this.data_list = result || [];
-                    this.$nextTick(() => {
-                        this.initSwiper()
-                    })
+                    if ( this.moduleObject.env != 'develop' ) {
+                        this.$nextTick(() => {
+                            this.initSwiper()
+                        })
+                    }
                 } else {
                     IDM.message.error(res.data.message);
                 }
@@ -132,9 +141,12 @@ export default {
                 try {
                     this.my_swiper.destroy(true,true)
                 } catch (error) {
-                    this.initSwiper()
+                    if ( !this.my_swiper ) {
+                        this.initSwiper()
+                    }
+                    return
                 }
-            }
+            } 
             this.initSwiper()
         },
         initSwiper() {
@@ -144,16 +156,15 @@ export default {
                 loop: true,
                 autoplay: {
                     delay: this.propData.intervalTime || 5000,
-                    disableOnInteraction: false, //*手动操作轮播图后不会暂停*
+                    // disableOnInteraction: true, //*手动操作轮播图后不会暂停*
                 },
                 on:{
                     slideChange: function(){
-                        if ( that.propData.direction != 'vertical' ) {
-                            return
-                        }
                         that.active_index = that.my_swiper && that.my_swiper.realIndex ?  that.my_swiper.realIndex : 0;
-                        let scroll_top = ($('.describe_list') && $('.describe_list')[that.active_index]) ? $('.describe_list')[that.active_index].offsetTop : 0;
-                        $('.describe_vertical') && $('.describe_vertical').scrollTop(scroll_top);
+                        if ( that.propData.direction == 'vertical' ) {
+                            let scroll_top = ($('.describe_list') && $('.describe_list')[that.active_index]) ? $('.describe_list')[that.active_index].offsetTop : 0;
+                            $('.describe_vertical') && $('.describe_vertical').scrollTop(scroll_top);
+                        }
                     },
                 },
                 // 如果需要分页器
@@ -176,22 +187,14 @@ export default {
          * 提供父级组件调用的刷新prop数据组件
          */
         propDataWatchHandle(propData) {
+            console.log('ISwiper组件propData',propData)
             this.propData = propData.compositeAttr || {};
+            this.convertAttrToStyleObject()
             if ( this.moduleObject.env == 'develop' ) {
                 this.updateSwiper()
             }
-            this.resizeContentWrapperHeight()
         },
-        resizeContentWrapperHeight(height) {
-            if ( this.moduleObject.env == 'develop' ) {
-                if ( this.propData.isAdaption ) {
-                    this.parentHeight = $('#' + this.moduleObject.packageid).parents('.fsl-region-element').height()
-                } else {
-                    this.parentHeight = ''
-                }
-                this.convertAttrToStyleObject()
-            } 
-        },
+        
         /**
          * 把属性转换成样式对象
          */
@@ -208,6 +211,9 @@ export default {
                     switch ( key ) {
                         case "heightHorizontalTitle":
                             styleObject['height'] = element + 'px';
+                            break;
+                        case "positionYTitle":
+                            styleObject['bottom'] = element;
                             break;
                         case "fontHorizontalTitle":
                             styleObjectTitle["font-family"] = element.fontFamily;
@@ -407,21 +413,13 @@ export default {
                             styleObject[key] = element;
                             break;
                         case "height":
-                            if ( this.propData.isAdaption && this.parentHeight ) {
-                                styleObject[key] = this.parentHeight + 'px';
-                            } else {
-                                styleObject[key] = element;
-                            }
+                            styleObject[key] = element;
                             break;
                         case "widthImg":
                             styleObjectSwiper['width'] = element;
                             break;
                         case "heightImg":
-                            if ( this.propData.isAdaption && this.parentHeight ) {
-                                styleObjectSwiper['height'] = (this.parentHeight - (this.propData.heightHorizontalTitle ? this.propData.heightHorizontalTitle : 0)) + 'px';
-                            } else {
-                                styleObjectSwiper['height'] = element;
-                            }
+                            styleObjectSwiper['height'] = element;
                             break;
                         case "bgColor":
                             if (element && element.hex8) {
@@ -593,12 +591,6 @@ export default {
          */
         receiveBroadcastMessage(object) {
             console.log("ISwiper组件收到消息", object)
-            if (object && object.type == "regionResize" && object.message && object.message.gridEleTarget) {
-                let gridEleTarget = object.message.gridEleTarget;
-                if (gridEleTarget && gridEleTarget.offsetHeight) {
-                    this.parentHeight = gridEleTarget.offsetHeight;
-                }
-            }
         },
         /**
          * 组件通信：发送消息的方法
@@ -667,6 +659,16 @@ export default {
     }
     .describe_horizontal{
         
+    }
+    .describe_horizontal_inner{
+        position: absolute;
+        width: 100%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        color: white;
+        background: rgba(0,0,0,0.4);
     }
     .describe_vertical{
         position: absolute;

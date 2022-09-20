@@ -41,8 +41,9 @@ export default {
     methods: {
         getCurrenteId() {
             let params = this.commonParam()
-            if ( params && params.columnId ) {
-                this.active_index = params.columnId
+            console.log('params',params)
+            if ( params && params.urlData ) {
+                this.active_index = JSON.parse(params.urlData).columnId
             }
         },
         getInitData() {
@@ -74,7 +75,7 @@ export default {
             }
             var params = this.commonParam().urlData;
             window.IDM.http.get(this.propData.getColumnListApiUrl, {
-                columnId: params ? JSON.parse(params).columnId : ''
+                columnId: params ? JSON.parse(params).menuId : ''
             }).then((res) => {
                 if ( res && res.data && res.data.code == '200' ) {
                     if ( this.propData.dataFiled ) {
@@ -100,7 +101,7 @@ export default {
             }
             var params = this.commonParam().urlData;
             window.IDM.http.get(this.propData.getColumnListApiUrl, {
-                navigationColumn: params ? JSON.parse(params).columnId : ''
+                navigationColumn: params ? JSON.parse(params).menuId : ''
             }).then((res) => {
                 if ( res && res.data && res.data.code == '200' ) {
                     if ( this.propData.dataFiled ) {
@@ -136,7 +137,7 @@ export default {
                 });
             })
             window.open(item.jumpUrl, this.propData.jumpStyle || '_self')
-            window.location.reload()
+            // window.location.reload()
         },
         /**
          * 提供父级组件调用的刷新prop数据组件
