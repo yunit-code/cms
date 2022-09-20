@@ -44,6 +44,28 @@
         </div>
       </div>
       <div
+        v-if="propData.videosField"
+        :style="{ textAlign: 'center' }"
+        class="i-articleDetails-videos"
+      >
+        <video
+          v-for="(item, index) in getExpressData('data', propData.videosField, articleData)"
+          :key="index"
+          :src="item"
+          :width="propData.videoWidth"
+          :height="propData.videoHeight"
+          loop
+          controls
+          preload
+          :style="{
+            display: 'block',
+            marginTop: index == 0 ? '0px' : `${propData.videoMargin}px`,
+            marginRight: 'auto',
+            marginLeft: 'auto'
+          }"
+        />
+      </div>
+      <div
         v-if="propData.contentField"
         class="i-articleDetails-content"
         v-html="getExpressData('data', propData.contentField, articleData)"
@@ -61,10 +83,14 @@ export default {
     // dataSource: '1',
     // titleField: 'title',
     // contentField: 'content',
+    // videosField: 'videos',
     // loadingSize: 32,
     // emptyImageWidth: 120,
     // emptyImageHeight: 100,
-    // themeList: [{key: 'blue', mainColor: {hex8:'#999999FF'}}],
+    // videoMargin: 20,
+    // videoWidth: 'auto',
+    // videoHeight: 'auto',
+    // themeList: [{ key: 'blue', mainColor: { hex8: '#999999FF' } }],
     // extraFieldList: [
     //   {
     //     name: '作者：',
@@ -95,6 +121,14 @@ export default {
     this.initAttrToModule();
 
     this.initData();
+  },
+  watch: {
+    'propData.selectColumn': {
+      handler(value) {
+        this.initData();
+      },
+      deep: true
+    }
   },
   methods: {
     /**
@@ -236,13 +270,17 @@ export default {
      * 请求数据
      */
     initData() {
-      if (!this.moduleObject.env || this.moduleObject.env == 'develop') {
+      if (!this.propData.selectColumn || !this.propData.selectColumn.id || !this.propData.url) {
         this.articleData = {
           title: '标题',
           content: '<span>html标签包裹的文本</span>',
           author: '演示',
           time: '2022-08-15 09:03',
-          number: '167'
+          number: '167',
+          videos: [
+            'https://vd4.bdstatic.com/mda-mhwd9sf3gx5ve3q0/sc/cae_h264/1630402196086939347/mda-mhwd9sf3gx5ve3q0.mp4',
+            'https://vd4.bdstatic.com/mda-mhwd9sf3gx5ve3q0/sc/cae_h264/1630402196086939347/mda-mhwd9sf3gx5ve3q0.mp4'
+          ]
         };
         return;
       }
@@ -253,7 +291,8 @@ export default {
           IDM.http
             .get(
               IDM.express.replace(this.propData.url, {
-                ...IDM.url.queryObject()
+                ...IDM.url.queryObject(),
+                columnId: this.propData.selectColumn.id
               })
             )
             .done(res => {
