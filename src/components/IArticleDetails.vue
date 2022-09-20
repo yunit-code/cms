@@ -122,14 +122,6 @@ export default {
 
     this.initData();
   },
-  watch: {
-    'propData.selectColumn': {
-      handler(value) {
-        this.initData();
-      },
-      deep: true
-    }
-  },
   methods: {
     /**
      * 提供父级组件调用的刷新prop数据组件
@@ -270,7 +262,7 @@ export default {
      * 请求数据
      */
     initData() {
-      if (!this.propData.selectColumn || !this.propData.selectColumn.id || !this.propData.url) {
+      if (!this.moduleObject.env || this.moduleObject.env == 'develop') {
         this.articleData = {
           title: '标题',
           content: '<span>html标签包裹的文本</span>',
@@ -292,10 +284,7 @@ export default {
             .get(
               IDM.express.replace(this.propData.url, {
                 ...IDM.url.queryObject()
-              }),
-              {
-                columnId: this.propData.selectColumn.id
-              }
+              })
             )
             .done(res => {
               if (res.type === 'success') {

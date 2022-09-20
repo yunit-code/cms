@@ -69,16 +69,6 @@
           "display": "@[dataSourceType=='customInterface']"
         },
         {
-          "type": "treeSelect",
-          "layoutType": "inline",
-          "text": "选择栏目",
-          "bindKey": "selectColumn",
-          "dataSourceUrl": "/ctrl/website/api/channelTree",
-          "default": "",
-          "openGroup": true,
-          "display": "@[dataSourceType=='customInterface']"
-        },
-        {
           "type": "input",
           "layoutType": "inline",
           "text": "结果集名",
