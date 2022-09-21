@@ -2,7 +2,7 @@
     <div idm-ctrl="idm_module" :id="moduleObject.id" class="ISwiper_app" :idm-ctrl-id="moduleObject.id" >
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div v-for="(item,index) in data_list" :key="item.id" class="swiper-slide">
+                <div v-for="(item) in data_list" :key="item.id" class="swiper-slide">
                     <img @click="jumpPage(item)" v-if="item.image" :src="item.image" />
                 </div>
             </div>

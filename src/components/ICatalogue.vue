@@ -41,7 +41,6 @@ export default {
     methods: {
         getCurrenteId() {
             let params = this.commonParam()
-            console.log('params',params)
             if ( params && params.urlData ) {
                 this.active_index = JSON.parse(params.urlData).columnId
             }

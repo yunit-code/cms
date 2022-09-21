@@ -34,5 +34,14 @@ export const menuList = [
         jumpUrl: "/DreamWeb/p1000/idm/index.html#/preview/220908160012n75YTaH2I4RAAPRI0Bn?columnId=247",
         shortTitle: "领导发文",
         title: "领导发文"
+    },
+    {
+        children: null,
+        hoverIconImgUrl: "",
+        iconImgUrl: "",
+        id: "248",
+        jumpUrl: "/DreamWeb/ctrl/website/api/columnJump.html?columnId=248&siteId=1",
+        shortTitle: "重要发文",
+        title: "重要发文"
     }
 ]

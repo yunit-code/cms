@@ -1,9 +1,18 @@
 <template>
     <!-- 根目录规范(必须不能为空)： idm-ctrl：控件类型 drag_container：容器，drag_container_inlieblock：行内容器，idm_module：非容器的组件 id：使用moduleObject.id，如果id不使用这个将会被idm-ctrl-id属性替换 idm-ctrl-id：组件的id，这个必须不能为空 -->
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" class="IMenu_app">
-        <el-menu :default-active="activeIndex2" class="el-menu-demo" :class="getMenuStyleClassName()" mode="horizontal" @select="handleSelect" :menu-trigger="propData.triggerType">
-            <MenuNavItem v-for="(item,index) in menu_list" :key="index" :menu_data="item" :prop_data="propData"></MenuNavItem>
-        </el-menu>
+        <div id="menu_block" class="flex_between IMenu_app_main">
+            <div v-if="is_show_move_button" @click="toLeftMove" class="next_button next_button_left">
+                <SvgIcon icon-class="left"></SvgIcon>
+            </div>
+            <el-menu id="menu" :default-active="activeIndex2" class="el-menu-demo" :class="getMenuStyleClassName()" mode="horizontal" @select="handleSelect" :menu-trigger="propData.triggerType">
+                <MenuNavItem v-for="(item,index) in menu_list" :key="index" :menu_data="item" :prop_data="propData"></MenuNavItem>
+            </el-menu>
+            <div v-if="is_show_move_button" @click="toRightMove" class="next_button next_button_right">
+                <SvgIcon icon-class="right"></SvgIcon>
+            </div>
+        </div>
+        
     </div>
 </template>
 
@@ -11,6 +20,7 @@
 import MenuNavItem from '../commonComponent/MenuNavItem.vue'
 import { Menu,Button } from 'element-ui'
 import { menuList } from '../mock/IMenu.js'
+import SvgIcon from '../icons/SvgIcon.vue';
 
 export default {
     name: 'IMenu',
@@ -24,12 +34,16 @@ export default {
             },
             menu_list: [ ],
             activeIndex2: '',
+            left_number: 0,
+            every_menu_width: 100,
+            is_show_move_button: false,
         }
     },
     components: {
         MenuNavItem,
         [Menu.name]: Menu,
         [Button.name]: Button,
+        SvgIcon
     },
     props: { },
     created() {
@@ -40,22 +54,57 @@ export default {
     watch: {
         'propData.selectColumn': {
             handler(value) {
-                if ( this.propData.applicationList && this.propData.applicationList.length && !this.propData.isMyApplication ) {
-                    let applicationList = this.changeApplicationIconAndUrl(this.propData.applicationList)
-                    this.application_data = JSON.parse(JSON.stringify(applicationList))
-                } else {
-                    this.application_data = [];
-                }
-                this.changeLines()
+                this.reload()
             },
             deep: true
         },
+        'propData.limit': {
+            handler(value) {
+                this.reload()
+            }
+        }
     },
     mounted() {
         
     },
     destroyed() { },
     methods: {
+        getMoveButtonStatus() {
+            if ( (!this.menu_list) || !this.menu_list.length ) {
+                this.is_show_move_button = false;
+                return 
+            }
+            let menu_width = document.getElementById('menu').scrollWidth;
+            let menu_contain_width = document.getElementById('menu_block').offsetWidth;
+            this.every_menu_width = menu_width / this.menu_list.length;
+            if ( menu_width > menu_contain_width ) {
+                this.is_show_move_button = true;
+            } else {
+                this.is_show_move_button = false;
+            }
+        },
+        toLeftMove() {
+            let menuScrollLeft = document.getElementById('menu').scrollLeft;
+            if ( menuScrollLeft > this.every_menu_width ) {
+                document.getElementById('menu').scrollLeft -= this.every_menu_width;
+            } else {
+                document.getElementById('menu').scrollLeft = 0;
+            }
+        },
+        toRightMove() {
+            let menuScrollLeft = document.getElementById('menu').scrollLeft;
+            if ( menuScrollLeft == 0 ) {
+                document.getElementById('menu').scrollLeft = this.every_menu_width;
+            } else {
+                document.getElementById('menu').scrollLeft += this.every_menu_width;
+            }
+        },
+        translate() {
+            this.left_number++;
+            let number = 100 * this.left_number;
+            console.log(number)
+            document.getElementById('menu').scrollLeft = number;
+        },
         getMenuStyleClassName() {
             let name = ''
             if ( this.propData.styleForm == '1' ) {
@@ -68,12 +117,12 @@ export default {
             return name
         },
         getInitDataApi() {
-            if( this.moduleObject.env=="develop" ){
+            if( (!this.propData.customInterfaceUrl) || (!this.propData.selectColumn) || !this.propData.selectColumn.id ){
                 this.menu_list = menuList;
                 this.activeIndex2 = menuList[0].id;
-                return;
-            }
-            if( !this.propData.customInterfaceUrl ){
+                this.$nextTick(() => {
+                    this.getMoveButtonStatus()
+                })
                 return;
             }
             let urlParam = this.commonParam()
@@ -86,22 +135,26 @@ export default {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {
                     let result = this.propData.dataFiled ? this.getExpressData('resultData',this.propData.dataFiled,res.data.data) : res.data.data.rows;
                     this.menu_list = result || [];
-                    
+                   
                     let queryData = IDM.url.queryObject();
                     if ( queryData && queryData.menuId ) {
                         this.activeIndex2 = queryData.menuId;
                     } else if ( this.menu_list && this.menu_list.length && this.menu_list[0] && this.menu_list[0].id ) {
                         this.activeIndex2 = this.menu_list[0].id;
                     }
+                    this.$nextTick(() => {
+                        this.getMoveButtonStatus()
+                    })
                 }
             })
         },
         handleSelect(index,indexPath) {
+            if ( this.moduleObject.env == 'develop' ) {
+                return
+            }
             let item = this.getSelectedItem(index,this.menu_list)
             if ( item && item.jumpUrl ) {
                 window.location.href = item.jumpUrl
-                // return
-                // window.location.reload()
             }
         },
         getSelectedItem(id,data) {
@@ -471,6 +524,9 @@ export default {
                         this.menu_list = resValue || [];
                     }
                     break;
+                default:
+                    this.getInitDataApi()
+                    break;
             }
         },
         /**
@@ -563,6 +619,29 @@ export default {
 </script>
 <style lang="scss">
 .IMenu_app{
+    padding: 0 300px;
+    .IMenu_app_main{
+        position: relative;
+        .next_button{
+            position: absolute;
+            .svg-icon{
+                color: white;
+                cursor: pointer;
+            }
+        }
+        .next_button_left{
+            left: -40px;
+        }
+        .next_button_right{
+            right: -40px;
+        }
+        .el-menu-demo{
+            overflow: hidden;
+        }
+    }
+}
+.IMenu_app{
+    background: blue;
     .el-menu.el-menu--horizontal{
         border-bottom: none;
     }
