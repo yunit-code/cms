@@ -52,6 +52,25 @@
                     "type": "radio",
                     "styleType": "radio",
                     "layoutType": "inline",
+                    "text": "列表滚动",
+                    "desc": "设置列表滚动，需要设置列表容器的高度",
+                    "bindKey": "isScroll",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
                     "text": "上方标题",
                     "desc": "设置文字列表上方标题显示状态",
                     "bindKey": "isShowUpTitle",
@@ -145,29 +164,6 @@
             "helpUrl": "",
             "children": [
                 {
-                    "type": "box",
-                    "layoutType": "block",
-                    "text": "内外边距",
-                    "bindKey": "box"
-                },
-                {
-                    "type": "box",
-                    "layoutType": "block",
-                    "display": "@[isShowPagination]",
-                    "text": "分页边距",
-                    "bindKey": "paginationBox",
-                    "default": {
-                        "marginTopVal": "20px",
-                        "marginRightVal": "",
-                        "marginBottomVal": "",
-                        "marginLeftVal": "",
-                        "paddingTopVal": "",
-                        "paddingRightVal": "",
-                        "paddingBottomVal": "",
-                        "paddingLeftVal": ""
-                    }
-                },
-                {
                     "type": "inlineGroup",
                     "text": "宽高",
                     "children": [
@@ -190,6 +186,37 @@
                             "default": "auto"
                         }
                     ]
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "滚动高度",
+                    "desc": "设置滚动容器的高度，",
+                    "bindKey": "scrollHeight",
+                    "default": "auto"
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "内外边距",
+                    "bindKey": "box"
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "display": "@[isShowPagination]",
+                    "text": "分页边距",
+                    "bindKey": "paginationBox",
+                    "default": {
+                        "marginTopVal": "20px",
+                        "marginRightVal": "",
+                        "marginBottomVal": "",
+                        "marginLeftVal": "",
+                        "paddingTopVal": "",
+                        "paddingRightVal": "",
+                        "paddingBottomVal": "",
+                        "paddingLeftVal": ""
+                    }
                 },
                 {
                     "type": "group",

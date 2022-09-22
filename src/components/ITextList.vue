@@ -1,37 +1,54 @@
 <template>
-    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
+    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" class="idm-text-list">
         <div class="text-list-up-title d-flex" v-if="propData.isShowUpTitle">
             <div class="text-list-up-content">{{ componentData.title }}</div>
         </div>
-        <div
-            v-for="(item, index) in componentData.rows"
-            :key="index"
-            @click="handleItemClick(item)"
-            class="text-list-item cursor-p"
+        <VueScroll
+            v-show="propData.isScroll"
+            ref="seamlessScroll"
+            class="idm-text-list-wrap"
+            :class-option="scrollOption"
+            :data="componentData.rows"
         >
-            <div class="d-flex" :class="[propData.isTimeWrap ? '' : 'align-c']">
-                <div
-                    class="d-flex align-c text-list-left"
-                    v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'"
-                >
-                    <svg
-                        v-if="propData.titleIcon && propData.titleIcon.length"
-                        class="text-list-left-icon"
-                        aria-hidden="true"
+            <div
+                v-for="(item, index) in componentData.rows"
+                :key="index"
+                @click="handleItemClick(item)"
+                class="text-list-item cursor-p"
+            >
+                <div class="d-flex" :class="[propData.isTimeWrap ? '' : 'align-c']">
+                    <div
+                        class="d-flex align-c text-list-left"
+                        v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'"
                     >
-                        <use :xlink:href="`#${propData.titleIcon[0]}`"></use>
-                    </svg>
-                    <svg-icon v-else icon-class="yuan" className="text-list-left-icon"></svg-icon>
-                </div>
-                <div v-if="propData.styleType === 'timeAndText'" class="text-list-time d-flex align-c">
-                    {{ item.time }} |
-                </div>
-                <div class="flex-1 d-flex align-c">
-                    <div class="text-list-title text-o-e-2">{{ item.title }}</div>
+                        <svg
+                            v-if="propData.titleIcon && propData.titleIcon.length"
+                            class="text-list-left-icon"
+                            aria-hidden="true"
+                        >
+                            <use :xlink:href="`#${propData.titleIcon[0]}`"></use>
+                        </svg>
+                        <svg-icon v-else icon-class="yuan" className="text-list-left-icon"></svg-icon>
+                    </div>
+                    <div v-if="propData.styleType === 'timeAndText'" class="text-list-time d-flex align-c">
+                        {{ item.time }} |
+                    </div>
+                    <div class="flex-1 d-flex align-c">
+                        <div class="text-list-title text-o-e-2">{{ item.title }}</div>
+                    </div>
+                    <div
+                        v-if="
+                            !propData.isTimeWrap &&
+                            (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
+                        "
+                        class="text-list-time"
+                    >
+                        {{ item.time }}
+                    </div>
                 </div>
                 <div
                     v-if="
-                        !propData.isTimeWrap &&
+                        propData.isTimeWrap &&
                         (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
                     "
                     class="text-list-time"
@@ -39,19 +56,58 @@
                     {{ item.time }}
                 </div>
             </div>
+        </VueScroll>
+        <div v-show="!propData.isScroll">
             <div
-                v-if="
-                    propData.isTimeWrap &&
-                    (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
-                "
-                class="text-list-time"
+                v-for="(item, index) in componentData.rows"
+                :key="index"
+                @click="handleItemClick(item)"
+                class="text-list-item cursor-p"
             >
-                {{ item.time }}
+                <div class="d-flex" :class="[propData.isTimeWrap ? '' : 'align-c']">
+                    <div
+                        class="d-flex align-c text-list-left"
+                        v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'"
+                    >
+                        <svg
+                            v-if="propData.titleIcon && propData.titleIcon.length"
+                            class="text-list-left-icon"
+                            aria-hidden="true"
+                        >
+                            <use :xlink:href="`#${propData.titleIcon[0]}`"></use>
+                        </svg>
+                        <svg-icon v-else icon-class="yuan" className="text-list-left-icon"></svg-icon>
+                    </div>
+                    <div v-if="propData.styleType === 'timeAndText'" class="text-list-time d-flex align-c">
+                        {{ item.time }} |
+                    </div>
+                    <div class="flex-1 d-flex align-c">
+                        <div class="text-list-title text-o-e-2">{{ item.title }}</div>
+                    </div>
+                    <div
+                        v-if="
+                            !propData.isTimeWrap &&
+                            (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
+                        "
+                        class="text-list-time"
+                    >
+                        {{ item.time }}
+                    </div>
+                </div>
+                <div
+                    v-if="
+                        propData.isTimeWrap &&
+                        (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
+                    "
+                    class="text-list-time"
+                >
+                    {{ item.time }}
+                </div>
             </div>
         </div>
         <div class="d-flex just-c">
             <a-pagination
-             class="text-list-pagination"
+                class="text-list-pagination"
                 v-model="currentPage"
                 v-if="propData.isShowPagination"
                 show-quick-jumper
@@ -65,6 +121,7 @@
 <script>
 import { textListData, textListData3 } from '../mock/mockData'
 import listMixins from '../mixins/listMixins'
+import VueScroll from 'vue-seamless-scroll'
 export default {
     name: 'ITextList',
     data() {
@@ -74,10 +131,28 @@ export default {
                 fontContent: 'Hello Word'
             },
             currentPage: 1,
+            componentList: [],
             componentData: {
-                rows: [],
+                rows: [{ title: '' }],
                 total: 0,
                 title: ''
+            }
+        }
+    },
+    components: {
+        VueScroll
+    },
+    computed: {
+        scrollOption() {
+            return {
+                step: 0.2, // 数值越大速度滚动越快
+                limitMoveNum: 1, // 开始无缝滚动的数据量 this.dataList.length
+                hoverStop: true, // 是否开启鼠标悬停stop
+                direction: 1, // 0向下 1向上 2向左 3向右
+                openWatch: true, // 开启数据实时监控刷新dom
+                singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
+                singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
+                waitTime: 1000 // 单步运动停止的时间(默认值1000ms)
             }
         }
     },
@@ -105,7 +180,8 @@ export default {
                 upTitleObj = {},
                 upContentObj = {},
                 leftObj = {},
-                paginationObj = {}
+                paginationObj = {},
+                scrollObj = {}
             if (this.propData.bgSize && this.propData.bgSize == 'custom') {
                 styleObject['background-size'] =
                     (this.propData.bgSizeWidth
@@ -233,6 +309,9 @@ export default {
                         case 'paginationBox':
                             IDM.style.setBoxStyle(paginationObj, element)
                             break
+                        case 'scrollHeight':
+                            scrollObj['height'] = element
+                            break
                     }
                 }
             }
@@ -245,6 +324,7 @@ export default {
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-up-content', upContentObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-left', leftObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .text-list-pagination', paginationObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .idm-text-list-wrap', scrollObj)
             this.initData()
         },
         reload() {
@@ -284,7 +364,7 @@ export default {
                         ' .text-list-up-content',
                     {
                         color: item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : '',
-                        'border-bottom-color': item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : '',
+                        'border-bottom-color': item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
                     }
                 )
             }
@@ -298,7 +378,8 @@ export default {
         },
         initData() {
             if (!this.propData.selectColumn || !this.propData.selectColumn.id) {
-                let itemData = null
+                let itemData = null,
+                    list = []
                 if (this.propData.styleType !== 'timeAndText') {
                     itemData = _.cloneDeep(textListData.rows[0])
                 } else {
@@ -306,21 +387,30 @@ export default {
                 }
                 this.componentData = textListData
                 this.componentData.total = this.propData.contentNumber
-                this.componentData.rows.length = this.propData.contentNumber
-                this.componentData.rows.fill(itemData)
+                list.length = this.propData.contentNumber || 1
+                list.fill(itemData)
+                this.$set(this.componentData, 'rows', list)
+                this.$nextTick(() => {
+                    this.$refs.seamlessScroll.reset()
+                })
                 return
             }
             this.propData.customInterfaceUrl &&
                 window.IDM.http
                     .get(this.propData.customInterfaceUrl, {
                         ...this.commonParam(),
-                        columnId: this.propData.selectColumn ? this.propData.selectColumn.id : this.commonParam().columnId,
+                        columnId: this.propData.selectColumn
+                            ? this.propData.selectColumn.id
+                            : this.commonParam().columnId,
                         start: this.currentPage,
                         limit: this.propData.contentNumber
                     })
                     .then((res) => {
                         if (res.status == 200 && res.data.code == 200) {
                             this.componentData = res.data.data
+                            this.$nextTick(() => {
+                                this.$refs.seamlessScroll.reset()
+                            })
                         } else {
                             IDM.message.error(res.data.message)
                         }
@@ -351,3 +441,27 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.idm-text-list::-webkit-scrollbar {
+    display: none;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none;
+    background: transparent;
+    scrollbar-width: none;
+}
+.idm-text-list-wrap::-webkit-scrollbar {
+    display: none;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none;
+    background: transparent;
+    scrollbar-width: none;
+}
+
+.idm-text-list {
+    overflow: hidden;
+    overflow-y: auto;
+}
+</style>
