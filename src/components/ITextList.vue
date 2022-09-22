@@ -1,6 +1,6 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" class="idm-text-list">
-        <div class="text-list-up-title d-flex" v-if="propData.isShowUpTitle">
+        <div class="text-list-up-title d-flex position-r" v-if="propData.isShowUpTitle">
             <div class="text-list-up-content">{{ componentData.title }}</div>
         </div>
         <VueScroll
@@ -105,7 +105,7 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex just-c">
+        <div class="d-flex just-c position-r">
             <a-pagination
                 class="text-list-pagination"
                 v-model="currentPage"
@@ -463,5 +463,9 @@ export default {
 .idm-text-list {
     overflow: hidden;
     overflow-y: auto;
+}
+.position-r{
+    position: relative;
+    z-index: 1;
 }
 </style>
