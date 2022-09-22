@@ -75,6 +75,7 @@
             "
             :style="{
               'flex-direction': propData.itemInnerDirection,
+              'justify-content': propData.itemJustifyContent,
               'margin-left':
                 index != 0 && propData.layoutType == 'scroll' && propData.columNum == 0
                   ? propData.itemMargin + 'px'

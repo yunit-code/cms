@@ -263,6 +263,32 @@
           "default": "column"
         },
         {
+          "type": "select",
+          "layoutType": "inline",
+          "text": "排列方式",
+          "bindKey": "itemJustifyContent",
+          "desc": "设置图像和文字的排列方式",
+          "dictionary": [
+            {
+              "label": "两端对齐",
+              "value": "space-between"
+            },
+            {
+              "label": "从开始处",
+              "value": "flex-start"
+            },
+            {
+              "label": "从结束处",
+              "value": "flex-end"
+            },
+            {
+              "label": "居中",
+              "value": "center"
+            }
+          ],
+          "default": "space-between"
+        },
+        {
           "type": "radio",
           "layoutType": "inline",
           "text": "图片图标",
