@@ -117,7 +117,7 @@ export default {
             return name
         },
         getInitDataApi() {
-            if( (!this.propData.customInterfaceUrl) || (!this.propData.selectColumn) || !this.propData.selectColumn.id ){
+            if( !this.propData.customInterfaceUrl ){
                 this.menu_list = menuList;
                 this.activeIndex2 = menuList[0].id;
                 this.$nextTick(() => {
