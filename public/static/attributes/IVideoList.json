@@ -26,7 +26,8 @@
                     "text": "显示数量",
                     "desc": "最多显示几条",
                     "bindKey": "contentNumber",
-                    "default": 8
+                    "default": 8,
+                    "min": 1
                 },
                 {
                     "type": "select",

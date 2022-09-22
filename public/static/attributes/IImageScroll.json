@@ -43,7 +43,8 @@
                     "text": "显示数量",
                     "desc": "最多显示几条",
                     "bindKey": "contentNumber",
-                    "default": 10
+                    "default": 10,
+                    "min": 1
                 },
                 {
                     "type": "inputNumber",
