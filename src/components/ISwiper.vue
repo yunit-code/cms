@@ -102,34 +102,6 @@ export default {
                     {
                         image: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
                         title: '3-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                    },
-                    {
-                        image: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-                        title: '4-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                    },
-                    {
-                        image: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-                        title: '5-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                    },
-                    {
-                        image: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-                        title: '6-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                    },
-                    {
-                        image: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-                        title: '7-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                    },
-                    {
-                        image: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-                        title: '8-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                    },
-                    {
-                        image: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-                        title: '9-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                    },
-                    {
-                        image: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-                        title: '10-习近平：在庆祝中国共产党成立100周年大会上的讲话'
                     }
                 ];
                 if ( this.propData.limit ) {
@@ -138,7 +110,9 @@ export default {
                     this.data_list = data_list;
                 }
                 if ( this.moduleObject.env != 'develop' ) {
-                    this.initSwiper()
+                    this.$nextTick(() => {
+                        this.initSwiper()
+                    })
                 }
                 return;
             }
