@@ -46,7 +46,9 @@ export default {
             }
         },
         getInitData() {
-            if (this.moduleObject.env == "develop" || !this.propData.getColumnListApiUrl) {
+            var params = this.commonParam().urlData;
+            let columnId = params ? JSON.parse(params).menuId : ''
+            if (this.moduleObject.env == "develop" || (!this.propData.getColumnListApiUrl) || !columnId) {
                 this.record_list = [
                     {
                         title: '本地要闻'
@@ -72,9 +74,8 @@ export default {
                 ]
                 return;
             }
-            var params = this.commonParam().urlData;
             window.IDM.http.get(this.propData.getColumnListApiUrl, {
-                columnId: params ? JSON.parse(params).menuId : ''
+                columnId: columnId
             }).then((res) => {
                 if ( res && res.data && res.data.code == '200' ) {
                     if ( this.propData.dataFiled ) {
