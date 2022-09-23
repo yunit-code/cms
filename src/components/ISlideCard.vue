@@ -109,8 +109,8 @@
                 :src="
                   IDM.url.getWebPath(
                     propData.dataSourceType != 'static'
-                      ? getExpressData('data', propData.imageField || 'imgUrl', item)
-                      : item.imgUrl
+                      ? getExpressData('data', propData.imageField || 'image', item)
+                      : item.image
                   )
                 "
               />
@@ -130,8 +130,8 @@
               <div v-if="propData.mainTextField" class="item-text-main">
                 {{
                   propData.dataSourceType != 'static'
-                    ? getExpressData('data', propData.mainTextField || 'name', item)
-                    : item.name
+                    ? getExpressData('data', propData.mainTextField || 'title', item)
+                    : item.title
                 }}
               </div>
               <div
@@ -157,7 +157,7 @@
                     width: field.widthRatio ? `${field.widthRatio}%` : 'auto'
                   }"
                 >
-                  {{ getExpressData('data', field.name || 'name', item) }}
+                  {{ getExpressData('data', field.title || 'title', item) }}
                 </div>
               </div>
             </div>
@@ -170,38 +170,20 @@
 </template>
 
 <script>
-const devResult = _this => [
-  {
-    imgUrl: IDM.url.getModuleAssetsWebPath(require('../assets/logo.png'), _this.moduleObject),
-    name: '学习强国',
-    text1: '15篇文章',
-    text2: '3.5w人已学习'
-  },
-  {
-    imgUrl: IDM.url.getModuleAssetsWebPath(require('../assets/logo.png'), _this.moduleObject),
-    name: '学习强国',
-    text1: '15篇文章',
-    text2: '3.5w人已学习'
-  },
-  {
-    imgUrl: IDM.url.getModuleAssetsWebPath(require('../assets/logo.png'), _this.moduleObject),
-    name: '学习强国',
-    text1: '15篇文章',
-    text2: '3.5w人已学习'
-  },
-  {
-    imgUrl: IDM.url.getModuleAssetsWebPath(require('../assets/logo.png'), _this.moduleObject),
-    name: '学习强国',
-    text1: '15篇文章',
-    text2: '3.5w人已学习'
-  },
-  {
-    imgUrl: IDM.url.getModuleAssetsWebPath(require('../assets/logo.png'), _this.moduleObject),
-    name: '学习强国',
-    text1: '15篇文章',
-    text2: '3.5w人已学习'
+const devResult = (_this, limit = 4) => {
+  const tempList = [];
+  if (limit && limit > 0) {
+    for (let i = 0; i < limit; i++) {
+      tempList.push({
+        image: IDM.url.getModuleAssetsWebPath(require('../assets/logo.png'), _this.moduleObject),
+        title: '学习强国',
+        text1: '15篇文章',
+        text2: '3.5w人已学习'
+      });
+    }
   }
-];
+  return tempList;
+};
 export default {
   name: 'ISlideCard',
   // heightType: 'fixed',
@@ -468,7 +450,7 @@ export default {
       const urlParam = this.commonParam();
       if (this.propData.dataSourceType != 'static') {
         if (!this.propData.selectColumn || !this.propData.selectColumn.id || !this.propData.url) {
-          this.setRows(devResult(this));
+          this.setRows(devResult(this, this.propData.limit));
           return;
         }
         switch (this.propData.dataSourceType) {
@@ -507,7 +489,7 @@ export default {
             break;
         }
       } else if (this.propData.dataStaticSet) {
-        if (this.propData.dataStaticSet[0] && !this.propData.dataStaticSet[0].name) {
+        if (this.propData.dataStaticSet[0] && !this.propData.dataStaticSet[0].title) {
           this.setRows(devResult(this));
         } else {
           this.setRows(this.propData.dataStaticSet);

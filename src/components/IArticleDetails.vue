@@ -262,7 +262,13 @@ export default {
      * 请求数据
      */
     initData() {
-      if (!this.moduleObject.env || this.moduleObject.env == 'develop') {
+      const urlParams = IDM.url.queryObject();
+      if (
+        !this.moduleObject.env ||
+        this.moduleObject.env == 'develop' ||
+        !urlParams ||
+        Object.keys(urlParams).length == 0
+      ) {
         this.articleData = {
           title: '标题',
           content: '<span>html标签包裹的文本</span>',
@@ -281,11 +287,7 @@ export default {
           if (!this.propData.url) return;
           this.isLoading = true;
           IDM.http
-            .get(
-              IDM.express.replace(this.propData.url, {
-                ...IDM.url.queryObject()
-              })
-            )
+            .get(IDM.express.replace(this.propData.url, urlParams))
             .done(res => {
               if (res.type === 'success') {
                 this.articleData = this.customFormat(res.data);

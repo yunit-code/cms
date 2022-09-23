@@ -66,7 +66,8 @@
           "text": "接口地址",
           "bindKey": "url",
           "desc": "支持从网址url上取值，示例：url?contentId=@[id]，其中id为url上的参数，contentId是要传的参数名。用于获取数据的接口地址。请按照统一标准的返回格式返回文本数据，格式如下：{\"code\":\"200\",\"data\":\"\",...}",
-          "display": "@[dataSourceType=='customInterface']"
+          "display": "@[dataSourceType=='customInterface']",
+          "default": "/ctrl/website/api/content?contentId=@[contentId]"
         },
         {
           "type": "input",
