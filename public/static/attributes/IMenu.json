@@ -99,6 +99,24 @@
                     ]
                 },
                 {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "切换按钮",
+                    "bindKey": "showSwitchButton",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
                     "type": "treeSelect",
                     "layoutType": "inline",
                     "text": "选择栏目",
@@ -196,6 +214,27 @@
                     "default": {}
                 }
             ]
+        },
+        {
+            "type": "group",
+            "text": "切换按钮样式",
+            "children": [
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "图标大小",
+                    "bindKey": "fontSizeSwitchButton"
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "图标颜色",
+                    "bindKey": "fontColorSwitchButton",
+                    "placeholder": "请选择颜色",
+                    "default": {}
+                }
+            ],
+            "display":"@[showSwitchButton]"
         },
         {
             "type": "group",

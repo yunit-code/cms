@@ -2,13 +2,13 @@
     <!-- 根目录规范(必须不能为空)： idm-ctrl：控件类型 drag_container：容器，drag_container_inlieblock：行内容器，idm_module：非容器的组件 id：使用moduleObject.id，如果id不使用这个将会被idm-ctrl-id属性替换 idm-ctrl-id：组件的id，这个必须不能为空 -->
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" class="IMenu_app">
         <div id="menu_block" class="flex_between IMenu_app_main">
-            <div v-if="is_show_move_button" @click="toLeftMove" class="next_button next_button_left">
+            <div v-if="is_show_move_button && propData.showSwitchButton" @click="toLeftMove" class="next_button next_button_left">
                 <SvgIcon icon-class="left"></SvgIcon>
             </div>
             <el-menu id="menu" :default-active="activeIndex2" class="el-menu-demo" :class="getMenuStyleClassName()" mode="horizontal" @select="handleSelect" :menu-trigger="propData.triggerType">
                 <MenuNavItem v-for="(item,index) in menu_list" :key="index" :menu_data="item" :prop_data="propData"></MenuNavItem>
             </el-menu>
-            <div v-if="is_show_move_button" @click="toRightMove" class="next_button next_button_right">
+            <div v-if="is_show_move_button && propData.showSwitchButton" @click="toRightMove" class="next_button next_button_right">
                 <SvgIcon icon-class="right"></SvgIcon>
             </div>
         </div>
@@ -274,6 +274,28 @@ export default {
 
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .triangle', styleObjectTriangle);
         },
+        convertAttrToStyleObjectMenuButton() {
+            var styleObject = {};
+            for (const key in this.propData) {
+                if (this.propData.hasOwnProperty.call(this.propData, key)) {
+                    const element = this.propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "fontSizeSwitchButton":
+                            styleObject["font-size"] = element.fontSize + element.fontSizeUnit;
+                            break;
+                        case "fontColorSwitchButton":
+                            if (element && element.hex8) {
+                                styleObject["color"] = element.hex8 + ' !important';
+                            }
+                            break;
+                    }
+                }
+            }
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .next_button .svg-icon', styleObject);
+        },
         convertAttrToStyleObjectMenuHover() {
             var styleBg = {};
             var styleFont = {};
@@ -358,6 +380,7 @@ export default {
             this.convertAttrToStyleObjectMenuHover()
             this.convertAttrToStyleObjectMenuActive()
             this.convertThemeListAttrToStyleObject()
+            this.convertAttrToStyleObjectMenuButton()
             var styleObject = {};
             var styleObjectMenuPop = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {
