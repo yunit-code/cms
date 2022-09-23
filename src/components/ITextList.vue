@@ -213,6 +213,9 @@ export default {
                         case 'height':
                             styleObject[key] = element
                             break
+                        case 'minHeight':
+                            styleObject['min-height'] = element
+                            break
                         case 'bgColor':
                             if (element && element.hex8) {
                                 styleObject['background-color'] = element.hex8

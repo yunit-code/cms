@@ -190,6 +190,14 @@
                 {
                     "type": "input",
                     "layoutType": "inline",
+                    "text": "最小高度",
+                    "desc": "设置组件容器的最小高度，",
+                    "bindKey": "minHeight",
+                    "default": ""
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
                     "text": "滚动高度",
                     "desc": "设置滚动容器的高度，",
                     "bindKey": "scrollHeight",
