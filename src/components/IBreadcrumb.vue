@@ -190,7 +190,9 @@ export default {
             this.initData()
         },
         initData() {
-            if (this.moduleObject.env === 'develop') {
+            
+            const hasNotDataSourceId = !this.propData.selectColumn || !this.propData.selectColumn.id
+            if (hasNotDataSourceId && !this.commonParam().columnId) {
                 this.componentData.rows = breadcrumbData
                 return
             }

@@ -377,7 +377,8 @@ export default {
             }
         },
         initData() {
-            if (!this.propData.selectColumn || !this.propData.selectColumn.id) {
+            const hasNotDataSourceId = !this.propData.selectColumn || !this.propData.selectColumn.id
+            if (hasNotDataSourceId && !this.commonParam().columnId) {
                 let itemData = null,
                     list = []
                 if (this.propData.styleType !== 'timeAndText') {
@@ -398,8 +399,7 @@ export default {
             this.propData.customInterfaceUrl &&
                 window.IDM.http
                     .get(this.propData.customInterfaceUrl, {
-                        ...this.commonParam(),
-                        columnId: this.propData.selectColumn
+                        columnId: this.propData.selectColumn && this.propData.selectColumn.id
                             ? this.propData.selectColumn.id
                             : this.commonParam().columnId,
                         start: this.currentPage,
