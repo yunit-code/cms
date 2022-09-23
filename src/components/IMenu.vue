@@ -37,6 +37,7 @@ export default {
             left_number: 0,
             every_menu_width: 100,
             is_show_move_button: false,
+            mock_data: [],
         }
     },
     components: {
@@ -47,6 +48,7 @@ export default {
     },
     props: { },
     created() {
+        console.log('555',menuList)
         this.moduleObject = this.$root.moduleObject;
         this.convertAttrToStyleObject();
         this.reload()
@@ -117,9 +119,19 @@ export default {
             return name
         },
         getInitDataApi() {
-            if( !this.propData.customInterfaceUrl ){
-                this.menu_list = menuList;
-                this.activeIndex2 = menuList[0].id;
+            if( (!this.propData.customInterfaceUrl) || (!this.propData.selectColumn) ){
+                let menu_list = [];
+                if ( this.propData.limit ) {
+                    for( let i = 0,maxi = menuList.length;i < maxi;i++ ) {
+                        if ( i < parseInt(this.propData.limit) ) {
+                            menu_list.push(menuList[i])
+                        }
+                    }
+                    this.menu_list = menu_list;
+                } else {
+                    this.menu_list = JSON.parse(JSON.stringify(menuList));
+                }
+                this.activeIndex2 = menuList[0] ? menuList[0].id : '';
                 this.$nextTick(() => {
                     this.getMoveButtonStatus()
                 })
