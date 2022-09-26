@@ -3,7 +3,7 @@ export const textListData = {
     total: 0,
     rows: [
         {
-            jumpUrl: '',
+            jumpUrl: '/demo',
             title: '国家药监局：科学编制 “十四五” 药品安全及高质量发展规划',
             time: '2022-08-22'
         }

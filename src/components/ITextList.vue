@@ -3,42 +3,68 @@
         <div class="text-list-up-title d-flex position-r" v-if="propData.isShowUpTitle">
             <div class="text-list-up-content">{{ componentData.title }}</div>
         </div>
-        <VueScroll
-            v-show="propData.isScroll"
-            ref="seamlessScroll"
-            class="idm-text-list-wrap"
-            :class-option="scrollOption"
-            :data="componentData.rows"
-        >
-            <div
-                v-for="(item, index) in componentData.rows"
-                :key="index"
-                @click="handleItemClick(item)"
-                class="text-list-item cursor-p"
+        <div @click="clickProps($event)">
+            <VueScroll
+                v-show="propData.isScroll"
+                ref="seamlessScroll"
+                class="idm-text-list-wrap"
+                :class-option="scrollOption"
+                :data="componentData.rows"
             >
-                <div class="d-flex" :class="[propData.isTimeWrap ? '' : 'align-c']">
-                    <div
-                        class="d-flex align-c text-list-left"
-                        v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'"
-                    >
-                        <svg
-                            v-if="propData.titleIcon && propData.titleIcon.length"
-                            class="text-list-left-icon"
-                            aria-hidden="true"
+                <div
+                    v-for="(item, index) in componentData.rows"
+                    :key="index"
+                    :id="index + 1"
+                    :data-obj="JSON.stringify(item)"
+                    class="text-list-item cursor-p"
+                >
+                    <div class="d-flex" :class="[propData.isTimeWrap ? '' : 'align-c']">
+                        <div
+                            class="d-flex align-c text-list-left"
+                            v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'"
                         >
-                            <use :xlink:href="`#${propData.titleIcon[0]}`"></use>
-                        </svg>
-                        <svg-icon v-else icon-class="yuan" className="text-list-left-icon"></svg-icon>
-                    </div>
-                    <div v-if="propData.styleType === 'timeAndText'" class="text-list-time d-flex align-c">
-                        {{ item.time }} |
-                    </div>
-                    <div class="flex-1 d-flex align-c">
-                        <div class="text-list-title text-o-e-2">{{ item.title }}</div>
+                            <svg
+                                v-if="propData.titleIcon && propData.titleIcon.length"
+                                class="text-list-left-icon"
+                                aria-hidden="true"
+                                :data-obj="JSON.stringify(item)"
+                            >
+                                <use :data-obj="JSON.stringify(item)" :xlink:href="`#${propData.titleIcon[0]}`"></use>
+                            </svg>
+                            <svg-icon
+                                :data-obj="JSON.stringify(item)"
+                                v-else
+                                icon-class="yuan"
+                                className="text-list-left-icon"
+                            ></svg-icon>
+                        </div>
+                        <div
+                            :data-obj="JSON.stringify(item)"
+                            v-if="propData.styleType === 'timeAndText'"
+                            class="text-list-time d-flex align-c"
+                        >
+                            {{ item.time }} |
+                        </div>
+                        <div class="flex-1 d-flex align-c">
+                            <div class="text-list-title text-o-e-2" :data-obj="JSON.stringify(item)">
+                                {{ item.title }}
+                            </div>
+                        </div>
+                        <div
+                            :data-obj="JSON.stringify(item)"
+                            v-if="
+                                !propData.isTimeWrap &&
+                                (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
+                            "
+                            class="text-list-time"
+                        >
+                            {{ item.time }}
+                        </div>
                     </div>
                     <div
+                        :data-obj="JSON.stringify(item)"
                         v-if="
-                            !propData.isTimeWrap &&
+                            propData.isTimeWrap &&
                             (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
                         "
                         class="text-list-time"
@@ -46,17 +72,8 @@
                         {{ item.time }}
                     </div>
                 </div>
-                <div
-                    v-if="
-                        propData.isTimeWrap &&
-                        (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
-                    "
-                    class="text-list-time"
-                >
-                    {{ item.time }}
-                </div>
-            </div>
-        </VueScroll>
+            </VueScroll>
+        </div>
         <div v-show="!propData.isScroll">
             <div
                 v-for="(item, index) in componentData.rows"
@@ -163,6 +180,13 @@ export default {
         this.convertThemeListAttrToStyleObject()
     },
     methods: {
+        clickProps(e) {
+            console.log(e.target)
+            if (e.target.dataset.obj) {
+                let item = JSON.parse(e.target.dataset.obj)
+                this.handleItemClick(item)
+            }
+        },
         onChange() {
             this.initData()
         },
@@ -402,9 +426,10 @@ export default {
             this.propData.customInterfaceUrl &&
                 window.IDM.http
                     .get(this.propData.customInterfaceUrl, {
-                        columnId: this.propData.selectColumn && this.propData.selectColumn.id
-                            ? this.propData.selectColumn.id
-                            : this.commonParam().columnId,
+                        columnId:
+                            this.propData.selectColumn && this.propData.selectColumn.id
+                                ? this.propData.selectColumn.id
+                                : this.commonParam().columnId,
                         start: this.currentPage,
                         limit: this.propData.contentNumber
                     })
@@ -467,7 +492,7 @@ export default {
     overflow: hidden;
     overflow-y: auto;
 }
-.position-r{
+.position-r {
     position: relative;
     z-index: 1;
 }
