@@ -147,19 +147,19 @@
                 {
                     "type": "input",
                     "layoutType": "inline",
-                    "text": "图标宽",
-                    "bindKey": "widthIcon"
-                },
-                {
-                    "type": "input",
-                    "layoutType": "inline",
-                    "text": "图标高",
-                    "bindKey": "heightIcon"
+                    "text": "图标间距",
+                    "bindKey": "fontIconMarginRight"
                 },
                 {
                     "type": "font",
                     "layoutType": "block",
-                    "text": "文字",
+                    "text": "图标字体",
+                    "bindKey": "fontIcon"
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "文字字体",
                     "bindKey": "fontMenu"
                 }
             ]
@@ -171,7 +171,13 @@
                 {
                     "type": "font",
                     "layoutType": "block",
-                    "text": "文字",
+                    "text": "图标字体",
+                    "bindKey": "fontIconHover"
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "文字字体",
                     "bindKey": "fontHover"
                 },
                 {
@@ -192,7 +198,13 @@
                 {
                     "type": "font",
                     "layoutType": "block",
-                    "text": "文字",
+                    "text": "图标字体",
+                    "bindKey": "fontIconActive"
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "文字字体",
                     "bindKey": "fontActive"
                 },
                 {

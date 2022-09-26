@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import SvgIcon from '@/icons/SvgIcon'// svg component
-
+import './font_menu/iconfont.css'
 // register globally
 Vue.component('svg-icon', SvgIcon)
 

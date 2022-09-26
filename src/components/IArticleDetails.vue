@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import example from '../assets/articleDetails-example.js';
 export default {
   name: 'IArticleDetails',
   data() {
@@ -98,13 +99,8 @@ export default {
     //     textAlign: 'right'
     //   },
     //   {
-    //     name: '时间：',
-    //     field: 'time',
-    //     textAlign: 'left'
-    //   },
-    //   {
-    //     name: '访问量：',
-    //     field: 'number',
+    //     name: '来源：',
+    //     field: 'source',
     //     textAlign: 'left'
     //   }
     // ]
@@ -270,13 +266,11 @@ export default {
         Object.keys(urlParams).length == 0
       ) {
         this.articleData = {
-          title: '标题',
-          content: '<span>html标签包裹的文本</span>',
-          author: '演示',
-          time: '2022-08-15 09:03',
-          number: '167',
+          title: '聚焦世界科技前沿 提升领导干部科学素养',
+          content: example,
+          author: '龚克 海丽华',
+          source: '《学习时报》',
           videos: [
-            'https://vd4.bdstatic.com/mda-mhwd9sf3gx5ve3q0/sc/cae_h264/1630402196086939347/mda-mhwd9sf3gx5ve3q0.mp4',
             'https://vd4.bdstatic.com/mda-mhwd9sf3gx5ve3q0/sc/cae_h264/1630402196086939347/mda-mhwd9sf3gx5ve3q0.mp4'
           ]
         };
@@ -351,6 +345,9 @@ export default {
             case 'width':
             case 'height':
               styleObject[key] = element;
+              break;
+            case 'minHeight':
+              styleObject['min-height'] = element;
               break;
             case 'bgColor':
               if (element && element.hex8) {

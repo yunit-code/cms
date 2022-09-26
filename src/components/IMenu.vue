@@ -37,6 +37,7 @@ export default {
             left_number: 0,
             every_menu_width: 100,
             is_show_move_button: false,
+            mock_data: [],
         }
     },
     components: {
@@ -47,6 +48,7 @@ export default {
     },
     props: { },
     created() {
+        console.log('555',menuList)
         this.moduleObject = this.$root.moduleObject;
         this.convertAttrToStyleObject();
         this.reload()
@@ -117,9 +119,19 @@ export default {
             return name
         },
         getInitDataApi() {
-            if( !this.propData.customInterfaceUrl ){
-                this.menu_list = menuList;
-                this.activeIndex2 = menuList[0].id;
+            if( (!this.propData.customInterfaceUrl) || (!this.propData.selectColumn) ){
+                let menu_list = [];
+                if ( this.propData.limit ) {
+                    for( let i = 0,maxi = menuList.length;i < maxi;i++ ) {
+                        if ( i < parseInt(this.propData.limit) ) {
+                            menu_list.push(menuList[i])
+                        }
+                    }
+                    this.menu_list = menu_list;
+                } else {
+                    this.menu_list = JSON.parse(JSON.stringify(menuList));
+                }
+                this.activeIndex2 = menuList[0] ? menuList[0].id : '';
                 this.$nextTick(() => {
                     this.getMoveButtonStatus()
                 })
@@ -249,11 +261,21 @@ export default {
                             styleFont["text-align"] = element.fontTextAlign;
                             styleFont["text-decoration"] = element.fontDecoration;
                             break;
-                        case "widthIcon":
-                            styleObjectIcon['width'] = element;
+                        case "fontIcon":
+                            styleObjectIcon["font-family"] = element.fontFamily;
+                            if (element.fontColors.hex8) {
+                                styleObjectIcon["color"] = element.fontColors.hex8;
+                                styleObjectIcon["color"] = element.fontColors.hex8;
+                            }
+                            styleObjectIcon["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                            styleObjectIcon["font-style"] = element.fontStyle;
+                            styleObjectIcon["font-size"] = element.fontSize + element.fontSizeUnit;
+                            styleObjectIcon["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                            styleObjectIcon["text-align"] = element.fontTextAlign;
+                            styleObjectIcon["text-decoration"] = element.fontDecoration;
                             break;
-                        case "heightIcon":
-                            styleObjectIcon['height'] = element;
+                        case 'fontIconMarginRight':
+                            styleObjectIcon['margin-right'] = element;
                             break;
                         case "bgColorTriangle":
                             if (element && element.hex8 && this.propData.styleForm == '3') {
@@ -270,7 +292,7 @@ export default {
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo>.el-menu-item', styleObject);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo>.el-submenu>.el-submenu__title', styleObject);
 
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo img', styleObjectIcon);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .iconfont', styleObjectIcon);
 
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .triangle', styleObjectTriangle);
         },
@@ -299,7 +321,8 @@ export default {
         convertAttrToStyleObjectMenuHover() {
             var styleBg = {};
             var styleFont = {};
-            var styleFontIcon = {};
+            var styleFontIcon = {};//下拉箭头
+            var styleMenuIcon = {};
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key];
@@ -320,6 +343,18 @@ export default {
                             styleFont["text-align"] = element.fontTextAlign;
                             styleFont["text-decoration"] = element.fontDecoration;
                             break;
+                        case "fontIconHover":
+                            styleMenuIcon["font-family"] = element.fontFamily;
+                            if (element.fontColors.hex8) {
+                                styleMenuIcon["color"] = element.fontColors.hex8 + ' !important';
+                            }
+                            styleMenuIcon["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                            styleMenuIcon["font-style"] = element.fontStyle;
+                            styleMenuIcon["font-size"] = element.fontSize + element.fontSizeUnit;
+                            styleMenuIcon["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                            styleMenuIcon["text-align"] = element.fontTextAlign;
+                            styleMenuIcon["text-decoration"] = element.fontDecoration;
+                            break;
                         case "bgColorHover":
                             if (element && element.hex8 && this.propData.styleForm == '1') {
                                 styleBg["background-color"] = element.hex8 + ' !important';
@@ -330,6 +365,7 @@ export default {
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-menu-item:hover,.el-submenu>.el-submenu__title:hover', styleBg);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-menu-item:hover .menu_text,.el-submenu>.el-submenu__title:hover .menu_text', styleFont);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-menu-item:hover .iconfont,.el-submenu>.el-submenu__title:hover .iconfont', styleMenuIcon);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-submenu>.el-submenu__title:hover>i', styleFontIcon);
         },
         convertAttrToStyleObjectMenuActive() {
@@ -337,6 +373,7 @@ export default {
             var styleFont = {};
             var styleFontIcon = {};
             var styleBorder = {};
+            var styleMenuIcon = {};
             
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
@@ -359,6 +396,18 @@ export default {
                             styleFont["text-align"] = element.fontTextAlign;
                             styleFont["text-decoration"] = element.fontDecoration;
                             break;
+                        case "fontIconActive":
+                            styleMenuIcon["font-family"] = element.fontFamily;
+                            if (element.fontColors.hex8) {
+                                styleMenuIcon["color"] = element.fontColors.hex8 + ' !important';
+                            }
+                            styleMenuIcon["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                            styleMenuIcon["font-style"] = element.fontStyle;
+                            styleMenuIcon["font-size"] = element.fontSize + element.fontSizeUnit;
+                            styleMenuIcon["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                            styleMenuIcon["text-align"] = element.fontTextAlign;
+                            styleMenuIcon["text-decoration"] = element.fontDecoration;
+                            break;
                         case "bgColorActive":
                             if (element && element.hex8 && this.propData.styleForm == '1') {
                                 styleBg["background-color"] = element.hex8 + ' !important';
@@ -369,6 +418,7 @@ export default {
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-menu-item.is-active,.el-submenu.is-active>.el-submenu__title', styleBg);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-menu-item.is-active .menu_text,.el-submenu.is-active>.el-submenu__title .menu_text', styleFont);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-menu-item.is-active .iconfont,.el-submenu.is-active>.el-submenu__title .iconfont', styleMenuIcon);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .el-menu-demo .el-submenu.is-active>.el-submenu__title>i', styleFontIcon);
             if ( this.propData.styleForm == '2' ) {
                 window.IDM.setStyleToPageHead(this.moduleObject.id + ' .menu_line_style>.el-menu-item.is-active', styleBorder);
@@ -642,7 +692,7 @@ export default {
 </script>
 <style lang="scss">
 .IMenu_app{
-    padding: 0 300px;
+    // padding: 0 300px;
     .IMenu_app_main{
         position: relative;
         .next_button{
@@ -664,7 +714,7 @@ export default {
     }
 }
 .IMenu_app{
-    background: blue;
+    // background: blue;
     .el-menu.el-menu--horizontal{
         border-bottom: none;
     }
