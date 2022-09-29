@@ -48,7 +48,6 @@ export default {
     },
     props: { },
     created() {
-        console.log('555',menuList)
         this.moduleObject = this.$root.moduleObject;
         this.convertAttrToStyleObject();
         this.reload()
