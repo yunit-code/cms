@@ -139,6 +139,8 @@
 import { textListData, textListData3 } from '../mock/mockData'
 import listMixins from '../mixins/listMixins'
 import VueScroll from 'vue-seamless-scroll'
+import adaptationScreenMixin from '../mixins/adaptationScreen'
+
 export default {
     name: 'ITextList',
     data() {
@@ -173,7 +175,7 @@ export default {
             }
         }
     },
-    mixins: [listMixins],
+    mixins: [listMixins,adaptationScreenMixin],
     created() {
         this.moduleObject = this.$root.moduleObject
         this.convertAttrToStyleObject()
@@ -277,9 +279,9 @@ export default {
                             }
                             break
                         case 'titleIconFontSize':
-                            iconObj['width'] = element + 'px'
-                            iconObj['height'] = element + 'px'
-                            iconObj['font-size'] = element + 'px'
+                            iconObj['width'] = this.getAdaptiveSize(element) + 'px'
+                            iconObj['height'] = this.getAdaptiveSize(element) + 'px'
+                            iconObj['font-size'] = this.getAdaptiveSize(element) + 'px'
                             break
                         // 单项样式
                         case 'itemBgColor':
@@ -302,6 +304,7 @@ export default {
                             break
                         case 'titleFont':
                             IDM.style.setFontStyle(titleObj, element)
+                            this.adaptiveFontSize(titleObj, element)
                             break
                         case 'titleClamp':
                             titleObj['line-clamp'] = element
@@ -313,6 +316,7 @@ export default {
                             break
                         case 'timeFont':
                             IDM.style.setFontStyle(timeObj, element)
+                            this.adaptiveFontSize(timeObj, element)
                             break
                         case 'upTitleBorder':
                             IDM.style.setBorderStyle(upTitleObj, element)
@@ -322,6 +326,7 @@ export default {
                             break
                         case 'upTitleFont':
                             IDM.style.setFontStyle(upTitleObj, element)
+                            this.adaptiveFontSize(upTitleObj, element)
                             break
 
                         case 'upContentBorder':
@@ -332,6 +337,7 @@ export default {
                             break
                         case 'upContentFont':
                             IDM.style.setFontStyle(upContentObj, element)
+                            this.adaptiveFontSize(upContentObj, element)
                             break
                         case 'paginationBox':
                             IDM.style.setBoxStyle(paginationObj, element)
