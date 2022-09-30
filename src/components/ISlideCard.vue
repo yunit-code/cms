@@ -116,10 +116,10 @@
               />
               <i
                 v-else-if="propData.dataSourceType != 'static'"
-                :class="getClassStr(getExpressData('data', propData.iconField || 'iconFont', item))"
+                :class="getClassStr(getExpressData('data', propData.iconField || 'icon', item))"
               />
               <svg v-else class="idm_filed_svg_icon" aria-hidden="true">
-                <use :xlink:href="`#${item.iconFont && item.iconFont[0]}`" />
+                <use :xlink:href="`#${item.icon && item.icon[0]}`" />
               </svg>
             </div>
             <div
