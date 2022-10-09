@@ -99,7 +99,7 @@
                         {{ item.time }} |
                     </div>
                     <div class="flex-1 d-flex align-c">
-                        <div class="text-list-title text-o-e-2">{{ item.title }}</div>
+                        <div class="text-list-title text-o-e-2"> <span v-if="item.isNew === 1" style="color: #f04142">[NEW]</span> <span>{{ item.title }}</span></div>
                     </div>
                     <div
                         v-if="
