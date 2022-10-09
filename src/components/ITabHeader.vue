@@ -157,11 +157,19 @@ export default {
             allTabList: [
                 {
                     key: '1',
-                    tab: '通知公告'
+                    tab: '通知公告',
+                    tableFont: {
+                        fontSize: 16,
+                        fontSizeUnit: 'px'
+                    }
                 },
                 {
                     key: '2',
-                    tab: '我的资源'
+                    tab: '我的资源',
+                    tableFont: {
+                        fontSize: 16,
+                        fontSizeUnit: 'px'
+                    }
                 }
             ],
             //当前选中的tab
@@ -205,7 +213,7 @@ export default {
                 item.fontFamily && (obj['font-family'] = item.fontFamily);
                 item.fontWeight && (obj['font-weight'] = item.fontWeight.split(" ")[0]);
                 item.fontStyle && (obj['font-style'] = item.fontStyle);
-                item.fontSize && (obj['font-size'] = item.fontSize + item.fontSizeUnit);
+                item.fontSize && (obj['font-size'] = this.getAdaptiveSize(item.fontSize) + item.fontSizeUnit);
                 item.fontLineHeight && (obj['line-height'] = item.fontLineHeight + (item.fontLineHeightUnit == "-" ? "" : item.fontLineHeightUnit));
                 item.fontTextAlign && (obj['text-align'] = item.fontTextAlign);
                 item.fontDecoration && (obj['text-decoration'] = item.fontDecoration);
@@ -284,10 +292,10 @@ export default {
                     }
                     switch (key) {
                         case "widthLeftIcon":
-                             styleObject['width'] = element;
+                             styleObject['width'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
                             break;
                         case "heightLeftIcon":
-                            styleObject['height'] = element;
+                            styleObject['height'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
                             break;
                         case "boxLeftIcon":
                             if (element.marginTopVal) {
@@ -321,10 +329,10 @@ export default {
                             }
                             break;
                         case "widthLeftIconPositionY":
-                            styleObject['top'] = element;
+                            styleObject['top'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
                             break;
                         case "widthLeftIconPositionX":
-                            styleObject['left'] = element;
+                            styleObject['left'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
                             break;
                     }
                 }
@@ -557,28 +565,14 @@ export default {
                             }
                             break;
                         case "extraBtnFontSize":
-                            extraBtnStyleObject["font-size"] = element + "px";
-                            extraBtnSvgStyleObject["font-size"] = element + "px";
+                            extraBtnStyleObject["font-size"] = this.getAdaptiveSize(element) + "px";
+                            extraBtnSvgStyleObject["font-size"] = this.getAdaptiveSize(element) + "px";
                             extraBtnSvgStyleObject["max-height"] = element + "px";
                             extraBtnSvgStyleObject["width"] = element + "px";
                             break;
                         case "tabFont":
-                            styleObject["font-family"] = element.fontFamily;
-                            if (element.fontColors.hex8) {
-                                styleObject["color"] = element.fontColors.hex8;
-                            }
-                            styleObject["font-weight"] =
-                                element.fontWeight && element.fontWeight.split(" ")[0];
-                            styleObject["font-style"] = element.fontStyle;
-                            styleObject["font-size"] =
-                                element.fontSize + element.fontSizeUnit;
-                            styleObject["line-height"] =
-                                element.fontLineHeight +
-                                (element.fontLineHeightUnit == "-"
-                                    ? ""
-                                    : element.fontLineHeightUnit);
-                            styleObject["text-align"] = element.fontTextAlign;
-                            styleObject["text-decoration"] = element.fontDecoration;
+                            IDM.style.setFontStyle(styleObject, element)
+                            this.adaptiveFontSize(styleObject, element)
                             break;
                     }
                 }
