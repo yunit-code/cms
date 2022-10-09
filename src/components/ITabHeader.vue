@@ -54,10 +54,12 @@
 
 <script>
 import SvgIcon from '../icons/SvgIcon.vue';
+import adaptationScreenMixin from '../mixins/adaptationScreen'
 
 export default {
     name: 'ITabHeader',
     components: {SvgIcon},
+    mixins: [adaptationScreenMixin],
     data() {
         return {
             moduleObject: {},
@@ -155,11 +157,19 @@ export default {
             allTabList: [
                 {
                     key: '1',
-                    tab: '通知公告'
+                    tab: '通知公告',
+                    tableFont: {
+                        fontSize: 16,
+                        fontSizeUnit: 'px'
+                    }
                 },
                 {
                     key: '2',
-                    tab: '我的资源'
+                    tab: '我的资源',
+                    tableFont: {
+                        fontSize: 16,
+                        fontSizeUnit: 'px'
+                    }
                 }
             ],
             //当前选中的tab
@@ -203,7 +213,7 @@ export default {
                 item.fontFamily && (obj['font-family'] = item.fontFamily);
                 item.fontWeight && (obj['font-weight'] = item.fontWeight.split(" ")[0]);
                 item.fontStyle && (obj['font-style'] = item.fontStyle);
-                item.fontSize && (obj['font-size'] = item.fontSize + item.fontSizeUnit);
+                item.fontSize && (obj['font-size'] = this.getAdaptiveSize(item.fontSize) + item.fontSizeUnit);
                 item.fontLineHeight && (obj['line-height'] = item.fontLineHeight + (item.fontLineHeightUnit == "-" ? "" : item.fontLineHeightUnit));
                 item.fontTextAlign && (obj['text-align'] = item.fontTextAlign);
                 item.fontDecoration && (obj['text-decoration'] = item.fontDecoration);
@@ -282,10 +292,10 @@ export default {
                     }
                     switch (key) {
                         case "widthLeftIcon":
-                             styleObject['width'] = element;
+                             styleObject['width'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
                             break;
                         case "heightLeftIcon":
-                            styleObject['height'] = element;
+                            styleObject['height'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
                             break;
                         case "boxLeftIcon":
                             if (element.marginTopVal) {
@@ -319,10 +329,10 @@ export default {
                             }
                             break;
                         case "widthLeftIconPositionY":
-                            styleObject['top'] = element;
+                            styleObject['top'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
                             break;
                         case "widthLeftIconPositionX":
-                            styleObject['left'] = element;
+                            styleObject['left'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
                             break;
                     }
                 }
@@ -487,16 +497,18 @@ export default {
             }
             if ( this.propData.tabFontHover ) {
                 let element = this.propData.tabFontHover;
-                styleObjectTabHover["font-family"] = element.fontFamily;
-                if (element.fontColors.hex8) {
-                    styleObjectTabHover["color"] = element.fontColors.hex8;
-                }
-                styleObjectTabHover["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
-                styleObjectTabHover["font-style"] = element.fontStyle;
-                styleObjectTabHover["font-size"] = element.fontSize + element.fontSizeUnit;
-                styleObjectTabHover["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
-                styleObjectTabHover["text-align"] = element.fontTextAlign;
-                styleObjectTabHover["text-decoration"] = element.fontDecoration;
+                // styleObjectTabHover["font-family"] = element.fontFamily;
+                // if (element.fontColors.hex8) {
+                //     styleObjectTabHover["color"] = element.fontColors.hex8;
+                // }
+                // styleObjectTabHover["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                // styleObjectTabHover["font-style"] = element.fontStyle;
+                // styleObjectTabHover["font-size"] = element.fontSize + element.fontSizeUnit;
+                // styleObjectTabHover["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                // styleObjectTabHover["text-align"] = element.fontTextAlign;
+                // styleObjectTabHover["text-decoration"] = element.fontDecoration;
+                IDM.style.setFontStyle(styleObjectTabHover, element)
+                this.adaptiveFontSize(styleObjectTabHover, element)
             }
             window.IDM.setStyleToPageHead( this.moduleObject.id + " .ant-tabs-nav .ant-tabs-tab", styleObject );
             window.IDM.setStyleToPageHead( this.moduleObject.id + " .ant-tabs-nav .ant-tabs-tab:hover", styleObjectTabHover );
@@ -553,28 +565,14 @@ export default {
                             }
                             break;
                         case "extraBtnFontSize":
-                            extraBtnStyleObject["font-size"] = element + "px";
-                            extraBtnSvgStyleObject["font-size"] = element + "px";
+                            extraBtnStyleObject["font-size"] = this.getAdaptiveSize(element) + "px";
+                            extraBtnSvgStyleObject["font-size"] = this.getAdaptiveSize(element) + "px";
                             extraBtnSvgStyleObject["max-height"] = element + "px";
                             extraBtnSvgStyleObject["width"] = element + "px";
                             break;
                         case "tabFont":
-                            styleObject["font-family"] = element.fontFamily;
-                            if (element.fontColors.hex8) {
-                                styleObject["color"] = element.fontColors.hex8;
-                            }
-                            styleObject["font-weight"] =
-                                element.fontWeight && element.fontWeight.split(" ")[0];
-                            styleObject["font-style"] = element.fontStyle;
-                            styleObject["font-size"] =
-                                element.fontSize + element.fontSizeUnit;
-                            styleObject["line-height"] =
-                                element.fontLineHeight +
-                                (element.fontLineHeightUnit == "-"
-                                    ? ""
-                                    : element.fontLineHeightUnit);
-                            styleObject["text-align"] = element.fontTextAlign;
-                            styleObject["text-decoration"] = element.fontDecoration;
+                            IDM.style.setFontStyle(styleObject, element)
+                            this.adaptiveFontSize(styleObject, element)
                             break;
                     }
                 }
@@ -637,16 +635,18 @@ export default {
             }
             if ( this.propData.tabFontChoose ) {
                 let element = this.propData.tabFontChoose;
-                chooseObjBorder["font-family"] = element.fontFamily;
-                if (element.fontColors.hex8) {
-                    chooseObjBorder["color"] = element.fontColors.hex8;
-                }
-                chooseObjBorder["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
-                chooseObjBorder["font-style"] = element.fontStyle;
-                chooseObjBorder["font-size"] = element.fontSize + element.fontSizeUnit;
-                chooseObjBorder["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
-                chooseObjBorder["text-align"] = element.fontTextAlign;
-                chooseObjBorder["text-decoration"] = element.fontDecoration;
+                // chooseObjBorder["font-family"] = element.fontFamily;
+                // if (element.fontColors.hex8) {
+                //     chooseObjBorder["color"] = element.fontColors.hex8;
+                // }
+                // chooseObjBorder["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
+                // chooseObjBorder["font-style"] = element.fontStyle;
+                // chooseObjBorder["font-size"] = element.fontSize + element.fontSizeUnit;
+                // chooseObjBorder["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                // chooseObjBorder["text-align"] = element.fontTextAlign;
+                // chooseObjBorder["text-decoration"] = element.fontDecoration;
+                IDM.style.setFontStyle(chooseObjBorder, element)
+                this.adaptiveFontSize(chooseObjBorder, element)
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id + " .idm_itableslayout .ant-tabs-tab-active", chooseObjBorder);
         },
@@ -657,6 +657,7 @@ export default {
          */
         convertAttrToStyleObject() {
             let styleObject = {};
+            let styleObjectTitle = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {
                 styleObject["background-size"] = (this.propData.bgSizeWidth ? this.propData.bgSizeWidth.inputVal + this.propData.bgSizeWidth.selectVal : "auto") + " " + (this.propData.bgSizeHeight ? this.propData.bgSizeHeight.inputVal + this.propData.bgSizeHeight.selectVal : "auto");
             } else if (this.propData.bgSize) {
@@ -669,6 +670,11 @@ export default {
             if (this.propData.positionY && this.propData.positionY.inputVal) {
                 styleObject["background-position-y"] =
                     this.propData.positionY.inputVal + this.propData.positionY.selectVal;
+            }
+            if ( this.propData.isHideTitleBorderBottom ) {
+                styleObjectTitle['border-bottom'] = 'none'
+            } else {
+                styleObjectTitle['border-bottom'] = '1px solid #e8e8e8'
             }
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
@@ -795,27 +801,25 @@ export default {
                                 element.radius.rightBottom.radiusUnit;
                             break;
                         case "font":
-                            styleObject["font-family"] = element.fontFamily;
-                            if (element.fontColors.hex8) {
-                                styleObject["color"] = element.fontColors.hex8;
-                            }
-                            styleObject["font-weight"] =
-                                element.fontWeight && element.fontWeight.split(" ")[0];
-                            styleObject["font-style"] = element.fontStyle;
-                            styleObject["font-size"] =
-                                element.fontSize + element.fontSizeUnit;
-                            styleObject["line-height"] =
-                                element.fontLineHeight +
-                                (element.fontLineHeightUnit == "-"
-                                    ? ""
-                                    : element.fontLineHeightUnit);
-                            styleObject["text-align"] = element.fontTextAlign;
-                            styleObject["text-decoration"] = element.fontDecoration;
+                            // styleObject["font-family"] = element.fontFamily;
+                            // if (element.fontColors.hex8) {
+                            //     styleObject["color"] = element.fontColors.hex8;
+                            // }
+                            // styleObject["font-weight"] =
+                            //     element.fontWeight && element.fontWeight.split(" ")[0];
+                            // styleObject["font-style"] = element.fontStyle;
+                            // styleObject["font-size"] = element.fontSize + element.fontSizeUnit;
+                            // styleObject["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
+                            // styleObject["text-align"] = element.fontTextAlign;
+                            // styleObject["text-decoration"] = element.fontDecoration;
+                            IDM.style.setFontStyle(styleObject, element)
+                            this.adaptiveFontSize(styleObject, element)
                             break;
                     }
                 }
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id, styleObject);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .ant-tabs-bar', styleObjectTitle);
         },
         /**
          * 根据结果集来执行表达式的结果

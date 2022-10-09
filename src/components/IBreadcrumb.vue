@@ -21,8 +21,11 @@
 </template>
 <script>
 import { breadcrumbData } from '../mock/mockData'
+import adaptationScreenMixin from '../mixins/adaptationScreen'
+
 export default {
     name: 'IBreadcrumb',
+    mixins: [adaptationScreenMixin],
     data() {
         return {
             moduleObject: {},
@@ -129,13 +132,16 @@ export default {
                         // 提示文字
                         case 'tipFont':
                             IDM.style.setFontStyle(tipFontObj, element)
+                            this.adaptiveFontSize(tipFontObj, element)
                             break
                         // 面包屑文字
                         case 'breadcrumbFont':
                             IDM.style.setFontStyle(breadcrumbFontObj, element)
+                            this.adaptiveFontSize(breadcrumbFontObj, element)
                             break
                         case 'breadcrumbLastFont':
                             IDM.style.setFontStyle(breadcrumbLastFontObj, element, true)
+                            this.adaptiveFontSize(breadcrumbLastFontObj, element)
                     }
                 }
             }
