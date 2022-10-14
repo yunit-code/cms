@@ -21,7 +21,7 @@
                 <div>{{ itemData.content }}</div>
                 <div class="comment-list-bottom">
                     <span class="mr-10 cursor-p">{{ itemData.createTime }}</span>
-                    <span class="mr-10 cursor-p" @click.stop="$emit('showReply', { index: lIndex, sIndex: sIndex })">
+                    <span class="mr-10 cursor-p" v-if="isShowApply" @click.stop="$emit('showReply', { index: lIndex, sIndex: sIndex })">
                         回复
                     </span>
                     <span
@@ -33,15 +33,16 @@
                     >
                     <span
                         class="comment-list-del-btn cursor-p"
+                        v-if="userInfo.userid && itemData.fromUserId == userInfo.userid"
                         @click.stop="$emit('handleDelete', { item: itemData, index: lIndex, sIndex: sIndex })"
                     >
                         删除
                     </span>
                 </div>
                 <div class="common-list-reply" v-if="itemData.isReply">
-                    <a-input placeholder="请输入内容" allowClear v-model="replyContent" />
+                    <a-input placeholder="请输入内容" allowClear @blur="$emit('handleBlur')" v-model="replyContent" />
                     <div class="d-flex flex-d-r-r align-c comment-list-button-container">
-                        <a-button type="primary" size="small" :loading="btnLoading" @click="handleSubReply"
+                        <a-button type="primary" size="small" @click="handleSubReply"
                             >回复</a-button
                         >
                     </div>
@@ -68,10 +69,6 @@ export default {
             type: Object,
             default: () => {}
         },
-        btnLoading: {
-            type: Boolean,
-            default: false
-        },
         propData: {
             type: Object,
             default: () => {}
@@ -79,16 +76,24 @@ export default {
         authorId: {
             type: String,
             default: ''
+        },
+        moduleObject: {
+            type: Object,
+            default: () => {}
+        },
+        userInfo: {
+            type: Object,
+            default: () => {}
+        },
+        isShowApply : {
+            type: Boolean,
+            default: true
         }
     },
     data() {
         return { replyContent: '' }
     },
     methods: {
-        isAuthor(id) {
-            console.log(id)
-            console.log(this.itemData.fromUserId)
-        },
         handleSubReply() {
             if (this.moduleObject.env == 'develop') {
                 return
@@ -100,6 +105,7 @@ export default {
                 sIndex: sIndex,
                 replyContent: this.replyContent
             })
+            this.replyContent = ''
         }
     }
 }

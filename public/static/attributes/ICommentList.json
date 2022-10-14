@@ -59,7 +59,7 @@
                 {
                     "type": "checkbox",
                     "layoutType": "inline",
-                    "text": "默认排序",
+                    "text": "排序显示",
                     "bindKey": "sortType",
                     "default": [1],
                     "dictionary": [
@@ -68,12 +68,8 @@
                             "value": 1
                         },
                         {
-                            "label": "按热度排序",
-                            "value": 2
-                        },
-                        {
                             "label": "按点赞排序",
-                            "value": 3
+                            "value": 2
                         }
                     ]
                 },
@@ -448,24 +444,24 @@
                             "layoutType": "inline",
                             "text": "评论删除",
                             "bindKey": "deleteCommentInterface",
-                            "desc": "请求方法：delete",
-                            "default": "/ctrl/website/api/comment"
+                            "desc": "",
+                            "default": "/ctrl/website/api/deleteComment"
                         },
                         {
                             "type": "input",
                             "layoutType": "inline",
                             "text": "评论点赞",
                             "bindKey": "likeCommentInterface",
-                            "desc": "请求方法：post",
+                            "desc": "",
                             "default": "/ctrl/website/api/comment/like"
                         },
                         {
                             "type": "input",
                             "layoutType": "inline",
                             "text": "取消点赞",
-                            "bindKey": "likeCommentInterface",
-                            "desc": "请求方法：delete",
-                            "default": "/ctrl/website/api/comment/like"
+                            "bindKey": "unLikeCommentInterface",
+                            "desc": "",
+                            "default": "/ctrl/website/api/comment/deleteLike"
                         }
                     ]
                 }

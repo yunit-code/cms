@@ -1,74 +1,46 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
-        <a-textarea
-            placeholder="评论请登录"
-            maxLength="512"
-            :auto-size="{ minRows: 3, maxRows: 5 }"
-            allowClear
-            :loading="btnLoading"
-            v-model="content"
-        />
+        <a-textarea placeholder="评论请登录" maxLength="512" :auto-size="{ minRows: 3, maxRows: 5 }" allowClear
+            v-model="content" />
         <div class="d-flex flex-d-r-r align-c comment-list-button-container">
             <a-button type="primary" @click="handlePublish" style="margin: 0 0 0 20px">发布</a-button>
-            <a-select
-                v-if="propData.sortType && propData.sortType.length > 1"
-                mode="multiple"
-                style="width: 140px"
-                :disabled="moduleObject.env === 'develop'"
-                v-model="currentSort"
-                @change="handleSelectChange"
-            >
-                <a-select-option v-for="item in componentTypeList" :key="item.value" :value="item.value">{{
-                    item.label
+            <a-select style="width: 140px" :disabled="moduleObject.env === 'develop'" v-model="currentSort"
+                @change="handleSelectChange">
+                <a-select-option v-for="item in componentSortTypeList" :key="item.value" :value="item.value">{{
+                item.label
                 }}</a-select-option>
             </a-select>
         </div>
         <div v-for="(item, index) in componentData.rows" :key="index" class="comment-list-item">
-            <ICommentItem
-                :propData="propData"
-                :itemData="item"
-                :lIndex="index"
-                :authorId="componentData.authorId"
-                @showReply="showReply"
-                @handleDelete="handleDelete"
-                @handleSubReply="handleSubReply"
-                @handleLike="handleLike"
-                :btnLoading="btnLoading2"
-            ></ICommentItem>
+            <ICommentItem :propData="propData" :itemData="item" :lIndex="index" :authorId="componentData.authorId"
+                :moduleObject="moduleObject" @showReply="showReply" @handleDelete="handleDelete"
+                @handleBlur="handleBlur" :userInfo="userInfo" @handleSubReply="handleSubReply" @handleLike="handleLike">
+            </ICommentItem>
             <div class="comment-list-sub-comment" v-for="(items, indexs) in item.children" :key="indexs">
-                <ICommentItem
-                    :propData="propData"
-                    :lIndex="index"
-                    :sIndex="indexs"
-                    :itemData="items"
-                    :authorId="componentData.authorId"
-                    @showReply="showReply"
-                    @handleDelete="handleDelete"
-                    @handleSubReply="handleSubReply"
-                    @handleLike="handleLike"
-                    :btnLoading="btnLoading2"
-                ></ICommentItem>
-                <div class="d-flex just-c cursor-p" @click="handleSubClickMore(item)">查看更多回复</div>
+                <ICommentItem :propData="propData" :lIndex="index" :sIndex="indexs" :itemData="items"
+                    :userInfo="userInfo" :isShowApply="false" :authorId="componentData.authorId"
+                    :moduleObject="moduleObject" @showReply="showReply" @handleDelete="handleDelete"
+                    @handleBlur="handleBlur" @handleSubReply="handleSubReply" @handleLike="handleLike"></ICommentItem>
+            </div>
+            <div class="d-flex just-c cursor-p" v-if="item.isShowMore" @click="handleSubClickMore(item, index)">查看更多回复
             </div>
         </div>
-        <div class="d-flex just-c cursor-p" @click="handleClickMore">加载更多</div>
+        <div class="d-flex just-c cursor-p" v-if="hasMore" @click="handleClickMore">加载更多</div>
     </div>
 </template>
 <script>
 import ICommentItem from '../commonComponent/ICommentItem'
 import { getCommentListData } from '../mock/mockData'
+import listMixins from '../mixins/listMixins'
+import { Modal } from 'ant-design-vue'
 const sortTypeList = [
     {
         label: '按时间排序',
         value: 1
     },
     {
-        label: '按热度排序',
-        value: 2
-    },
-    {
         label: '按点赞排序',
-        value: 3
+        value: 2
     }
 ]
 export default {
@@ -82,18 +54,19 @@ export default {
             propData: this.$root.propData.compositeAttr || {
                 fontContent: 'Hello Word'
             },
-            btnLoading: false,
-            btnLoading2: false,
             componentData: {
                 rows: [],
                 authorId: '123'
             },
-            currentSort: [],
+            currentSort: 1,
+            componentSortTypeList: [],
             content: '',
+            hasMore: false,
             currentPage: 1,
-            componentTypeList: []
+            userInfo: IDM.user.getCurrentUserInfo()
         }
     },
+    mixins: [listMixins],
     created() {
         this.moduleObject = this.$root.moduleObject
         this.convertAttrToStyleObject()
@@ -101,14 +74,47 @@ export default {
     },
     methods: {
         handleSelectChange(value) {
-            this.initData()
+            this.currentSort = value
+            this.currentPage = 1
+            this.getCommentList(true)
         },
         propDataWatchHandle(propData) {
             this.propData = propData.compositeAttr || {}
             this.convertAttrToStyleObject()
             this.convertThemeListAttrToStyleObject()
         },
-        handleSubClickMore(item) {},
+        handleBlur() {
+            const arr = _.cloneDeep(this.componentData.rows)
+            this.setIsReplyFalse(arr)
+            this.$set(this.componentData, 'rows', arr)
+        },
+        handleSubClickMore(item, index) {
+            this.propData.commentListInterface &&
+                window.IDM.http
+                    .get(this.propData.commentListInterface, {
+                        ...this.commonParam(),
+                        showLike: this.propData.isFabulousNumber,
+                        page: this.currentPage,
+                        commentId: item.id,
+                        sortDir: this.currentSort,
+                        showNum: 100,
+                        showAvatar: this.propData.isShowAvatar
+                    })
+                    .then((res) => {
+                        if (res.status == 200 && res.data.code == 200) {
+                            item.isShowMore = false
+                            item.children = res.data.data.rows
+
+                            this.$set(this.componentData['rows'], index, item)
+                            const arr = _.cloneDeep(this.componentData.rows)
+                            this.setIsReplyFalse(arr)
+                            this.$set(this.componentData, 'rows', arr)
+                        } else {
+                            IDM.message.error(res.data.message)
+                        }
+                    })
+                    .catch(function (error) { })
+        },
         // 显示回复
         showReply({ index, sIndex }) {
             if (this.moduleObject.env == 'develop') {
@@ -128,38 +134,47 @@ export default {
             if (this.moduleObject.env == 'develop') {
                 return
             }
-            const requestText = item.isLike ? 'delete' : 'post'
-            this.propData.deleteCommentInterface &&
-                window.IDM.http[requestText](this.propData.deleteCommentInterface, {
+            const requestUrl = item.isLike ? this.propData.unLikeCommentInterface : this.propData.likeCommentInterface
+            requestUrl &&
+                window.IDM.http.post(requestUrl, {
+                    ...this.commonParam(),
                     commentId: item.id
                 })
                     .then((res) => {
                         if (res.status == 200 && res.data.code == 200) {
+                            if (item.isLike) {
+                                item.likeNum--
+                            } else {
+                                item.likeNum++
+                            }
                             item.isLike = !item.isLike
                             if (sIndex === -1) {
                                 this.$set(this.componentData['rows'], index, item)
                             } else {
                                 this.$set(this.componentData['rows'][index].children, sIndex, item)
                             }
+                            IDM.message.success(res.data.message)
+                            return
                         }
                         IDM.message.error(res.data.message)
                     })
-                    .catch(function (error) {})
+                    .catch(function (error) { })
         },
         // 删除
         handleDelete({ item, index, sIndex }) {
             if (this.moduleObject.env == 'develop') {
                 return
             }
-            this.$confirm({
+            Modal.confirm({
                 title: '提示',
                 content: '确认删除此条评论',
                 okText: '确定',
                 cancelText: '取消',
-                onOk() {
+                onOk: () => {
                     this.propData.deleteCommentInterface &&
                         window.IDM.http
-                            .delete(this.propData.deleteCommentInterface, {
+                            .post(this.propData.deleteCommentInterface, {
+                                ...this.commonParam(),
                                 commentId: item.id
                             })
                             .then((res) => {
@@ -171,10 +186,12 @@ export default {
                                         arr[index].children.splice(sIndex, 1)
                                     }
                                     this.$set(this.componentData, 'rows', arr)
+                                    IDM.message.success(res.data.message)
+                                    return
                                 }
                                 IDM.message.error(res.data.message)
                             })
-                            .catch(function (error) {})
+                            .catch(function (error) { })
                 },
                 onCancel() {
                     console.log('Cancel')
@@ -182,37 +199,43 @@ export default {
             })
         },
         // 回复
-        handleSubReply({ replyContent, itemData }) {
-            this.btnLoading2 = true
+        handleSubReply({ replyContent, itemData, index }) {
             this.addComment(replyContent, itemData.id, () => {
-                const arr = _.cloneDeep(this.componentData.rows)
-                this.setIsReplyFalse(arr)
-                this.$set(this.componentData, 'rows', arr)
+                this.handleSubClickMore(itemData, index)
             })
         },
         addComment(content, commentId, cb) {
+            if (!this.userInfo.userid) {
+                return IDM.message.warning('请先登录')
+            }
             if (!content) {
+                return
             }
             this.propData.addCommentInterface &&
                 window.IDM.http
                     .post(this.propData.addCommentInterface, {
+                        ...this.commonParam(),
                         content,
                         commentId,
-                        contenId: '',
                         showAvatar: false
                     })
                     .then((res) => {
                         if (res.status == 200 && res.data.code == 200) {
+                            IDM.message.success(res.data.message)
                             cb()
+                            return
                         }
                         IDM.message.error(res.data.message)
                     })
-                    .catch(function (error) {})
+                    .catch(function (error) { })
         },
         // 发布评论
         handlePublish() {
             this.addComment(this.content, '', () => {
                 this.content = ''
+                // this.componentData.rows.unshift()
+                this.currentPage = 1
+                this.getCommentList(true)
             })
         },
         convertAttrToStyleObject() {
@@ -304,10 +327,10 @@ export default {
                 }
                 IDM.setStyleToPageHead(
                     '.' +
-                        themeNamePrefix +
-                        item.key +
-                        (` #${this.moduleObject.id}` || 'module_demo') +
-                        ' .common-list-author',
+                    themeNamePrefix +
+                    item.key +
+                    (` #${this.moduleObject.id}` || 'module_demo') +
+                    ' .common-list-author',
                     bgColorObj
                 )
             }
@@ -318,7 +341,7 @@ export default {
         },
         handleClickMore() {
             this.currentPage++
-            this.initData()
+            this.getCommentList()
         },
         setIsReplyFalse(array) {
             return array.map((el) => {
@@ -329,38 +352,52 @@ export default {
                 return el
             })
         },
-        initData() {
-            let sortDir = ''
-            if (this.propData.sortType && this.propData.sortType.length > 0) {
-                sortDir = this.currentSort[0] = this.propData.sortType[0]
-                if (this.propData.sortType.length > 1) {
-                    this.componentTypeList = sortTypeList.filter((el) => this.propData.sortType.includes(el.value))
-                    sortDir = this.currentSort.join(',')
-                }
-            }
-            if (this.moduleObject.env === 'develop') {
-                this.componentData.rows = this.setIsReplyFalse(getCommentListData.call(this))
-                return
-            }
-            this.propData.customInterfaceUrl &&
+        getCommentList(isClear = false) {
+            this.propData.commentListInterface &&
                 window.IDM.http
-                    .get(this.propData.customInterfaceUrl, {
+                    .get(this.propData.commentListInterface, {
                         ...this.commonParam(),
-                        columnId: this.propData.columnId || this.commonParam().columnId,
                         showLike: this.propData.isFabulousNumber,
                         page: this.currentPage,
                         showNum: this.propData.showNum,
                         childShowNum: this.propData.childShowNum,
-                        sortDir
+                        sortDir: this.currentSort,
+                        showAvatar: this.propData.isShowAvatar
                     })
                     .then((res) => {
                         if (res.status == 200 && res.data.code == 200) {
+                            res.data.data.rows.forEach(el => {
+                                if (el.total > el.children.length) {
+                                    el.isShowMore = true
+                                }
+                            })
+                            if (isClear) {
+                                this.componentData.rows = []
+                            }
+                            res.data.data.rows = [...this.componentData.rows, ...res.data.data.rows]
+                            if (res.data.data.total > res.data.data.rows.length) {
+                                this.hasMore = true
+                            } else {
+                                this.hasMore = false
+                            }
+
                             this.componentData = res.data.data
                         } else {
                             IDM.message.error(res.data.message)
                         }
                     })
-                    .catch(function (error) {})
+                    .catch(function (error) { })
+        },
+        initData() {
+            if (this.propData.sortType && this.propData.sortType.length > 0) {
+                this.componentSortTypeList = sortTypeList.filter(el => this.propData.sortType.includes(el.value))
+                this.currentSort = this.propData.sortType[0]
+            }
+            if (!this.commonParam().columnId && !this.commonParam().contentId) {
+                this.componentData.rows = this.setIsReplyFalse(getCommentListData.call(this))
+                return
+            }
+            this.getCommentList(true)
         },
         receiveBroadcastMessage(object) {
             console.log('组件收到消息', object)
@@ -387,19 +424,6 @@ export default {
         },
         sendBroadcastMessage(object) {
             window.IDM.broadcast && window.IDM.broadcast.send(object)
-        },
-        /**
-         * 通用的url参数对象
-         * 所有地址的url参数转换
-         */
-        commonParam() {
-            let urlObject = IDM.url.queryObject()
-            var params = {
-                pageId:
-                    window.IDM.broadcast && window.IDM.broadcast.pageModule ? window.IDM.broadcast.pageModule.id : '',
-                urlData: JSON.stringify(urlObject)
-            }
-            return params
         }
     }
 }
@@ -409,28 +433,35 @@ export default {
 .comment-list-button-container {
     margin: 10px 0;
 }
+
 .comment-list-sub-comment {
     margin: 20px 0 0 70px;
     padding: 10px 0 10px 20px;
     background: #ddd;
 }
+
 .comment-list-name {
     margin: 0 0 5 0;
 }
+
 .mr-10 {
     margin-right: 10px;
 }
+
 .comment-list-bottom {
     margin: 5px 0 0 0;
 }
+
 .comment-list-del-btn {
     display: none;
 }
+
 .comment-list-container:hover {
     .comment-list-del-btn {
         display: inline;
     }
 }
+
 .common-list-reply {
     margin: 10px 0 0 0;
     width: 500px;
