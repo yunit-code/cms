@@ -4,7 +4,7 @@
             v-model="content" />
         <div class="d-flex flex-d-r-r align-c comment-list-button-container">
             <a-button type="primary" @click="handlePublish" style="margin: 0 0 0 20px">发布</a-button>
-            <a-select style="width: 140px" :disabled="moduleObject.env === 'develop'" v-model="currentSort"
+            <a-select style="width: 140px" v-if="componentSortTypeList.length > 0" :disabled="moduleObject.env === 'develop'" v-model="currentSort"
                 @change="handleSelectChange">
                 <a-select-option v-for="item in componentSortTypeList" :key="item.value" :value="item.value">{{
                 item.label
@@ -84,9 +84,9 @@ export default {
             this.convertThemeListAttrToStyleObject()
         },
         handleBlur() {
-            const arr = _.cloneDeep(this.componentData.rows)
-            this.setIsReplyFalse(arr)
-            this.$set(this.componentData, 'rows', arr)
+            // const arr = _.cloneDeep(this.componentData.rows)
+            // this.setIsReplyFalse(arr)
+            // this.$set(this.componentData, 'rows', arr)
         },
         handleSubClickMore(item, index) {
             this.propData.commentListInterface &&
@@ -392,8 +392,10 @@ export default {
             if (this.propData.sortType && this.propData.sortType.length > 0) {
                 this.componentSortTypeList = sortTypeList.filter(el => this.propData.sortType.includes(el.value))
                 this.currentSort = this.propData.sortType[0]
+            }else {
+                this.componentSortTypeList = []
             }
-            if (!this.commonParam().columnId && !this.commonParam().contentId) {
+            if (!this.commonParam().columnId || !this.commonParam().contentId) {
                 this.componentData.rows = this.setIsReplyFalse(getCommentListData.call(this))
                 return
             }
