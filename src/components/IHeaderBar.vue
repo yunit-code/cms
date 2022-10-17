@@ -35,11 +35,13 @@
                 </div>
             </div>
         </div>
+        <AdWindow></AdWindow>
     </div>
 </template>
 
 <script>
 var dayjs = require('dayjs')
+import AdWindow from './AdWindow.vue'
 export default {
     name: 'IHeaderBar',
     data() {
@@ -63,6 +65,7 @@ export default {
     },
     props: {
     },
+    components: { AdWindow },
     created() {
         this.moduleObject = this.$root.moduleObject;
         this.getCurrentTime()

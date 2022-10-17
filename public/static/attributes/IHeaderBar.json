@@ -61,6 +61,25 @@
                     "type": "radio",
                     "styleType": "radio",
                     "layoutType": "inline",
+                    "text": "显示飘窗",
+                    "bindKey": "showAdWindow",
+                    "default": false,
+                    "desc": "打开后会在预览和生产模式下，出现飘窗",
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
                     "text": "搜索位置",
                     "bindKey": "searchPosition",
                     "default": "top",
@@ -319,6 +338,14 @@
                     "desc": "自定义搜索功能",
                     "multiple": false
                 }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "飘窗属性",
+            "desc": "设置飘窗属性",
+            "children": [
+                
             ]
         },
         {
