@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <AdWindow></AdWindow>
+        <AdWindow :propData="propData" :moduleObject="moduleObject"></AdWindow>
     </div>
 </template>
 
@@ -57,7 +57,10 @@ export default {
                 logoImgSrc: '',
                 size: 'large',
                 widthSearch: '300px',
-                searchButtonText: '搜索'
+                searchButtonText: '搜索',
+                adImgWidth: '300px',
+                adImgHeight: '100px',
+                adObjectFit: 'cover'
             },
             time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
             search_text: ''
