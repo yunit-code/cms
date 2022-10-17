@@ -31,10 +31,15 @@ export default {
     props: [ 'propData','moduleObject' ],
     created() {
         console.log('prop',this.propData)
+        if( this.moduleObject.env == "develop" ){
+            this.thedivShow = false;
+        }
         this.convertAttrToStyleObject()
     },
     mounted() {
-        interval = setInterval(this.changePos, this.delay);
+        if ( this.moduleObject.env != "develop" ) {
+            interval = setInterval(this.changePos, this.delay);
+        }
         this.autoHideAd()
     },
     methods: {
