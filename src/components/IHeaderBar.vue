@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <AdWindow :propData="propData" :moduleObject="moduleObject"></AdWindow>
+        <AdWindow v-if="propData.showAdWindow" :propData="propData" :moduleObject="moduleObject"></AdWindow>
     </div>
 </template>
 
