@@ -151,6 +151,7 @@ export default {
             },
             currentPage: 1,
             componentList: [],
+            searchObj: {},
             componentData: {
                 rows: [{ title: '' }],
                 total: 0,
@@ -432,6 +433,7 @@ export default {
             this.propData.customInterfaceUrl &&
                 window.IDM.http
                     .get(this.propData.customInterfaceUrl, {
+                        ...this.searchObj,
                         columnId:
                             this.propData.selectColumn && this.propData.selectColumn.id
                                 ? this.propData.selectColumn.id
@@ -451,8 +453,15 @@ export default {
                     })
                     .catch(function (error) {})
         },
-        receiveBroadcastMessage(object) {
-            console.log('组件收到消息', object)
+        receiveBroadcastMessage(messageObject) {
+            console.log('组件收到消息', messageObject)
+            switch (messageObject.type) {
+                case 'searchMessage':
+                    this.searchObj = messageObject.message
+                    this.currentPage = 1
+                    this.initData()
+                    break
+                }
         },
         setContextValue(object) {
             console.log('统一接口设置的值', object)
