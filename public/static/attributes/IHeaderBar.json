@@ -345,8 +345,79 @@
             "text": "飘窗属性",
             "desc": "设置飘窗属性",
             "children": [
-                
-            ]
+                {
+                    "type": "uploadImage",
+                    "layoutType": "inline",
+                    "text": "显示logo",
+                    "bindKey": "adImgSrc",
+                    "default": ""
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "填充方式",
+                    "bindKey": "adObjectFit",
+                    "desc": "fill:不保证保持原有的比例，内容拉伸填充整个内容容器;contain:保持原有尺寸比例。内容被缩放;cover:保持原有尺寸比例。但部分内容可能被剪切;none:保留原有元素内容的长度和宽度，也就是说内容不会被重置",
+                    "dictionary": [
+                        {
+                            "label": "fill",
+                            "value": "fill"
+                        },
+                        {
+                            "label": "contain",
+                            "value": "contain"
+                        },
+                        {
+                            "label": "cover",
+                            "value": "cover"
+                        },
+                        {
+                            "label": "none",
+                            "value": "none"
+                        }
+                    ],
+                    "default": "fill"
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "飘窗宽度",
+                    "bindKey": "adImgWidth",
+                    "default": ""
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "飘窗高度",
+                    "bindKey": "adImgHeight",
+                    "default": ""
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "滑动速度",
+                    "bindKey": "adImgSpeed",
+                    "desc": "设置飘窗的移动速度，单位为毫秒",
+                    "default": 18
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "显示时间",
+                    "bindKey": "adShowTime",
+                    "desc": "设置飘窗的显示时间，超出时间飘窗会自动隐藏",
+                    "default": ""
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "跳转链接",
+                    "bindKey": "adJumpUrl",
+                    "desc": "点击飘窗时页面跳转地址",
+                    "default": ""
+                }
+            ],
+            "display":"@[showAdWindow]"
         },
         {
             "type": "group",

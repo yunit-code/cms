@@ -115,6 +115,13 @@
       "className": "ISlideCard",
       "comType": "common",
       "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.textcomparison",
+      "comName": "文本对比",
+      "className": "ITextComparison",
+      "comType": "common",
+      "comLangue": "vue"
     }
   ]
 }

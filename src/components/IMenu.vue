@@ -6,7 +6,7 @@
                 <SvgIcon icon-class="left"></SvgIcon>
             </div>
             <el-menu id="menu" :default-active="activeIndex2" class="el-menu-demo" :class="getMenuStyleClassName()" mode="horizontal" @select="handleSelect" :menu-trigger="propData.triggerType">
-                <MenuNavItem v-for="(item,index) in menu_list" :key="index" :menu_data="item" :prop_data="propData"></MenuNavItem>
+                <MenuNavItem v-for="(item,index) in menu_list" :key="index" :active_index="activeIndex2" :menu_data="item" :prop_data="propData"></MenuNavItem>
             </el-menu>
             <div v-if="is_show_move_button && propData.showSwitchButton" @click="toRightMove" class="next_button next_button_right">
                 <SvgIcon icon-class="right"></SvgIcon>
