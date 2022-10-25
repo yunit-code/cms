@@ -122,6 +122,13 @@
       "className": "ITextComparison",
       "comType": "common",
       "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.searchbar",
+      "comName": "搜索条",
+      "className": "ISearchBar",
+      "comType": "common",
+      "comLangue": "vue"
     }
   ]
 }

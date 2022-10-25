@@ -90,10 +90,10 @@ export default {
         },
         getMockData() {
             let data = {
-                content1 : "<p style=\"text-indent: 2em; font-family: Verdana, Arial, \">截至9月5日12时，我市社会面已连续11天、隔离点连续7天无本地新发病例，郑州涉疫防外溢临时管控区均已解除，即日起郑州市全域转入常态化疫情防控管理。鉴于当前全国疫情呈现多点散发、局部暴发态势，疫情防控形势严峻复杂，西藏、青海新冠肺炎疫情仍在高位发展期，四川成都市和广东深圳市疫情呈快速上升趋势，黑龙江大庆市、辽宁大连市、山东省济宁市等存在潜在疫情外溢风险。我市面临较大的输入性疫情风险，为贯彻国务院联防联控机制“外防输入、内防反弹”总策略，严防疫情输入，现就加强近期来（返）郑人员健康管理紧急提醒如下：</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>一、非必要不前往涉疫地区</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">请各位市民密切关注国内疫情动态和高中低风险区变化情况，非必要不前往有本土疫情发生的地区。确需前往的，要严格做好自身防护，主动配合当地防疫措施，途中做好个人防护。已在高中低风险区及有本土疫情所在县(市、区)的，建议非必要不离开当前居住地，确需返郑的请主动报备，并按要求落实健康管理措施。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>二、主动报告行程</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">以下人员请主动向居住地所属社区（村）、工作单位或居住宾馆(酒店)报告，并配合落实核酸检测、医学观察等疫情防控措施，对瞒报、谎报个人行程和健康状况，引发疫情传播的，将承担相应的法律责任。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">1.8月25日以来有成都市、深圳市旅居史；</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">2.近7日内有西藏、新疆、海南、青海、四川、天津、陕西、重庆、云南、甘肃等省（自治区、直辖市）旅居史；</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">3.近7日内有黑龙江大庆市、哈尔滨市、辽宁大连市、吉林长春市、河北石家庄市、山东济宁市、贵州贵阳市旅居史；</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">4.近7日内有其他高中低风险区或有本土阳性病例的县（市、区、旗）旅居史；</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">5.与公布的确诊病例（含无症状感染者）有轨迹重合。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">6.根据国内疫情发展形势，相关涉疫重点区域将进行动态调整。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>三、来（返）郑提前报备</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">郑州市域外来（返）郑人员需提前3天通过“郑好办APP—返郑人员登记管理”入口，据实填报提交；或通过“支付宝—豫事办—来（返）豫报备”入口，如实填报提交。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>四、加强入郑核酸检测</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">省内来（返）郑人员，需持48小时内核酸检测阴性证明，抵郑24小时内主动核酸检测1次。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">省外来（返）郑人员抵郑后，需配合查验“两码一证”（48小时核酸检测证明、健康码、行程码），第一时间在交通场站（机场、火车站、汽车站、公路服务站等）进行免费的“落地即检”，即检即走，不用等待核酸检测结果，返回居住地后落实三天两检管理措施。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">涉疫风险区域来（返）郑人员按照相关管控措施落实管控。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">建议市域外抵郑人员7日内不聚餐、不聚会、不前往人群密集场所，不探亲访友，推荐线上购物，必须外出时做好个人防护，参加常态化核酸检测。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>五、加强个人防护</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">广大市民要继续时刻保持良好的个人防护意识，养成随身携带口罩、科学规范佩戴口罩、勤洗手、常通风、分餐食、用公筷、不扎堆、少聚集等生活习惯，进入公共场所或乘坐公共交通工具时主动扫场所码，配合查验48小时内核酸检测阴性证明。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">尤其是暑期外出旅游的市民在返郑路途中要做好个人防护，保持安全距离，不在人多拥挤的密闭场所久留，做好疫情防控第一责任人。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">一旦出现发热、干咳、咳痰、咽痛、乏力、腹泻、味觉异常、嗅觉异常等症状，不要自行购药、服药，不乘坐公共交通工具，需立即报告社区，开展健康监测、核酸检测及相应管控措施。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>六、加强场所码查验，落实好四方责任</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">各类公共场所、公共交通工具要守好场所码查验关口，逢进必扫、扫码必验、验码必严，从严从实推进“48小时常态化核酸检测+场所码”联动核查。工作人员要主动为不会扫码的老人、幼儿等提供帮助。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">如您遇到疫情防控的问题，请及时向所在社区咨询，或拨打郑州市政务服务便民热线0371-12345，也可登录“郑在抗疫”平台公众号进行线上咨询。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">郑州市新冠肺炎疫情防控指挥部办公室</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">2022年9月5日</p><p><br/></p>",
-                content2 : "<p style=\"text-indent: 2em; font-family: Verdana, Arial, \">wewewe</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">截至9月5日12时，我市社会面已连续11天、隔离点连续7天无本地新发病例，郑州涉疫防外溢临时管控区均已解除，即日起郑州市全域转入常态化疫情防控管理。鉴于当前全国疫情呈现多点散发、局部暴发态势，疫情防控形势严峻复杂，西藏、青海新冠肺炎疫情仍在高位发展期，四川成都市和广东深圳市疫情呈快速上升趋势，黑龙江大庆市、辽宁大连市、山东省济宁市等存在潜在疫情外溢风险。我市面临较大的输入性疫情风险，为贯彻国务院联防联控机制“外防输入、内防反弹”总策略，严防疫情输入，现就加强近期来（返）郑人员健康管理紧急提醒如下：</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>一、非必要不前往涉疫地区</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">请各位市民密切关注国内疫情动态和高中低风险区变化情况，非必要不前往有本土疫情发生的地区。确需前往的，要严格做好自身防护，主动配合当地防疫措施，途中做好个人防护。已在高中低风险区及有本土疫情所在县(市、区)的，建议非必要不离开当前居住地，确需返郑的请主动报备，并按要求落实健康管理措施。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>二、主动报告行程</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">以下人员请主动向居住地所属社区（村）、工作单位或居住宾馆(酒店)报告，并配合落实核酸检测、医学观察等疫情防控措施，对瞒报、谎报个人行程和健康状况，引发疫情传播的，将承担相应的法律责任。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">1.8月25日以来有成都市、深圳市旅居史；</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">2.近7日内有西藏、新疆、海南、青海、四川、天津、陕西、重庆、云南、甘肃等省（自治区、直辖市）旅居史；</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">3.近7日内有黑龙江大庆市、哈尔滨市、辽宁大连市、吉林长春市、河北石家庄市、山东济宁市、贵州贵阳市旅居史；</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">4.近7日内有其他高中低风险区或有本土阳性病例的县（市、区、旗）旅居史；</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">5.与公布的确诊病例（含无症状感染者）有轨迹重合。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">6.根据国内疫情发展形势，相关涉疫重点区域将进行动态调整。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>三、来（返）郑提前报备</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">郑州市域外来（返）郑人员需提前3天通过“郑好办APP—返郑人员登记管理”入口，据实填报提交；或通过“支付宝—豫事办—来（返）豫报备”入口，如实填报提交。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>四、加强入郑核酸检测</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">省内来（返）郑人员，需持48小时内核酸检测阴性证明，抵郑24小时内主动核酸检测1次。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">省外来（返）郑人员抵郑后，需配合查验“两码一证”（48小时核酸检测证明、健康码、行程码），第一时间在交通场站（机场、火车站、汽车站、公路服务站等）进行免费的“落地即检”，即检即走，不用等待核酸检测结果，返回居住地后落实三天两检管理措施。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">涉疫风险区域来（返）郑人员按照相关管控措施落实管控。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">建议市域外抵郑人员7日内不聚餐、不聚会、不前往人群密集场所，不探亲访友，推荐线上购物，必须外出时做好个人防护，参加常态化核酸检测。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>五、加强个人防护</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">广大市民要继续时刻保持良好的个人防护意识，养成随身携带口罩、科学规范佩戴口罩、勤洗手、常通风、分餐食、用公筷、不扎堆、少聚集等生活习惯，进入公共场所或乘坐公共交通工具时主动扫场所码，配合查验48小时内核酸检测阴性证明。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">尤其是暑期外出旅游的市民在返郑路途中要做好个人防护，保持安全距离，不在人多拥挤的密闭场所久留，做好疫情防控第一责任人。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">一旦出现发热、干咳、咳痰、咽痛、乏力、腹泻、味觉异常、嗅觉异常等症状，不要自行购药、服药，不乘坐公共交通工具，需立即报告社区，开展健康监测、核酸检测及相应管控措施。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \"><strong>六、加强场所码查验，落实好四方责任</strong></p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">各类公共场所、公共交通工具要守好场所码查验关口，逢进必扫、扫码必验、验码必严，从严从实推进“48小时常态化核酸检测+场所码”联动核查。工作人员要主动为不会扫码的老人、幼儿等提供帮助。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">如您遇到疫情防控的问题，请及时向所在社区咨询，或拨打郑州市政务服务便民热线0371-12345，也可登录“郑在抗疫”平台公众号进行线上咨询。</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">郑州市新冠肺炎疫情防控指挥部办公室</p><p style=\"text-indent: 2em; font-family: Verdana, Arial, \">2022年9月5日</p><p><br/></p>",
                 version1 : "V20221020155237597",
                 version2 : "V20221020155249081",
+                content1: "<p>习近平总书记在党的二十大闭幕会上的重要讲话中指出，全党要紧密团结在党中央周围，高举中国特色社会主义伟大旗帜，坚定历史自信，增强历史主动，敢于斗争、敢于胜利，埋头苦干、锐意进取，团结带领全国各族人民为实现党的二十大确定的目标任务而奋斗。</p><p></p>",
+                content2: "<p>习近平总书记在党的二十大闭幕会上的重要讲话中指出，全党要紧密团结在党中央周围，高举中国特色社会主义伟大旗帜，坚定历史自信，增强历史主动，敢于斗争、敢于胜利，埋头苦干、锐意进取，团结带领全国各族人民为实现党的二十大确定的目标任务而奋斗。</p><p>“拥有马克思主义科学理论指导是我们党坚定信仰信念、把握历史主动的根本所在。”湖南省花垣县十八洞村驻村第一书记、乡村振兴工作队队长田晓说，“在习近平新时代中国特色社会主义思想指引下，完成脱贫攻坚、全面建成小康社会的历史任务，实现第一个百年奋斗目标，这是中国共产党和中国人民团结奋斗赢得的历史性胜利。新征程上，我们将埋头苦干、锐意进取，全面推进乡村振兴，加快实现农业农村现代化。”</p><p></p>"
             }
             this.makeResultData(data)
         },
@@ -208,30 +208,7 @@ export default {
                             }
                             break;
                         case "box":
-                            if (element.marginTopVal) {
-                                styleObject["margin-top"] = `${element.marginTopVal}`;
-                            }
-                            if (element.marginRightVal) {
-                                styleObject["margin-right"] = `${element.marginRightVal}`;
-                            }
-                            if (element.marginBottomVal) {
-                                styleObject["margin-bottom"] = `${element.marginBottomVal}`;
-                            }
-                            if (element.marginLeftVal) {
-                                styleObject["margin-left"] = `${element.marginLeftVal}`;
-                            }
-                            if (element.paddingTopVal) {
-                                styleObject["padding-top"] = `${element.paddingTopVal}`;
-                            }
-                            if (element.paddingRightVal) {
-                                styleObject["padding-right"] = `${element.paddingRightVal}`;
-                            }
-                            if (element.paddingBottomVal) {
-                                styleObject["padding-bottom"] = `${element.paddingBottomVal}`;
-                            }
-                            if (element.paddingLeftVal) {
-                                styleObject["padding-left"] = `${element.paddingLeftVal}`;
-                            }
+                            IDM.style.setBoxStyle(styleObject,element)
                             break;
                         case "bgImgUrl":
                             styleObject["background-image"] = `url(${window.IDM.url.getWebPath(element)})`;
@@ -253,51 +230,10 @@ export default {
                             styleObject["background-attachment"] = element;
                             break;
                         case "border":
-                            if (element.border.top.width > 0) {
-                                styleObject["border-top-width"] = element.border.top.width + element.border.top.widthUnit;
-                                styleObject["border-top-style"] = element.border.top.style;
-                                if (element.border.top.colors.hex8) {
-                                    styleObject["border-top-color"] = element.border.top.colors.hex8;
-                                }
-                            }
-                            if (element.border.right.width > 0) {
-                                styleObject["border-right-width"] = element.border.right.width + element.border.right.widthUnit;
-                                styleObject["border-right-style"] = element.border.right.style;
-                                if (element.border.right.colors.hex8) {
-                                    styleObject["border-right-color"] = element.border.right.colors.hex8;
-                                }
-                            }
-                            if (element.border.bottom.width > 0) {
-                                styleObject["border-bottom-width"] = element.border.bottom.width + element.border.bottom.widthUnit;
-                                styleObject["border-bottom-style"] = element.border.bottom.style;
-                                if (element.border.bottom.colors.hex8) {
-                                    styleObject["border-bottom-color"] = element.border.bottom.colors.hex8;
-                                }
-                            }
-                            if (element.border.left.width > 0) {
-                                styleObject["border-left-width"] = element.border.left.width + element.border.left.widthUnit;
-                                styleObject["border-left-style"] = element.border.left.style;
-                                if (element.border.left.colors.hex8) {
-                                    styleObject["border-left-color"] = element.border.left.colors.hex8;
-                                }
-                            }
-
-                            styleObject["border-top-left-radius"] = element.radius.leftTop.radius + element.radius.leftTop.radiusUnit;
-                            styleObject["border-top-right-radius"] = element.radius.rightTop.radius + element.radius.rightTop.radiusUnit;
-                            styleObject["border-bottom-left-radius"] = element.radius.leftBottom.radius + element.radius.leftBottom.radiusUnit;
-                            styleObject["border-bottom-right-radius"] = element.radius.rightBottom.radius + element.radius.rightBottom.radiusUnit;
+                            IDM.style.setBorderStyle(styleObject,element)
                             break;
                         case "font":
-                            styleObject["font-family"] = element.fontFamily;
-                            if (element.fontColors.hex8) {
-                                styleObject["color"] = element.fontColors.hex8;
-                            }
-                            styleObject["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
-                            styleObject["font-style"] = element.fontStyle;
-                            styleObject["font-size"] = element.fontSize + element.fontSizeUnit;
-                            styleObject["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
-                            styleObject["text-align"] = element.fontTextAlign;
-                            styleObject["text-decoration"] = element.fontDecoration;
+                            IDM.style.setFontStyle(styleObject,element)
                             break;
                     }
                 }
@@ -536,7 +472,6 @@ export default {
             font-weight: 600;
         }
     }
-
     .edit_div pre {
         width: 100%;
         overflow-y: scroll;
@@ -546,8 +481,10 @@ export default {
         text-align: left;
         color: #333;
         z-index: 10;
+        line-height: 32px;
         font-size: 18px;
-
+        list-style: none;
+        text-indent: 36px;
     }
 } 
 
