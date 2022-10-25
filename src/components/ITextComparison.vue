@@ -81,7 +81,7 @@ export default {
         makeResultData(data) {
             let op1 = this.eq({
                 value1: data[ this.propData.dataFiledContent1 || 'content1' ],
-                value2: data[ this.propData.dataFiledContent1 || 'content2' ]
+                value2: data[ this.propData.dataFiledContent2 || 'content2' ]
             });
             this.value1 = op1.value1;
             this.value2 = op1.value2;

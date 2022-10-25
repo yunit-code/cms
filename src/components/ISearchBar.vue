@@ -2,7 +2,7 @@
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
         <div class="ISearchBar_app">
             <div v-if="propData.showTip" class="tip">
-                <span class="tip_font">本次检索为您找到<span class="tip_font_active">{{ total }}</span>篇有关<span>{{ searchKey }}</span>的页面</span>>
+                <span class="tip_font">本次检索为您找到<span class="tip_font_active">{{ total }}</span>篇有关<span class="tip_font_active">{{ searchKey }}</span>的页面</span>
             </div>
             <div class="ISearchBar_main flex_between">
                 <div class="ISearchBar_main_left flex_start">
@@ -38,6 +38,7 @@ export default {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
+                showTip: true
             },
             time_list: [
                 {
@@ -87,6 +88,9 @@ export default {
             } else {
                 queryTime = this.active_time;
             }
+            if ( (!this.propData.triggerComponents) || !this.propData.triggerComponents.length ) {
+                return
+            }
             this.sendBroadcastMessage({
                 type: 'searchMessage',
                 rangeModule: this.propData.triggerComponents.map(el => el.moduleId),
@@ -98,9 +102,12 @@ export default {
             })
         },
         changeKeyWord(e) {
-            this.searchKey = e.target._value;
-            this.getData()
-            this.postMessage()
+            console.log(e);
+            this.$nextTick(() => {
+                this.searchKey = e.target._value;
+                this.getData()
+                this.postMessage()
+            })
         },
         getData() {
             if ( this.moduleObject.env == 'develop' || (!this.propData.customInterfaceUrl)) {
@@ -401,10 +408,10 @@ export default {
 <style lang="scss" scoped="scoped">
 .ISearchBar_app{
     .tip{
-        margin-bottom: 15px;
+        padding: 10px 0;
         font-size: 14px;
         color: #999;
-        span{
+        .tip_font_active{
             margin: 0 5px;
             color: #0073CA;
         }
