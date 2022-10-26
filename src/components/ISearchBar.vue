@@ -18,12 +18,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="ISearchBar_main_right flex_end">
+                <!-- <div class="ISearchBar_main_right flex_end">
                     排序：
                     <span @click="changeSortType('1')" class="sort_list" :class="sort_type == '1' ? 'sort_list_active' : ''">相关度</span>
                     <span class="line"></span>
                     <span @click="changeSortType('2')" class="sort_list" :class="sort_type == '2' ? 'sort_list_active' : ''">发布时间</span>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -68,7 +68,7 @@ export default {
             ],
             active_time: '',
             select_date: '',
-            sort_type: '1',
+            // sort_type: '1',
             searchKey: '',
             total: 0,
         }
@@ -104,8 +104,8 @@ export default {
                 rangeModule: this.propData.triggerComponents.map(el => el.moduleId),
                 message: {
                     queryTime: queryTime,
-                    searchKey: this.searchKey,
-                    showOrder: this.sort_type
+                    searchKey: this.searchKey
+                    // showOrder: this.sort_type
                 }
             })
         },
@@ -130,8 +130,8 @@ export default {
             }
             IDM.http.get(this.propData.customInterfaceUrl,{
                 queryTime: queryTime,
-                searchKey: this.searchKey,
-                showOrder: this.sort_type
+                searchKey: this.searchKey
+                // showOrder: this.sort_type
             }).then((res) => {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {
                     this.total = res.data.data[this.propData.dataFiledTotal || 'total'];

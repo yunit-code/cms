@@ -146,7 +146,8 @@
                             "desc": "每一项时间选项的内外边距",
                             "bindKey": "boxSortList"
                         }
-                    ]
+                    ],
+                    "display": false
                 },
                 {
                     "type": "inlineGroup",
