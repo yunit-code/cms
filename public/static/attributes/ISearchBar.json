@@ -452,6 +452,14 @@
                     "desc": "触发搜索时联动的组件",
                     "bindKey": "triggerComponents",
                     "multiple": true
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "url关键字",
+                    "desc": "url链接传递的搜索关键字key",
+                    "bindKey": "urlParamKey",
+                    "default": "params"
                 }
             ]
         }

@@ -78,9 +78,17 @@ export default {
     },
     created() {   //初始化对比
         this.moduleObject = this.$root.moduleObject;
+        this.getUrlParams()
+        this.getData()
+        this.postMessage()
         this.convertAttrToStyleObject();
     },
     methods: {
+        getUrlParams() {
+            var params = this.commonParam().urlData;
+            let search_text = params ? JSON.parse(params)[this.propData.urlParamKey || 'params'] : '';
+            this.searchKey = search_text || ''
+        },
         postMessage() {
             let queryTime = '';
             if ( this.active_time == '6' ) {
