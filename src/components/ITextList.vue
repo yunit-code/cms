@@ -412,7 +412,7 @@ export default {
         },
         initData() {
             const hasNotDataSourceId = !this.propData.selectColumn || !this.propData.selectColumn.id
-            if (hasNotDataSourceId && !this.commonParam().columnId) {
+            if (hasNotDataSourceId && !this.commonParam().columnId && !this.propData.isRequest) {
                 let itemData = null,
                     list = []
                 if (this.propData.styleType !== 'timeAndText') {

@@ -106,6 +106,25 @@
                     ]
                 },
                 {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "默认请求",
+                    "desc": "设置文字列表默认请求接口",
+                    "bindKey": "isRequest",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
                     "type": "select",
                     "layoutType": "inline",
                     "text": "跳转方式",
