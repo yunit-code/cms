@@ -6,7 +6,7 @@
             </div>
             <div class="ISearchBar_main flex_between">
                 <div class="ISearchBar_main_left flex_start">
-                    <div class="choice_list flex_start">
+                    <div class="choice_list flex_start search_block">
                         <div class="label">关键字：</div>
                         <a-input-search :defaultValue="searchKey" @search="changeKeyWord" placeholder="请输入关键字搜索"/>
                     </div>
@@ -88,7 +88,12 @@ export default {
             var params = this.commonParam().urlData;
             console.log('params',params)
             let search_text = params ? JSON.parse(params)[this.propData.urlParamKey || 'params'] : '';
-            this.searchKey = search_text || ''
+            search_text = decodeURIComponent(search_text);
+            if ( search_text && search_text != 'undefined' ) {
+                this.searchKey = search_text;
+            } else {
+                this.searchKey = ''
+            }
         },
         postMessage() {
             let queryTime = '';
@@ -162,6 +167,48 @@ export default {
         propDataWatchHandle(propData) {
             this.propData = propData.compositeAttr || {};
             this.convertAttrToStyleObject()
+        },
+        /** * 主题颜色 */
+        convertThemeListAttrToStyleObject() {
+            const themeList = this.propData.themeList;
+            if ( (!themeList) || !themeList.length ) {
+                return
+            }
+            const themeNamePrefix = IDM.setting && IDM.setting.applications && IDM.setting.applications.themeNamePrefix ? IDM.setting.applications.themeNamePrefix : "idm-theme-";
+            for (var i = 0; i < themeList.length; i++) {
+                var item = themeList[i];
+                
+                if(item.key!=IDM.theme.getCurrentThemeInfo()){
+                    //此处比对是不渲染输出不用的样式，如果页面会刷新就可以把此处放开
+                    continue;
+                }
+                let fontStyleObject = {
+                    "color": item.mainColor ? item.mainColor.hex8 : "",
+                }
+                let backgroundStyleObject = {
+                    "background": item.mainColor ? item.mainColor.hex8 : "",
+                }
+                let borderStyleObject = {
+                    'border-color': item.mainColor ? item.mainColor.hex8 : "",
+                }
+                let backgroundStyleHoverObject = {
+                    "background": item.minorColor ? item.minorColor.hex8 : "",
+                }
+                let fontStyleObjectWhite = {
+                    "color": "white"
+                };
+                let radioStyleObject = {
+                    "background": item.minorColor ? item.minorColor.hex8 : "",
+                    'border-color': item.mainColor ? item.mainColor.hex8 : "",
+                }
+                
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .ISearchBar_main_left .anticon", fontStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .ISearchBar_main_left .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled)", borderStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .ISearchBar_main_left .ant-calendar-picker:hover .ant-calendar-picker-input:not(.ant-input-disabled)", borderStyleObject );
+                
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .ISearchBar_main_left .ant-input:focus", borderStyleObject );
+
+            }
         },
         convertAttrToStyleObjectTip() {
             var styleObject = {};
@@ -265,6 +312,7 @@ export default {
         convertAttrToStyleObject() {
             this.convertAttrToStyleObjectTip()
             this.convertAttrToStyleObjectSearchBar()
+            this.convertThemeListAttrToStyleObject()
             var styleObject = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {
                 styleObject["background-size"] = (this.propData.bgSizeWidth ? this.propData.bgSizeWidth.inputVal + this.propData.bgSizeWidth.selectVal : "auto") + " " + (this.propData.bgSizeHeight ? this.propData.bgSizeHeight.inputVal + this.propData.bgSizeHeight.selectVal : "auto")
@@ -415,8 +463,11 @@ export default {
 
 
 </script>
-<style lang="scss" scoped="scoped">
+<style lang="scss">
 .ISearchBar_app{
+    .ant-input:focus{
+        box-shadow: none;
+    }
     .tip{
         padding: 10px 0;
         font-size: 14px;
