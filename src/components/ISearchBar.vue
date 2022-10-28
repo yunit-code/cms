@@ -2,13 +2,13 @@
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
         <div class="ISearchBar_app">
             <div v-if="propData.showTip" class="tip">
-                <span class="tip_font">本次检索为您找到<span class="tip_font_active">{{ total }}</span>篇有关<span class="tip_font_active">{{ searchKey }}</span>的页面</span>
+                <span class="tip_font">本次检索为您找到<span class="tip_font_active">{{ total }}</span>篇页面</span>
             </div>
             <div class="ISearchBar_main flex_between">
                 <div class="ISearchBar_main_left flex_start">
                     <div class="choice_list flex_start">
                         <div class="label">关键字：</div>
-                        <a-input @change="changeKeyWord" placeholder="请输入关键字搜索" allowClear/>
+                        <a-input-search :defaultValue="searchKey" @search="changeKeyWord" placeholder="请输入关键字搜索"/>
                     </div>
                     <div class="choice_list flex_start">
                         <div class="label">时间：</div>
@@ -38,7 +38,7 @@ export default {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
-                showTip: true
+                // showTip: true
             },
             time_list: [
                 {
@@ -86,6 +86,7 @@ export default {
     methods: {
         getUrlParams() {
             var params = this.commonParam().urlData;
+            console.log('params',params)
             let search_text = params ? JSON.parse(params)[this.propData.urlParamKey || 'params'] : '';
             this.searchKey = search_text || ''
         },
@@ -99,23 +100,22 @@ export default {
             if ( (!this.propData.triggerComponents) || !this.propData.triggerComponents.length ) {
                 return
             }
+            let data = {
+                queryTime: queryTime,
+                searchKey: this.searchKey
+            }
+            console.log('发送消息',data)
             this.sendBroadcastMessage({
                 type: 'searchMessage',
                 rangeModule: this.propData.triggerComponents.map(el => el.moduleId),
-                message: {
-                    queryTime: queryTime,
-                    searchKey: this.searchKey
-                    // showOrder: this.sort_type
-                }
+                message: data 
             })
         },
         changeKeyWord(e) {
             console.log(e);
-            this.$nextTick(() => {
-                this.searchKey = e.target._value;
-                this.getData()
-                this.postMessage()
-            })
+            this.searchKey = e;
+            this.getData()
+            this.postMessage()
         },
         getData() {
             if ( this.moduleObject.env == 'develop' || (!this.propData.customInterfaceUrl)) {
@@ -130,7 +130,9 @@ export default {
             }
             IDM.http.get(this.propData.customInterfaceUrl,{
                 queryTime: queryTime,
-                searchKey: this.searchKey
+                searchKey: this.searchKey,
+                start: 1,
+                limit: 1000
                 // showOrder: this.sort_type
             }).then((res) => {
                 if (res && res.data && res.data.code == '200' && res.data.data ) {
@@ -295,7 +297,7 @@ export default {
                             }
                             break;
                         case "box":
-                            IDM.style.setBoxStyle('styleObject',element)
+                            IDM.style.setBoxStyle(styleObject,element)
                             break;
                         case "bgImgUrl":
                             styleObject["background-image"] = `url(${window.IDM.url.getWebPath(element)})`;
@@ -317,10 +319,10 @@ export default {
                             styleObject["background-attachment"] = element;
                             break;
                         case "border":
-                            IDM.style.setBorderStyle('styleObject',element)
+                            IDM.style.setBorderStyle(styleObject,element)
                             break;
                         case "font":
-                            IDM.style.setFontStyle('styleObject',element)
+                            IDM.style.setFontStyle(styleObject,element)
                             break;
                     }
                 }

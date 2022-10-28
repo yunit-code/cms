@@ -119,7 +119,7 @@
                             "layoutType": "block",
                             "text": "高",
                             "desc": "填写auto则为自适应，或者使用px、%、vh等单位，比如100%、100px、100vh等等",
-                            "bindKey": "heightLeft",
+                            "bindKey": "heightRight",
                             "width": "60px",
                             "default": "auto"
                         }

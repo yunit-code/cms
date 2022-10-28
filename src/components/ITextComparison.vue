@@ -474,7 +474,7 @@ export default {
     }
     .edit_div pre {
         width: 100%;
-        overflow-y: scroll;
+        overflow-y: hidden;
         white-space: pre-wrap;
         word-wrap: break-word;
         word-break: break-all;
