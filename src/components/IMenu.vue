@@ -213,10 +213,7 @@ export default {
                     'background-color': item.minorColor ? item.minorColor.hex8 : "",
                     'border-color': item.minorColor ? item.minorColor.hex8 : "",
                 }
-                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled)", borderStyleObject );
-                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input:focus", borderStyleObject );
-                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input:hover", borderStyleObject );
-                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .IHeaderBar_app .search_block .ant-input-group-addon", backgroundBorderObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .el-menu-demo .iconfont", fontStyleObject );
             }
         },
         /**
@@ -248,6 +245,7 @@ export default {
                             styleObject['line-height'] = element;
                             break;
                         case "fontMenu":
+                            IDM.style.setFontStyle(styleFont,element)
                             styleFont["font-family"] = element.fontFamily;
                             if (element.fontColors.hex8) {
                                 styleFont["color"] = element.fontColors.hex8;
@@ -261,17 +259,7 @@ export default {
                             styleFont["text-decoration"] = element.fontDecoration;
                             break;
                         case "fontIcon":
-                            styleObjectIcon["font-family"] = element.fontFamily;
-                            if (element.fontColors.hex8) {
-                                styleObjectIcon["color"] = element.fontColors.hex8;
-                                styleObjectIcon["color"] = element.fontColors.hex8;
-                            }
-                            styleObjectIcon["font-weight"] = element.fontWeight && element.fontWeight.split(" ")[0];
-                            styleObjectIcon["font-style"] = element.fontStyle;
-                            styleObjectIcon["font-size"] = element.fontSize + element.fontSizeUnit;
-                            styleObjectIcon["line-height"] = element.fontLineHeight + (element.fontLineHeightUnit == "-" ? "" : element.fontLineHeightUnit);
-                            styleObjectIcon["text-align"] = element.fontTextAlign;
-                            styleObjectIcon["text-decoration"] = element.fontDecoration;
+                            IDM.style.setFontStyle(styleObjectIcon,element,true)
                             break;
                         case 'fontIconMarginRight':
                             styleObjectIcon['margin-right'] = element;
@@ -428,8 +416,8 @@ export default {
             this.convertAttrToStyleObjectMenu()
             this.convertAttrToStyleObjectMenuHover()
             this.convertAttrToStyleObjectMenuActive()
-            this.convertThemeListAttrToStyleObject()
             this.convertAttrToStyleObjectMenuButton()
+            this.convertThemeListAttrToStyleObject()
             var styleObject = {};
             var styleObjectMenuPop = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {

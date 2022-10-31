@@ -193,6 +193,43 @@ export default {
         });
     },
     methods: {
+        /** * 主题颜色 */
+        convertThemeListAttrToStyleObject() {
+            const themeList = this.propData.themeList;
+            if ( (!themeList) || !themeList.length ) {
+                return
+            }
+            const themeNamePrefix = IDM.setting && IDM.setting.applications && IDM.setting.applications.themeNamePrefix ? IDM.setting.applications.themeNamePrefix : "idm-theme-";
+            for (var i = 0; i < themeList.length; i++) {
+                var item = themeList[i];
+                
+                if(item.key!=IDM.theme.getCurrentThemeInfo()){
+                    //此处比对是不渲染输出不用的样式，如果页面会刷新就可以把此处放开
+                    continue;
+                }
+                let fontStyleObject = {
+                    "color": item.mainColor ? item.mainColor.hex8 : "",
+                }
+                let fontStyleObjectButton = {
+                    "color": '#fff',
+                }
+                let borderStyleObject = {
+                    'border-color': item.mainColor ? item.mainColor.hex8 : "",
+                }
+                let backgroundBorderObject = {
+                    'color': '#fff',
+                    'background-color': item.mainColor ? item.mainColor.hex8 : "",
+                    'border-color': item.mainColor ? item.mainColor.hex8 : ""
+                }
+                let backgroundBorderObjectHover = {
+                    'color': '#fff',
+                    'background-color': item.minorColor ? item.minorColor.hex8 : "",
+                    'border-color': item.minorColor ? item.minorColor.hex8 : "",
+                }
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .ITabHeader_app .idm_itodotabslist_tabbarextra_box .more .svg-icon", fontStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .ITabHeader_app .idm_itodotabslist_tabbarextra_box .idm_button_svg_icon", fontStyleObject );
+            }
+        },
         getActiveItemData() {
             let item = this.allTabList.find((item) => {
                 return item.key == this.activeTab
@@ -227,6 +264,7 @@ export default {
             this.convertChooseTabAttrToStyleObject();
             this.convertAttrToStyleObjectLeftIcon();
             this.convertAttrToStyleObjectMoreIcon()
+            this.convertThemeListAttrToStyleObject()
         },
         convertAttrToStyleObjectMoreIcon() {
             let styleObject = {};
@@ -961,6 +999,7 @@ export default {
         .svg-icon{
             position: relative;
             max-height: 20px !important;
+            color: red;
         }
     }
     .header_line{

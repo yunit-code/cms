@@ -30,16 +30,16 @@ export default {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
-                // direction: 'horizontal',
-                // baseColumn: '',//指定显示哪个栏目下的图片新闻
-                // pictureNumber: '',
-                // intervalTime: '',
-                // interchargeEffect: '',
-                // showTitle: true,
-                // objectFit: 'fill',
-                // height: '400px',
-                // heightImg: '100%',
-                // titlePosition: 'inner'
+                direction: 'horizontal',
+                baseColumn: '',//指定显示哪个栏目下的图片新闻
+                pictureNumber: '',
+                intervalTime: '',
+                interchargeEffect: '',
+                showTitle: true,
+                objectFit: 'fill',
+                height: '400px',
+                heightImg: '100%',
+                titlePosition: 'inner'
             },
             data_list: [ ],
             my_swiper: null,
