@@ -81,70 +81,221 @@ cms@1.0.2
 - 标识：`size`
 - 默认值：`中`
 #### 搜索按钮【showSearchButton】
+>是否显示后缀搜索按钮
+- 标识：`showSearchButton`
+- 默认值：`否`
 #### 按钮宽度【searchButtonWidth】
+>按钮宽度
+- 标识：`searchButtonWidth`
+- 默认值：``
 #### 按钮文字【searchButtonText】
+>搜索框按钮文字
+- 标识：`searchButtonText`
+- 默认值：`搜索`
 #### 按钮图标【searchButtonIcon】
+>搜索框按钮图标
+- 标识：`searchButtonIcon`
+- 默认值：``
 #### 图标大小【searchButtonIconFont】
+>搜索框按钮图标大小
+- 标识：`searchButtonIconFont`
+- 默认值：``
 #### 图标颜色【searchButtonIconColor】
+>搜索框按钮图标颜色
+- 标识：`searchButtonIconColor`
+- 默认值：``
 #### 提示信息【searchPlaceholder】
+>提示信息
+- 标识：`searchPlaceholder`
+- 默认值：``
 #### 搜索框查询跳转地址【searchUrl】
+>搜索框查询跳转地址
+- 标识：`searchUrl`
+- 默认值：``
 #### 自定义函数【customFunctionSearch】
+>自定义搜索功能
+- 标识：`customFunctionSearch`
+- 默认值：``
 ### 飘窗属性
 #### 显示logo【adImgSrc】
+>显示logo
+- 标识：`adImgSrc`
+- 默认值：``
 #### 填充方式【adObjectFit】
+> 填充方式
+1) fill：不保证保持原有的比例，内容拉伸填充整个内容容器
+2) contain：保持原有尺寸比例。内容被缩放
+3) cover：保持原有尺寸比例。但部分内容可能被剪切
+4) none：保留原有元素内容的长度和宽度，也就是说内容不会被重置
+- 标识：`adObjectFit`
+- 默认值: `fill`
 #### 飘窗宽度【adImgWidth】
+>飘窗宽度
+- 标识：`adImgWidth`
+- 默认值：``
 #### 飘窗高度【adImgHeight】
+>飘窗高度
+- 标识：`adImgHeight`
+- 默认值：``
 #### 滑动速度【adImgSpeed】
+>设置飘窗的移动速度，单位为毫秒
+- 标识：`adImgSpeed`
+- 默认值：`18`
 #### 显示时间【adShowTime】
+>设置飘窗的显示时间，超出时间飘窗会自动隐藏
+- 标识：`adShowTime`
+- 默认值：``
 #### 跳转链接【adJumpUrl】
+>点击飘窗时页面跳转地址
+- 标识：`adJumpUrl`
+- 默认值：``
 ### 搜索框样式
 #### 宽【widthSearch】
+>宽
+- 标识：`widthSearch`
+- 默认值：`213px`
 #### 搜索背景【bgColorSearch】
+>搜索背景
+- 标识：`bgColorSearch`
+- 默认值：``
 #### 按钮背景【bgColorSearchButton】
+>按钮背景
+- 标识：`bgColorSearchButton`
+- 默认值：``
 #### 搜索框文字【fontInput】
+>搜索框文字
+- 标识：`fontInput`
+- 默认值：``
 #### 搜索按钮文字【fontInputSearch】
+>搜索按钮文字
+- 标识：`fontInputSearch`
+- 默认值：``
 #### 边框【borderSearch】
+>边框
+- 标识：`borderSearch`
+- 默认值：``
 ### 顶部容器样式
 #### 宽高
 ##### 宽【widthTop】
+>宽
+- 标识：`widthTop`
+- 默认值：`100%`
 ##### 高【heightTop】
+>高
+- 标识：`heightTop`
+- 默认值：`auto`
 #### 背景色【bgColorTop】
+>背景色
+- 标识：`bgColorTop`
+- 默认值：``
 #### 内外边距【boxTop】
+>内外边距
+- 标识：`boxTop`
+- 默认值：``
 #### 边框【borderTop】
+>边框
+- 标识：`borderTop`
+- 默认值：``
 #### 文字【fontTop】
+>文字
+- 标识：`fontTop`
+- 默认值：``
 ### 底部容器样式
 #### 容器宽高
 ##### 宽【widthMain】
+>宽
+- 标识：`widthMain`
+- 默认值：`100%`
 ##### 高【heightMain】
+>高
+- 标识：`heightMain`
+- 默认值：`auto`
 #### 背景色【bgColorMain】
+>背景色
+- 标识：`bgColorMain`
+- 默认值：``
 #### 内外边距【boxMain】
+>内外边距
+- 标识：`boxMain`
+- 默认值：``
 #### 边框【borderMain】
+>边框
+- 标识：`borderMain`
+- 默认值：``
 #### 文字【fontMain】
+>文字
+- 标识：`fontMain`
+- 默认值：``
+
 ### 容器样式设置
-#### 内外边距【box】
 #### 宽高
 ##### 宽【width】
+> 填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等
+- 标识：`width`
+- 默认值: `100%`
 ##### 高【height】
+> 填写auto则为自适应，或者使用px、%、vh等单位，比如100%、100px、100vh等等
+- 标识：`height`
+- 默认值: `100%`
 #### 背景设置
 ##### 背景色【bgColor】
+> 背景色
+- 标识：`bgColor`
+- 默认值: ``
 ##### 背景图片【bgImgUrl】
+> 背景图片
+- 标识：`bgImgUrl`
+- 默认值: ``
 ##### 横向偏移【positionX】
+> 横向偏移
+- 标识：`positionX`
+- 默认值: ``
 ##### 纵向偏移【positionY】
+> 纵向偏移
+- 标识：`positionY`
+- 默认值: ``
 ##### 背景大小【bgSize】
+> 背景大小
+- 标识：`bgSize`
+- 默认值: ``
 ##### 宽度【bgSizeWidth】
+> 宽度
+- 标识：`bgSizeWidth`
+- 默认值: ``
 ##### 高度【bgSizeHeight】
+> 高度
+- 标识：`bgSizeHeight`
+- 默认值: ``
 ##### 平铺模式【bgRepeat】
+> 平铺模式
+1) 双向重复
+2) 水平重复
+3) 垂直重复
+4) 不重复
+5) 继承
+- 标识：`bgRepeat`
+- 默认值: ``
 ##### 背景模式【bgAttachment】
+> 背景模式
+1) 固定
+2) 滚动
+3) 继承
+- 标识：`bgAttachment`
+- 默认值: ``
 #### 边框【border】
+> 边框
+- 标识：`border`
+- 默认值: ``
 #### 文字【font】
+> 文字
+- 标识：`font`
+- 默认值: ``
+#### 内外边距【box】
+> 内外边距
+- 标识：`box`
+- 默认值: ``
 ### 主题设置【子表】【themeList】
-#### 主题标识【key】
-#### 主要颜色【mainColor】
-#### 次要颜色【minorColor】
-### 高级
-#### 点击时动作【clickFunction】
-#### 动态内容【dataSourceType】
-#### 接口地址【customInterfaceUrl】
-#### 结果集名【dataName】
-#### 显示字段【dataFiled】
-#### 自定义函数【customFunction】
+用于设置组件的主题样式表，此处可跟随自身主题进行随意设置，此属性是一个表结构集合的形式属性。
+
+- 标识：`themeListSearch`
+- 默认值：`[]`

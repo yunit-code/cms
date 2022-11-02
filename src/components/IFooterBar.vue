@@ -298,11 +298,42 @@ export default {
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id + " .IFooterBar_app_center .list", styleObject);
         },
+        /** * 主题颜色 */
+        convertThemeListAttrToStyleObject() {
+            const themeList = this.propData.themeList;
+            if ( (!themeList) || !themeList.length ) {
+                return
+            }
+            const themeNamePrefix = IDM.setting && IDM.setting.applications && IDM.setting.applications.themeNamePrefix ? IDM.setting.applications.themeNamePrefix : "idm-theme-";
+            for (var i = 0; i < themeList.length; i++) {
+                var item = themeList[i];
+                
+                if(item.key!=IDM.theme.getCurrentThemeInfo()){
+                    //此处比对是不渲染输出不用的样式，如果页面会刷新就可以把此处放开
+                    continue;
+                }
+                let fontStyleObject = {
+                    "color": item.mainColor ? item.mainColor.hex8 : "",
+                }
+                let fontStyleObjectButton = {
+                    "color": '#fff',
+                }
+                let borderStyleObject = {
+                    'border-color': item.mainColor ? item.mainColor.hex8 : "",
+                }
+                let backgroundObject = {
+                    'color': '#fff',
+                    'background-color': item.mainColor ? item.mainColor.hex8 : "",
+                }
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo"), backgroundObject );
+            }
+        },
 
         convertAttrToStyleObject() {
             this.convertAttrToStyleObjectCenterContain()
             this.convertAttrToStyleObjectRightContain()
             this.convertAttrToStyleObjectCenterText()
+            this.convertThemeListAttrToStyleObject()
             var styleObject = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {
                 styleObject["background-size"] = (this.propData.bgSizeWidth ? this.propData.bgSizeWidth.inputVal + this.propData.bgSizeWidth.selectVal : "auto") + " " + (this.propData.bgSizeHeight ? this.propData.bgSizeHeight.inputVal + this.propData.bgSizeHeight.selectVal : "auto")
