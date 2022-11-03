@@ -4,10 +4,10 @@
             v-model="content" />
         <div class="d-flex flex-d-r-r align-c comment-list-button-container">
             <a-button type="primary" @click="handlePublish" style="margin: 0 0 0 20px">发布</a-button>
-            <a-select style="width: 140px" v-if="componentSortTypeList.length > 0" :disabled="moduleObject.env === 'develop'" v-model="currentSort"
-                @change="handleSelectChange">
+            <a-select style="width: 140px" v-if="componentSortTypeList.length > 0"
+                :disabled="moduleObject.env === 'develop'" v-model="currentSort" @change="handleSelectChange">
                 <a-select-option v-for="item in componentSortTypeList" :key="item.value" :value="item.value">{{
-                item.label
+                        item.label
                 }}</a-select-option>
             </a-select>
         </div>
@@ -18,9 +18,9 @@
             </ICommentItem>
             <div class="comment-list-sub-comment" v-for="(items, indexs) in item.children" :key="indexs">
                 <ICommentItem :propData="propData" :lIndex="index" :sIndex="indexs" :itemData="items"
-                    :userInfo="userInfo" :isShowApply="false" :authorId="componentData.authorId"
-                    :moduleObject="moduleObject" @showReply="showReply" @handleDelete="handleDelete"
-                    @handleBlur="handleBlur" @handleSubReply="handleSubReply" @handleLike="handleLike"></ICommentItem>
+                    :userInfo="userInfo" :authorId="componentData.authorId" :moduleObject="moduleObject"
+                    @showReply="showReply" @handleDelete="handleDelete" @handleBlur="handleBlur"
+                    @handleSubReply="handleSubReply" @handleLike="handleLike"></ICommentItem>
             </div>
             <div class="d-flex just-c cursor-p" v-if="item.isShowMore" @click="handleSubClickMore(item, index)">查看更多回复
             </div>
@@ -201,6 +201,8 @@ export default {
         // 回复
         handleSubReply({ replyContent, itemData, index }) {
             this.addComment(replyContent, itemData.id, () => {
+                // fix多级
+                itemData = this.componentData.rows[index]
                 this.handleSubClickMore(itemData, index)
             })
         },
@@ -244,7 +246,8 @@ export default {
                 itemObj = {},
                 userNameFontObj = {},
                 selectSpeechObj = {},
-                authorObj = {}
+                authorObj = {},
+                textMarginObj = {}
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key]
@@ -296,6 +299,8 @@ export default {
                         case 'authorFont':
                             IDM.style.setFontStyle(authorObj, element, true)
                             break
+                        case 'textMargin':
+                            textMarginObj['margin-right'] = element
                     }
                 }
             }
@@ -305,6 +310,7 @@ export default {
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .comment-list-name', userNameFontObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .common-list-selected-speeches', selectSpeechObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .common-list-author', authorObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .mr-10', textMarginObj)
             this.initData()
         },
 
@@ -392,7 +398,7 @@ export default {
             if (this.propData.sortType && this.propData.sortType.length > 0) {
                 this.componentSortTypeList = sortTypeList.filter(el => this.propData.sortType.includes(el.value))
                 this.currentSort = this.propData.sortType[0]
-            }else {
+            } else {
                 this.componentSortTypeList = []
             }
             if (!this.commonParam().columnId || !this.commonParam().contentId) {

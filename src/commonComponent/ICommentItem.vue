@@ -39,7 +39,7 @@
                         删除
                     </span>
                 </div>
-                <div class="common-list-reply" v-if="itemData.isReply">
+                <div class="common-list-reply" :style="{width: propData.inputWidth}" v-if="itemData.isReply">
                     <a-input placeholder="请输入内容" allowClear @blur="$emit('handleBlur')" v-model="replyContent" />
                     <div class="d-flex flex-d-r-r align-c comment-list-button-container">
                         <a-button type="primary" size="small" @click="handleSubReply"

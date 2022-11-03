@@ -240,6 +240,29 @@
                     "layoutType": "block",
                     "children": [
                         {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "输入框宽",
+                            "bindKey": "inputWidth",
+                            "desc": "设置评论输入框的宽度",
+                            "inputWidth": "500px"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "文字间隔",
+                            "bindKey": "textMargin",
+                            "desc": "设置单项评论文字的间隔",
+                            "inputWidth": "10px"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "输入框宽",
+                            "bindKey": "inputWidth",
+                            "desc": "设置评论输入框的宽度"
+                        },
+                        {
                             "type": "border",
                             "layoutType": "block",
                             "text": "边框",
