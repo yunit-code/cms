@@ -247,7 +247,8 @@ export default {
                 userNameFontObj = {},
                 selectSpeechObj = {},
                 authorObj = {},
-                textMarginObj = {}
+                textMarginObj = {},
+                subBoxObj = {}
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key]
@@ -301,6 +302,11 @@ export default {
                             break
                         case 'textMargin':
                             textMarginObj['margin-right'] = element
+                            break
+                        case 'subBox':
+                            IDM.style.setBoxStyle(subBoxObj, element)
+                            break
+
                     }
                 }
             }
@@ -311,6 +317,7 @@ export default {
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .common-list-selected-speeches', selectSpeechObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .common-list-author', authorObj)
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .mr-10', textMarginObj)
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .comment-list-sub-comment', subBoxObj)
             this.initData()
         },
 

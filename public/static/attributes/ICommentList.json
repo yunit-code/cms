@@ -114,6 +114,23 @@
                     }
                 },
                 {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "子项边距",
+                    "desc": "设置评论子项的内外边距",
+                    "bindKey": "subBox",
+                    "default": {
+                        "marginTopVal": "20px",
+                        "marginRightVal": "",
+                        "marginBottomVal": "",
+                        "marginLeftVal": "70px",
+                        "paddingTopVal": "10px",
+                        "paddingRightVal": "0",
+                        "paddingBottomVal": "10px",
+                        "paddingLeftVal": "20px"
+                    }
+                },
+                {
                     "type": "inlineGroup",
                     "text": "宽高",
                     "children": [
