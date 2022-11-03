@@ -18,7 +18,7 @@
                         >
                     </span>
                 </div>
-                <div>{{ itemData.content }}</div>
+                <div class="word-all">{{ itemData.content }}</div>
                 <div class="comment-list-bottom">
                     <span class="mr-10 cursor-p">{{ itemData.createTime }}</span>
                     <span class="mr-10 cursor-p" v-if="isShowApply" @click.stop="$emit('showReply', { index: lIndex, sIndex: sIndex })">
