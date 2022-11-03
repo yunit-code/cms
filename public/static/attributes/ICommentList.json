@@ -245,7 +245,7 @@
                             "text": "输入框宽",
                             "bindKey": "inputWidth",
                             "desc": "设置评论输入框的宽度",
-                            "inputWidth": "500px"
+                            "default": "500px"
                         },
                         {
                             "type": "input",
@@ -253,14 +253,7 @@
                             "text": "文字间隔",
                             "bindKey": "textMargin",
                             "desc": "设置单项评论文字的间隔",
-                            "inputWidth": "10px"
-                        },
-                        {
-                            "type": "input",
-                            "layoutType": "inline",
-                            "text": "输入框宽",
-                            "bindKey": "inputWidth",
-                            "desc": "设置评论输入框的宽度"
+                            "default": "10px"
                         },
                         {
                             "type": "border",
