@@ -19,7 +19,23 @@
             "type": "group",
             "text": "基本属性",
             "children": [
-                
+                {
+                    "type": "radio",
+                    "layoutType": "inline",
+                    "text": "默认状态",
+                    "bindKey": "defaultStatus",
+                    "dictionary": [
+                        {
+                            "label": "普通",
+                            "value": "default"
+                        },
+                        {
+                            "label": "隐藏",
+                            "value": "hidden"
+                        }
+                    ],
+                    "default": "hidden"
+                },
                 {
                     "type": "switch",
                     "layoutType": "inline",
@@ -442,7 +458,7 @@
                             "multiple": true
                         }
                     ]
-                },
+                }
             ]
         }
     ]

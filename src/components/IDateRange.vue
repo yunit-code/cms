@@ -1,5 +1,5 @@
 <template>
-    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id">
+    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" v-show="propData.defaultStatus != 'hidden'">
         <div class="IDateRange_app" :class="propData.radioDirection == 'horizontal' ? 'flex_start' : ''">
             <div v-if="propData.showLabel" class="label">{{ propData.label }}</div>
             <div class="date_box">
@@ -18,7 +18,8 @@ export default {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
                 showLabel: true,
-                label: '标题'
+                label: '标题',
+                defaultStatus: 'default'
             },
             dateFormat: 'YYYY-MM-DD',
             locale
@@ -277,9 +278,13 @@ export default {
          */
         receiveBroadcastMessage(object) {
             console.log("组件收到消息", object)
-            if( object.type && object.type=="linkageReload" ){
-                this.initData();
-            }
+            if( object.type && object.type=="linkageDemand" ){
+                if( object.messageKey && object.message && object.message.value == '5' ){
+                    this.propData.defaultStatus = 'default'
+                } else {
+                    this.propData.defaultStatus = 'hidden'
+                }
+            }  
         },
         /**
          * 组件通信：发送消息的方法
