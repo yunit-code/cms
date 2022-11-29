@@ -129,6 +129,13 @@
       "className": "ISearchBar",
       "comType": "common",
       "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.daterange",
+      "comName": "时间区间",
+      "className": "IDateRange",
+      "comType": "common",
+      "comLangue": "vue"
     }
   ]
 }
