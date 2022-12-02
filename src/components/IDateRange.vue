@@ -3,7 +3,7 @@
         <div class="IDateRange_app" :class="propData.radioDirection == 'horizontal' ? 'flex_start' : ''">
             <div v-if="propData.showLabel" class="label">{{ propData.label }}</div>
             <div class="date_box">
-                <a-range-picker @change="onChange" :size="propData.size" :format="dateFormat" :valueFormat="propData.valueFormat" :locale="locale"/>
+                <a-range-picker v-model="value" @change="onChange" :size="propData.size" :format="dateFormat" :valueFormat="propData.valueFormat" :locale="locale"/>
             </div>
         </div>
     </div>
@@ -21,6 +21,7 @@ export default {
                 label: '标题',
                 defaultStatus: 'default'
             },
+            value: [],
             dateFormat: 'YYYY-MM-DD',
             locale
         }
@@ -41,6 +42,9 @@ export default {
     },
     destroyed() { },
     methods: {
+        clear() {
+            this.value = [];
+        },
         onChange(value,option) {
             let data = {
                 [this.propData.startKey]: '',
@@ -277,11 +281,12 @@ export default {
          * } object 
          */
         receiveBroadcastMessage(object) {
-            console.log("组件收到消息", object)
+            console.log("IDateRange组件收到消息", object)
             if( object.type && object.type=="linkageDemand" ){
                 if( object.messageKey && object.message && object.message.value == '5' ){
                     this.propData.defaultStatus = 'default'
                 } else {
+                    this.clear()
                     this.propData.defaultStatus = 'hidden'
                 }
             }  
