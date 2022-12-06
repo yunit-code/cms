@@ -344,3 +344,46 @@ export function getWebInfoData() {
       }
     ]
   }
+
+export function getBrowseInfoData() {
+    const _this = this
+    return {
+        new: [
+            {
+                label: '浏览量',
+                value: 47
+            },
+            {
+                label: '访客数',
+                value: 30
+            },
+            {
+                label: '跳出率',
+                value: '48%'
+            },
+            {
+                label: '平均访问时长',
+                value: '00:02:32'
+            }
+        ],
+        old: [
+            {
+                label: '浏览量',
+                value: 37
+            },
+            {
+                label: '访客数',
+                value: 30
+            },
+            {
+                label: '跳出率',
+                value: '48%'
+            },
+            {
+                label: '平均访问时长',
+                value: '00:02:32'
+            }
+        ],
+    }
+    
+}

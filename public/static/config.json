@@ -143,6 +143,13 @@
       "className": "IWebInfo",
       "comType": "common",
       "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.browseinfo",
+      "comName": "浏览信息",
+      "className": "IBrowseInfo",
+      "comType": "common",
+      "comLangue": "vue"
     }
   ]
 }
