@@ -1,31 +1,18 @@
 <template>
-    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" class="IBrowseInfo_app flex_between">
-        <div class="IBrowseInfo_app_left IBrowseInfo_app_block">
-            <div v-for="(item,index) in data_list1" :key="index" class="list flex_between">
-                <div class="label flex_start">
-                    <span v-if="propData.showCircle" class="circle"></span>
-                    <span>{{ item[propData.dataFieldLabel ? propData.dataFieldLabel : 'label'] }}</span>
-                </div>
-                <div class="value">{{ item[propData.dataFieldValue ? propData.dataFieldValue : 'value'] }}</div>
-            </div>
+    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" class="IVisitorNumber_app">
+        <div class="title">在线访客数</div>
+        <div class="number">6</div>
+        <div class="time">
+            <span>更新时间：</span>
+            <span>15:12</span>
         </div>
-        <div v-if="propData.showColumn == '2'" class="IBrowseInfo_app_right IBrowseInfo_app_block">
-            <div v-for="(item,index) in data_list2" :key="index" class="list flex_between">
-                <div class="label flex_start">
-                    <span v-if="propData.showCircle" class="circle"></span>
-                    <span>{{ item[propData.dataFieldLabel ? propData.dataFieldLabel : 'label'] }}</span>
-                </div>
-                <div class="value">{{ item[propData.dataFieldValue ? propData.dataFieldValue : 'value'] }}</div>
-            </div>
-        </div>
-        
     </div>
 </template>
   
 <script>
 import { getBrowseInfoData } from '../mock/mockData'
 export default {
-    name: 'IBrowseInfo',
+    name: 'IVisitorNumber',
     data() {
         return {
             moduleObject: {},
@@ -33,9 +20,10 @@ export default {
                 showColumn: 2,
                 showCircle: true
             },
-            data_list1: [],
-            data_list2: [],
+            number: 6,
+            time: '',
             conditionObject: {},
+            timer: null,
         }
     },
     props: {
@@ -53,8 +41,21 @@ export default {
 
         });
     },
-    destroyed() { },
+    destroyed() {
+        this.clearTimer()
+    },
     methods: {
+        initTimer() {
+            let timer = setInterval(() => {
+                this.initData()
+            }, this.propData.reloadTime ? this.propData.reloadTime : 60000);
+            this.timer = timer;
+        },
+        clearTimer() {
+            if ( this.timer ) {
+                clearInterval(this.timer)
+            }
+        },
         makeParamsData(data) {
             if ( !data ) {
                 return {};
@@ -117,16 +118,16 @@ export default {
                 },function(res){
                     console.log('grid组件获取数据++++++++',res)
                     if ( res && res.length ) {
-                        that.data_list1 = res[that.propData.dataFieldArr1 ? that.propData.dataFieldArr1 : 'new'];
-                        that.data_list2 = res[that.propData.dataFieldArr2 ? that.propData.dataFieldArr2 : 'old'];
+                        that.number = res[that.propData.dataFieldNumber ? that.propData.dataFieldNumber : 'number'];
+                        that.time = res[that.propData.dataFieldTime ? that.propData.dataFieldTime : 'time'];
                     }
                 },function(error){
                     //这里是请求失败的返回结果
                     console.log('error',error)
                 })
             } else {
-                that.data_list1 = getBrowseInfoData().new
-                that.data_list2 = getBrowseInfoData().old
+                that.number = 6
+                that.time = '15:12'
             }
         },
         
@@ -158,9 +159,8 @@ export default {
             }
         },
         /** * 把属性转换成样式对象 */
-        convertAttrToStyleObjectItem() {
+        convertAttrToStyleObjectTitle() {
             var styleObject = {};
-            var styleObjectRow = {};
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key];
@@ -168,33 +168,88 @@ export default {
                         continue;
                     }
                     switch (key) {
-                        case "widthItem":
+                        case "widthTitle":
                             styleObject['width'] = element;
                             break;
-                        case "heightItem":
+                        case "heightTitle":
                             styleObject['height'] = element;
                             break;
-                        case "boxItem":
+                        case "boxTitle":
                             IDM.style.setBoxStyle(styleObject,element)
                             break;
-                        case "borderItem":
+                        case "borderTitle":
                             IDM.style.setBorderStyle(styleObject,element)
                             break;
-
-                        case "heightItemRow":
-                            styleObjectRow["height"] = element;
-                            break;
-                        case "boxItemRow":
-                            IDM.style.setBoxStyle(styleObjectRow,element);
+                        case "fontTitle":
+                            IDM.style.setFontStyle(styleObject,element);
                             break;
                     }
                 }
             }
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IBrowseInfo_app_block', styleObject);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IBrowseInfo_app_block .list', styleObjectRow);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .title', styleObject);
+        },
+        convertAttrToStyleObjectNumber() {
+            var styleObject = {};
+            for (const key in this.propData) {
+                if (this.propData.hasOwnProperty.call(this.propData, key)) {
+                    const element = this.propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "widthNumber":
+                            styleObject['width'] = element;
+                            break;
+                        case "heightNumber":
+                            styleObject['height'] = element;
+                            break;
+                        case "boxNumber":
+                            IDM.style.setBoxStyle(styleObject,element)
+                            break;
+                        case "borderNumber":
+                            IDM.style.setBorderStyle(styleObject,element)
+                            break;
+                        case "fontNumber":
+                            IDM.style.setFontStyle(styleObject,element);
+                            break;
+                    }
+                }
+            }
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .number', styleObject);
+        },
+        convertAttrToStyleObjectTime() {
+            var styleObject = {};
+            for (const key in this.propData) {
+                if (this.propData.hasOwnProperty.call(this.propData, key)) {
+                    const element = this.propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "widthTime":
+                            styleObject['width'] = element;
+                            break;
+                        case "heightTime":
+                            styleObject['height'] = element;
+                            break;
+                        case "boxTime":
+                            IDM.style.setBoxStyle(styleObject,element)
+                            break;
+                        case "borderTime":
+                            IDM.style.setBorderStyle(styleObject,element)
+                            break;
+                        case "fontTime":
+                            IDM.style.setFontStyle(styleObject,element);
+                            break;
+                    }
+                }
+            }
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .time', styleObject);
         },
         convertAttrToStyleObject() {
-            this.convertAttrToStyleObjectItem()
+            this.convertAttrToStyleObjectTitle()
+            this.convertAttrToStyleObjectNumber()
+            this.convertAttrToStyleObjectTime()
             var styleObject = {};
             if (this.propData.bgSize && this.propData.bgSize == "custom") {
                 styleObject["background-size"] = (this.propData.bgSizeWidth ? this.propData.bgSizeWidth.inputVal + this.propData.bgSizeWidth.selectVal : "auto") + " " + (this.propData.bgSizeHeight ? this.propData.bgSizeHeight.inputVal + this.propData.bgSizeHeight.selectVal : "auto")
@@ -321,6 +376,8 @@ export default {
         onReInitDataMsgKey(conditionObject,messageKey){
             this.conditionObject[messageKey] = conditionObject;
             this.initData()
+            this.clearTimer()
+            this.initTimer()
         },
         receiveBroadcastMessage(object) {
             console.log("组件收到消息", object)
@@ -371,70 +428,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .IBrowseInfo_app{
-    .IBrowseInfo_app_left{
-    }
-    .IBrowseInfo_app_right{
-    }
-    .IBrowseInfo_app_block{
-        width: 100%;
-        padding: 0 30px;
-        border-right: 1px dashed #e8e8e8;
-        &:last-child{
-            border-right: none;
-        }
-    }
-    .list{
-        height: 46px;
-        .label{
-            .circle{
-                display: inline-block;
-                width: 8px;
-                height: 8px;
-                margin-right: 10px;
-                border-radius: 50%;
-                &:nth-child(1){
-                    background: rgb(223, 47, 77);
-                }
-                &:nth-child(2){
-                    background: rgb(30, 132, 228);
-                }
-                &:nth-child(3){
-                    background: rgb(231, 180, 14);
-                }
-                &:nth-child(4){
-                    background: rgb(30, 187, 186);
-                }
-            }
-        }
-        &:nth-child(1){
-            .label{
-                .circle{
-                    background: rgb(223, 47, 77);
-                }
-            }
-        }
-        &:nth-child(2){
-            .label{
-                .circle{
-                    background: rgb(30, 132, 228);
-                }
-            }
-        }
-        &:nth-child(3){
-            .label{
-                .circle{
-                    background: rgb(231, 180, 14);
-                }
-            }
-        }
-        &:nth-child(4){
-            .label{
-                .circle{
-                    background: rgb(30, 187, 186);
-                }
-            }
-        }
-    }
+    
 }
 
 </style>

@@ -150,6 +150,13 @@
       "className": "IBrowseInfo",
       "comType": "common",
       "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.visitornumber",
+      "comName": "访客数量",
+      "className": "IVisitorNumber",
+      "comType": "common",
+      "comLangue": "vue"
     }
   ]
 }

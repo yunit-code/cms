@@ -1,7 +1,7 @@
 {
-    "classId": "idm.component.cms.browseinfo",
-    "comName": "浏览信息",
-    "className": "IBrowseInfo",
+    "classId": "idm.component.cms.visitornumber",
+    "comName": "访客数量",
+    "className": "IVisitorNumber",
     "comType": "common",
     "comLangue": "vue",
     "compositeAttr": [
@@ -24,26 +24,8 @@
                     "type": "radio",
                     "styleType": "radio",
                     "layoutType": "inline",
-                    "text": "显示列数",
-                    "bindKey": "showColumn",
-                    "default": true,
-                    "dictionary": [
-                        {
-                            "label": "1",
-                            "value": "1"
-                        },
-                        {
-                            "label": "2",
-                            "value": "2"
-                        }
-                    ]
-                },
-                {
-                    "type": "radio",
-                    "styleType": "radio",
-                    "layoutType": "inline",
-                    "text": "显示圆点",
-                    "bindKey": "showCircle",
+                    "text": "显示标题",
+                    "bindKey": "showTitle",
                     "default": true,
                     "dictionary": [
                         {
@@ -55,12 +37,44 @@
                             "value": false
                         }
                     ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "显示时间",
+                    "bindKey": "showTime",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "标题内容",
+                    "bindKey": "title",
+                    "default": "网站信息"
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "刷新间隔",
+                    "bindKey": "reloadTime",
+                    "default": "60000"
                 }
             ]
         },
         {
             "type": "group",
-            "text": "单项样式",
+            "text": "标题样式",
             "children":[
                 {
                     "type": "inlineGroup",
@@ -71,7 +85,7 @@
                             "layoutType": "block",
                             "text": "宽",
                             "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
-                            "bindKey": "widthItem",
+                            "bindKey": "widthTitle",
                             "width": "60px",
                             "default": ""
                         },
@@ -80,45 +94,128 @@
                             "layoutType": "block",
                             "text": "高",
                             "desc": "填写auto则为自适应，或者使用px、%、vh等单位，比如100%、100px、100vh等等",
-                            "bindKey": "heightItem",
+                            "bindKey": "heightTitle",
                             "width": "60px",
                             "default": ""
                         }
                     ]
                 },
                 {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "文字",
+                    "bindKey": "fontTitle"
+                },
+                {
                     "type": "box",
                     "layoutType": "block",
                     "text": "内外边距",
-                    "bindKey": "boxItem"
+                    "bindKey": "boxTitle"
                 },
                 {
                     "type": "border",
                     "layoutType": "block",
                     "text": "容器边框",
-                    "bindKey": "borderItem"
-                },
-                {
-                    "type": "group",
-                    "text": "列表样式",
-                    "children":[
-                        {
-                            "type": "input",
-                            "layoutType": "inline",
-                            "text": "单行高度",
-                            "bindKey": "heightItemRow"
-                        },
-                        {
-                            "type": "box",
-                            "layoutType": "block",
-                            "text": "内外边距",
-                            "bindKey": "boxItemRow"
-                        }
-                    ]
+                    "bindKey": "borderTitle"
                 }
             ]
         },
-
+        {
+            "type": "group",
+            "text": "数字样式",
+            "children":[
+                {
+                    "type": "inlineGroup",
+                    "text": "宽高",
+                    "children": [
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "宽",
+                            "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
+                            "bindKey": "widthNumber",
+                            "width": "60px",
+                            "default": ""
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "高",
+                            "desc": "填写auto则为自适应，或者使用px、%、vh等单位，比如100%、100px、100vh等等",
+                            "bindKey": "heightNumber",
+                            "width": "60px",
+                            "default": ""
+                        }
+                    ]
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "文字",
+                    "bindKey": "fontNumber"
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "内外边距",
+                    "bindKey": "boxNumber"
+                },
+                {
+                    "type": "border",
+                    "layoutType": "block",
+                    "text": "容器边框",
+                    "bindKey": "borderNumber"
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "时间样式",
+            "children":[
+                {
+                    "type": "inlineGroup",
+                    "text": "宽高",
+                    "children": [
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "宽",
+                            "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
+                            "bindKey": "widthTime",
+                            "width": "60px",
+                            "default": ""
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "高",
+                            "desc": "填写auto则为自适应，或者使用px、%、vh等单位，比如100%、100px、100vh等等",
+                            "bindKey": "heightTime",
+                            "width": "60px",
+                            "default": ""
+                        }
+                    ]
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "文字",
+                    "bindKey": "fontTime"
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "内外边距",
+                    "bindKey": "boxTime"
+                },
+                {
+                    "type": "border",
+                    "layoutType": "block",
+                    "text": "容器边框",
+                    "bindKey": "borderTime"
+                }
+            ]
+        },
         {
             "type": "group",
             "text": "容器样式设置",
