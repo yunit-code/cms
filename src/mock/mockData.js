@@ -233,3 +233,114 @@ export const communicationTabData = {
         jumpUrl: ''
     }
 }
+
+export function getWebInfoData() {
+    const _this = this
+    return [
+      {
+        title: '浏览量(PV)',
+        info: [
+            {
+                label: '今日',
+                value: 0
+            },
+            {
+                label: '昨日',
+                value: 0
+            },
+            {
+                label: '历史最高',
+                value: 8
+            },
+            {
+                label: '累计',
+                value: 10
+            }
+        ]
+      },
+      {
+        title: '访客数(UV)',
+        info: [
+            {
+                label: '今日',
+                value: 0
+            },
+            {
+                label: '昨日',
+                value: 0
+            },
+            {
+                label: '历史最高',
+                value: 8
+            },
+            {
+                label: '累计',
+                value: 10
+            }
+        ]
+      },
+      {
+        title: 'IP数',
+        info: [
+            {
+                label: '今日',
+                value: 0
+            },
+            {
+                label: '昨日',
+                value: 0
+            },
+            {
+                label: '历史最高',
+                value: 8
+            },
+            {
+                label: '累计',
+                value: 10
+            }
+        ]
+      },
+      {
+        title: '跳出率',
+        info: [
+            {
+                label: '今日',
+                value: 0
+            },
+            {
+                label: '昨日',
+                value: 0
+            },
+            {
+                label: '历史最高',
+                value: 8
+            },
+            {
+                label: '累计',
+                value: 10
+            }
+        ]
+      },
+      {
+        title: '平均访问时长',
+        info: [
+            {
+                label: '今日',
+                value: 0
+            },
+            {
+                label: '昨日',
+                value: 0
+            },
+            {
+                label: '历史最高',
+                value: 8
+            },
+            {
+                label: '累计',
+                value: 10
+            }
+        ]
+      }
+    ]
+  }

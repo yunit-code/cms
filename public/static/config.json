@@ -136,6 +136,13 @@
       "className": "IDateRange",
       "comType": "common",
       "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.webinfo",
+      "comName": "网站信息",
+      "className": "IWebInfo",
+      "comType": "common",
+      "comLangue": "vue"
     }
   ]
 }

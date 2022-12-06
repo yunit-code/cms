@@ -6,6 +6,7 @@ import config from '../public/static/config.json';
 import '@/icons' // icon
 //按需的ant组件注册，没有用到antd最好删除
 import "@/plugins/antd"
+import "@/plugins/vant"
 
 const requireComponent = require.context(
   // 其组件目录的相对路径

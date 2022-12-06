@@ -16,6 +16,7 @@
     "sass-loader": "^8.0.2",
     "swiper": "^5.3.6",
     "vue": "^2.6.11",
+    "vant": "^2.12.53",
     "vue-awesome-swiper": "^4.1.1",
     "vue-seamless-scroll": "^1.1.23"
   },
