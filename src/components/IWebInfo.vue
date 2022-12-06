@@ -184,6 +184,7 @@ export default {
             var styleObject = {};
             var styleObjectTitle = {};
             var styleObjectRow = {};
+            var styleObjectMain = {};
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key];
@@ -212,8 +213,6 @@ export default {
                             IDM.style.setBorderStyle(styleObject,element)
                             break;
 
-
-
                         case "fontItemTitle":
                             IDM.style.setFontStyle(styleObjectTitle,element)
                             break;
@@ -221,12 +220,14 @@ export default {
                             IDM.style.setBoxStyle(styleObjectTitle,element)
                             break;
 
-
                         case "heightItemRow":
                             styleObjectRow["height"] = element;
                             break;
                         case "boxItemRow":
                             IDM.style.setBoxStyle(styleObjectRow,element);
+                            break;
+                        case "borderItemMain":
+                            IDM.style.setBorderStyle(styleObjectMain,element)
                             break;
                     }
                 }
@@ -234,6 +235,7 @@ export default {
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list', styleObject);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_title', styleObjectTitle);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_main_list', styleObjectRow);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_main', styleObjectMain);
         },
         convertAttrToStyleObject() {
             this.convertAttrToStyleObjectTitle()
@@ -499,10 +501,10 @@ export default {
                 color: #333;
             }
             .grid_list_main{
-                padding: 0 29px 0 0;
                 border-right: 1px dashed #e8e8e8;
                 .grid_list_main_list{
                     height: 18px;
+                    padding: 0 29px 0 0;
                     margin-bottom: 18px;
                     &:nth-child(1){
                         .value{

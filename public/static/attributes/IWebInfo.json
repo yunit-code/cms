@@ -175,6 +175,12 @@
                             "layoutType": "block",
                             "text": "内外边距",
                             "bindKey": "boxItemRow"
+                        },
+                        {
+                            "type": "border",
+                            "layoutType": "block",
+                            "text": "列表容器边框",
+                            "bindKey": "borderItemMain"
                         }
                     ]
                 }
