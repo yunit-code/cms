@@ -375,8 +375,9 @@ export default {
          */
         onReInitDataMsgKey(conditionObject,messageKey){
             this.conditionObject[messageKey] = conditionObject;
-            this.initData()
             this.clearTimer()
+            this.timer = null;
+            this.initData()
             this.initTimer()
         },
         receiveBroadcastMessage(object) {
