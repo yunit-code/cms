@@ -1,0 +1,1389 @@
+{
+    "classId": "idm.componet.cms.itopbar",
+    "comName": "头部页头",
+    "className": "ITopBar",
+    "comType": "common",
+    "comLangue": "vue",
+    "compositeAttr": [
+        {
+            "type": "input",
+            "layoutType": "inline",
+            "text": "唯一标识",
+            "bindKey": "ctrlId",
+            "disabled": true,
+            "default": "@[packageid]",
+            "desc": "",
+            "helpUrl": ""
+        },
+        {
+            "type": "group",
+            "text": "基本属性",
+            "desc": "提供设置组件能达到展示效果的基本属性设置信息",
+            "children": [
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "折叠图标",
+                    "desc":"是否显示折叠菜单按钮图标",
+                    "bindKey": "showMenuSwitch",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "开",
+                            "value": true
+                        },
+                        {
+                            "label": "关",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "显示动画",
+                    "desc":"菜单展开收缩时，是否运用动画效果",
+                    "bindKey": "isMenuCollapseAnimation",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "开",
+                            "value": true
+                        },
+                        {
+                            "label": "关",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "显示搜索",
+                    "bindKey": "showSearch",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "委托状态",
+                    "desc": "是否显示委托状态",
+                    "bindKey": "isShowEntrust",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "开",
+                            "value": true
+                        },
+                        {
+                            "label": "关",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "拖拽容器",
+                    "bindKey": "showMenu",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "开",
+                            "value": true
+                        },
+                        {
+                            "label": "关",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "自动折叠",
+                    "desc": "是否开启自动折叠展开",
+                    "bindKey": "isMenuCollapseAuto",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "登录按钮",
+                    "desc": "是否开启登录按钮",
+                    "bindKey": "isLoginBtn",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "登录按钮跳转链接",
+                    "bindKey": "isLoginBtnUrl",
+                    "default": "http://116.236.111.158:5480/DreamWeb_dqzb",
+                    "display":"@[isLoginBtn]"
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "登录页面打开方式",
+                    "desc": "登录页面打开方式",
+                    "bindKey": "isLoginBtnType",
+                    "default": "open",
+                    "dictionary": [
+                        {
+                            "label": "当前页打开",
+                            "value": "self"
+                        },
+                        {
+                            "label": "新页面打开",
+                            "value": "open"
+                        }
+                    ],
+                    "display":"@[isLoginBtn]"
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "中间标语",
+                    "desc": "是否显示中间标语",
+                    "bindKey": "isShowCenterTitle",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "中间标语",
+                    "bindKey": "title",
+                    "default": "激励担当作为  推动高质量发展",
+                    "display":"@[isShowCenterTitle]"
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "折叠分界",
+                    "bindKey": "menuCollapseAutoBase",
+                    "desc": "用于填写屏幕宽度的，当大于此宽度的时候自动展开、当小于此 宽度的时候自动折叠，单位px",
+                    "display": "@[isMenuCollapseAuto]"
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "左侧内容",
+                    "bindKey": "leftShowKey",
+                    "desc":"用于设置左侧显示的内容",
+                    "default":"1",
+                    "dictionary": [
+                        {
+                            "label": "每日金句",
+                            "value": "1"
+                        },
+                        {
+                            "label": "自定义logo",
+                            "value": "2"
+                        },
+                        {
+                            "label": "已打开tab",
+                            "value": "3"
+                        },
+                        {
+                            "label": "不显示",
+                            "value": "4"
+                        }
+                    ]
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "欢迎语",
+                    "bindKey": "persdonWelcomText",
+                    "default": "欢迎您,"
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "显示操作",
+                    "desc": "点击用户时，是否显示下拉操作选项",
+                    "bindKey": "showPersonAction",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "触发方式",
+                    "desc": "点击用户时，触发下拉框的方式",
+                    "bindKey": "showPersonActionEvent",
+                    "default": "click",
+                    "dictionary": [
+                        {
+                            "label": "点击触发",
+                            "value": "click"
+                        },
+                        {
+                            "label": "鼠标悬浮触发",
+                            "value": "hover"
+                        }
+                    ],
+                    "display":"@[showPersonAction]"
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "每日金句属性",
+            "children": [
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "每日金句标题",
+                    "bindKey": "dailySentenceTitle",
+                    "desc": "每日金句标题",
+                    "default": "每日金句"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "每日金句内容",
+                    "bindKey": "dailySentenceContent",
+                    "desc": "每日金句内容",
+                    "default": "习近平勉励人们永远保持清醒头脑"
+                },
+                {
+                    "type": "switch",
+                    "layoutType": "block",
+                    "text": "每日金句接口获取",
+                    "bindKey": "getDailySentenceSwitch",
+                    "desc": "是否接口形式获取每日金句内容",
+                    "default": false
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "每日金句接口地址",
+                    "bindKey": "getDailySentenceUrl",
+                    "default": "/ctrl/api/frame/getDailySentence",
+                    "display": "@[getDailySentenceSwitch]"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "结果集名称",
+                    "desc": "接口返回数据集中，数据的关键字key，如果结果集为result.data.data.text，则此处填写text;如果结果集为result.data.data，则此处为空",
+                    "bindKey": "getDailySentenceResultKey",
+                    "default": "",
+                    "display": "@[getDailySentenceSwitch]"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "最大宽度",
+                    "bindKey": "dailySentenceContentMaxWidth",
+                    "desc": "每日金句最大宽度",
+                    "default": ""
+                }
+            ],
+            "display": "@[leftShowKey == '1']"
+        },
+        {
+            "type": "group",
+            "text": "logo属性",
+            "display": "@[leftShowKey == '2']",
+            "children": [
+                {
+                    "type": "uploadImage",
+                    "layoutType": "inline",
+                    "text": "logo属性",
+                    "bindKey": "logoImgSrc",
+                    "default": "",
+                    "ctrlAttrObject": {
+                        "width": "40px",
+                        "height": "40px",
+                        "maxSize": 2097152
+                    }
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "logo宽度",
+                    "bindKey": "logoImgWidth",
+                    "default": ""
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "logo高度",
+                    "bindKey": "logoImgHeight",
+                    "default": ""
+                }
+            ]
+        },
+
+        {
+            "type": "group",
+            "text": "已打开tab属性",
+            "children": [
+                {
+                    "type": "switch",
+                    "layoutType": "inline",
+                    "text": "默认标签",
+                    "bindKey": "isShowHomeTab",
+                    "default": true,
+                    "desc": "是否展示默认首页按钮"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "标签名称",
+                    "bindKey": "homeTabName",
+                    "display": "@[isShowHomeTab]",
+                    "desc": "默认首页按钮标签名称"
+                }
+            ],
+            "display": "@[leftShowKey == '3']"
+        },
+        {
+            "type": "group",
+            "text": "搜索属性",
+            "children": [
+                {
+                    "type": "iconSelect",
+                    "layoutType": "inline",
+                    "text": "搜索图标",
+                    "bindKey": "iconSvgSearch",
+                    "desc":"搜索按钮的图标",
+                    "placeholder": "请选择"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "图标大小",
+                    "bindKey": "iconSvgFontSearch",
+                    "desc":"搜索按钮的图标大小",
+                    "placeholder": "请输入，示例：16px"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "提示信息",
+                    "bindKey": "searchPlaceholder",
+                    "desc":"搜索框提示信息",
+                    "default": "请输入搜索内容"
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "搜索方式",
+                    "bindKey": "searchType",
+                    "desc": "搜索方式",
+                    "dictionary": [
+                        {
+                            "label": "综合查询",
+                            "value": "1"
+                        },
+                        {
+                            "label": "全文检索",
+                            "value": "2"
+                        },
+                        {
+                            "label": "自定义搜索方式",
+                            "value": "3"
+                        }
+                    ],
+                    "default": "1"
+                },
+                {
+                    "type": "actionSelect",
+                    "layoutType": "block",
+                    "text": "自定义函数",
+                    "bindKey": "customFunctionSearch",
+                    "desc": "获取动态文本内容、自定义接口回调、页面统一接口回调的时候会调用此方法，返回数据格式为字符串，接收参数：{...自定义,interfaceData:自定义接口或页面统一接口的返回结果,expressData:表达式替换后的结果}",
+                    "multiple": false,
+                    "display":"@[searchType == '3']"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "搜索框查询跳转地址",
+                    "bindKey": "searchUrl",
+                    "desc":"用于搜索跳转的页面的接口，更多详细使用点击？查看"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "页签名称",
+                    "bindKey": "searchOpenTabName",
+                    "desc":"搜索框打开的页签名称，如果为空则会按照类型分别为综合查询、全文检索",
+                    "default": "全站检索"
+                }
+            ],
+            "display": "@[showSearch]"
+        },
+        {
+            "type": "group",
+            "text": "用户头像属性",
+            "children": [
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "真实头像",
+                    "desc": "选项打开显示用户的真实头像，关闭显示默认的用户头像",
+                    "bindKey": "isShowRealUserLogo",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "开",
+                            "value": true
+                        },
+                        {
+                            "label": "关",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "数据来源",
+                    "bindKey": "userLogoApiResource",
+                    "desc":"用于设置用户头像数据的获取来源，可选用户信息方式或者自定义接口方式",
+                    "default":"1",
+                    "dictionary": [
+                        {
+                            "label": "用户信息",
+                            "value": "1"
+                        },
+                        {
+                            "label": "自定义接口",
+                            "value": "2"
+                        }
+                    ],
+                    "display": "@[isShowRealUserLogo]"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "用户头像接口地址",
+                    "bindKey": "userLogoApiUrl",
+                    "display":"@[userLogoApiResource == '2'&&isShowRealUserLogo]"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "头像字段",
+                    "bindKey": "userLogoKey",
+                    "desc": "根据用户头像接口返回数据格式指定结果集的字段，若它的值为{data:{userLogo:''}}，则这里应该填写userLogo",
+                    "default": "userLogo",
+                    "placeholder": "示例:userLogo",
+                    "display":"@[isShowRealUserLogo]"
+                },
+                {
+                    "type": "actionSelect",
+                    "layoutType": "block",
+                    "text": "用户名自定义显示函数",
+                    "bindKey": "customFunctionUserName",
+                    "desc": "获取用户名,如果设置了此函数并返回了内容不为空则才会显示自定义结果，否则会显示组件内置的用户信息",
+                    "multiple": false
+                }
+            ]
+        },
+        {
+            "type": "table",
+            "text": "右侧扩展按钮属性",
+            "desc": "搜索框右侧扩展按钮属性配置",
+            "bindKey": "operateList",
+            "tabText": "操作[index]",
+            "children": [
+                {
+                    "type": "iconSelect",
+                    "layoutType": "inline",
+                    "text": "按钮图标",
+                    "bindKey": "iconSvg",
+                    "desc":"设置按钮的图标",
+                    "placeholder": "请选择"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "按钮文字",
+                    "desc":"设置按钮显示的文字",
+                    "bindKey": "buttonText",
+                    "placeholder":"示例：下载"
+                },
+                {
+                    "type": "select",
+                    "layoutType": "block",
+                    "text": "动态按钮文字",
+                    "bindKey": "sourceTypeButtonText",
+                    "desc": "通过这些方式去动态获取结果值显示成按钮文字内容",
+                    "dictionary": [
+                        {
+                            "label": "自定义接口",
+                            "value": "customInterface"
+                        },
+                        {
+                            "label": "自定义函数",
+                            "value": "customFunction"
+                        }
+                    ],
+                    "default": "customInterface"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "悬浮提示",
+                    "desc":"鼠标悬浮时提示信息",
+                    "bindKey": "hoverText",
+                    "placeholder":"示例：下载"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "接口地址",
+                    "bindKey": "customInterfaceUrlButtonText",
+                    "desc": "用于获取数据源的接口地址，请按照统一标准的返回格式返回文本数据，格式如下：{\"code\":\"200\",\"data\":\"\",...}",
+                    "display": "@[sourceTypeButtonText=='customInterface']"
+                },
+                {
+                    "type": "textarea",
+                    "layoutType": "inline",
+                    "text": "显示字段",
+                    "bindKey": "dataFiledButtonText",
+                    "desc": "根据接口返回数据格式指定结果集的字段，比如结果集名为resultData（自定义接口忽略）且它的值为{data:{filedName:[{\"text\":\"\",\"value\":\"\",\"check\":true}]}}，则这里应该填写data.filedName",
+                    "default": "",
+                    "placeholder": "示例：data.filedName 或者 [0].data[0].filedName",
+                    "display": "@[sourceTypeButtonText=='customInterface']"
+                },
+                {
+                    "type": "actionSelect",
+                    "layoutType": "block",
+                    "text": "自定义函数",
+                    "bindKey": "customFunctionButtonText",
+                    "desc": "获取动态按钮文字内容、，返回数据格式为字符串，接收参数：{...自定义,interfaceData:自定义接口或页面统一接口的返回结果,expressData:表达式替换后的结果}",
+                    "multiple": false,
+                    "display": "@[sourceTypeButtonText=='customFunction']"
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "图标颜色",
+                    "bindKey": "iconSvgFontColor",
+                    "default": ""
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "图标大小",
+                    "bindKey": "iconSvgFontSize",
+                    "default": 14
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "按钮文字字体",
+                    "bindKey": "font"
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "样式风格",
+                    "desc": "按钮样式风格，默认是现有样式",
+                    "bindKey": "operateListStyle",
+                    "default": "1",
+                    "dictionary": [
+                        {
+                            "label": "无背景色风格",
+                            "value": "1"
+                        },
+                        {
+                            "label": "主题背景色风格",
+                            "value": "2"
+                        },
+                        {
+                            "label": "自定义颜色",
+                            "value": "3"
+                        }
+                    ]
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "图标颜色",
+                    "bindKey": "operateListBackgroundColor",
+                    "default": "",
+                    "display":"@[operateListStyle=='3']"
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "事件类型",
+                    "bindKey": "buttonHandleType",
+                    "desc":"点击按钮触发的操作类型，可以选择内置的处理函数，也可以使用自定义编写函数",
+                    "dictionary": [
+                        {
+                            "label": "无事件",
+                            "value": "none"
+                        },
+                        {
+                            "label": "锁屏",
+                            "value": "1"
+                        },
+                        {
+                            "label": "切换子机构",
+                            "value": "2"
+                        },
+                        {
+                            "label": "自定义函数",
+                            "value": "custom"
+                        }
+                    ],
+                    "default": "none"
+                },
+                {
+                    "type": "actionSelect",
+                    "layoutType": "block",
+                    "text": "事件自定义函数",
+                    "bindKey": "buttonCustomFunction",
+                    "display":"@[buttonHandleType=='custom']",
+                    "desc": "当点击按钮的时候会调用此函数，接收参数格式为{customParam:自定义的,currentKey,configObject:当前按钮配置项,fieldConfigObject:当前字段配置项,itemObject:整条数据对象,callback:处理完成要刷新tab的回调方法，调用并传reloadTabKeys即可刷新指定的tab}",
+                    "multiple": true
+                },
+                {
+                    "type": "actionSelect",
+                    "layoutType": "block",
+                    "text": "弹框标题自定义函数",
+                    "bindKey": "customFunctionDialogTitle",
+                    "desc": "设置弹出框标题",
+                    "multiple": false,
+                    "display": "@[buttonHandleType=='2']"
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "委托状态属性",
+            "children": [
+                {
+                    "type": "iconSelect",
+                    "layoutType": "inline",
+                    "text": "按钮图标",
+                    "bindKey": "iconSvgEntrust",
+                    "desc":"设置按钮的图标",
+                    "placeholder": "请选择"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "按钮文字",
+                    "desc":"设置按钮显示的文字",
+                    "bindKey": "buttonTextEntrust",
+                    "placeholder":"示例：委托状态",
+                    "default": "委托状态"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "暂无提示",
+                    "desc":"没有委托信息时，显示的内容",
+                    "bindKey": "noDataTextEntrust",
+                    "placeholder":"暂无委托信息",
+                    "default": "暂无委托信息"
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "触发方式",
+                    "desc": "点击用户时，触发下拉框的方式",
+                    "bindKey": "showEntrustEvent",
+                    "default": "click",
+                    "dictionary": [
+                        {
+                            "label": "点击触发",
+                            "value": "click"
+                        },
+                        {
+                            "label": "鼠标悬浮触发",
+                            "value": "hover"
+                        }
+                    ]
+                }
+            ],
+            "display":"@[isShowEntrust]"
+        },
+        {
+            "type": "table",
+            "text": "下拉操作按钮选项设置",
+            "desc": "点击用户头像下拉框按钮属性配置",
+            "bindKey": "personActionList",
+            "tabText": "按钮[index]",
+            "children": [
+                {
+                    "type": "iconSelect",
+                    "layoutType": "inline",
+                    "text": "按钮图标",
+                    "bindKey": "iconSvg",
+                    "desc":"设置按钮的图标",
+                    "placeholder": "请选择"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "按钮文字",
+                    "desc":"设置按钮显示的文字",
+                    "bindKey": "buttonText",
+                    "placeholder":"示例：切换主题"
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "图标颜色",
+                    "bindKey": "iconSvgFontColor",
+                    "default": ""
+                },
+                {
+                    "type": "inputNumber",
+                    "layoutType": "inline",
+                    "text": "图标大小",
+                    "bindKey": "iconSvgFontSize",
+                    "default": 14
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "按钮文字字体",
+                    "bindKey": "font"
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "事件类型",
+                    "bindKey": "buttonHandleType",
+                    "desc":"点击按钮触发的操作类型，可以选择内置的处理函数，也可以使用自定义编写函数",
+                    "dictionary": [
+                        {
+                            "label": "无事件",
+                            "value": "none"
+                        },
+                        {
+                            "label": "切换主题",
+                            "value": "changeTheme"
+                        },
+                        {
+                            "label": "修改密码",
+                            "value": "changePassword"
+                        },
+                        {
+                            "label": "注销",
+                            "value": "logout"
+                        },
+                        {
+                            "label": "自定义函数",
+                            "value": "custom"
+                        }
+                    ],
+                    "default": "none"
+                },
+                {
+                    "type": "actionSelect",
+                    "layoutType": "block",
+                    "text": "事件自定义函数",
+                    "bindKey": "buttonCustomFunction",
+                    "display":"@[buttonHandleType=='custom']",
+                    "desc": "当点击按钮的时候会调用此函数，接收参数格式为{customParam:自定义的,currentKey,configObject:当前按钮配置项,fieldConfigObject:当前字段配置项,itemObject:整条数据对象,callback:处理完成要刷新tab的回调方法，调用并传reloadTabKeys即可刷新指定的tab}",
+                    "multiple": true
+                }
+            ],
+            "display": "@[showPersonAction]"
+        },
+        {
+            "type": "group",
+            "text": "内层容器样式",
+            "children": [
+                {
+                    "type": "inlineGroup",
+                    "text": "宽高",
+                    "children": [
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "宽",
+                            "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
+                            "bindKey": "widthInner",
+                            "width": "60px",
+                            "default": "100%"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "高",
+                            "desc": "填写auto则为自适应，或者使用px、%、vh等单位，比如100%、100px、100vh等等",
+                            "bindKey": "heightInner",
+                            "width": "60px",
+                            "default": "60px"
+                        }
+                    ]
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "内外边距",
+                    "bindKey": "boxInner"
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "样式设置",
+            "desc": "点击？查看样式设置用法指南",
+            "helpUrl": "",
+            "children": [
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "左侧文字",
+                    "bindKey": "fontLeft",
+                    "desc": "左侧每日金句文字样式"
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "标语文字",
+                    "bindKey": "fontCenterTitle",
+                    "desc": "中间标语文字"
+                },
+                {
+                    "type": "group",
+                    "text": "导航tab样式设置",
+                    "children": [
+                        {
+                            "type": "colorPicker",
+                            "layoutType": "inline",
+                            "text": "背景色",
+                            "bindKey": "tabBgColor"
+                        },
+                        {
+                            "type": "font",
+                            "layoutType": "inline",
+                            "text": "字体样式",
+                            "bindKey": "fontTab"
+                        },
+                        {
+                            "type": "inputNumber",
+                            "layoutType": "inline",
+                            "text": "tab间距",
+                            "bindKey": "tabBarGutter",
+                            "default": "5"
+                        }
+                    ]
+                },
+                {
+                    "type": "group",
+                    "text": "右侧扩展按钮设置",
+                    "children": [
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "间距",
+                            "desc": "右侧扩展按钮间隔距离",
+                            "bindKey": "operateListMargin",
+                            "default": "30px"
+                        }
+                    ]
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "搜索框文字",
+                    "bindKey": "fontInput"
+                },
+                {
+                    "type": "group",
+                    "text": "搜索框样式设置",
+                    "children": [
+                        {
+                            "type": "colorPicker",
+                            "layoutType": "inline",
+                            "text": "背景色",
+                            "bindKey": "bgColorSearch",
+                            "placeholder": "请选择颜色",
+                            "default": {}
+                        },
+                        {
+                            "type": "border",
+                            "layoutType": "block",
+                            "text": "边框",
+                            "bindKey": "borderSearch"
+                        }
+                    ]
+                },
+                {
+                    "type": "group",
+                    "text": "委托状态样式设置",
+                    "children": [
+                        {
+                            "type": "font",
+                            "layoutType": "block",
+                            "text": "委托按钮图标",
+                            "bindKey": "fontEntrustIcon"
+                        },
+                        {
+                            "type": "font",
+                            "layoutType": "block",
+                            "text": "委托按钮文字",
+                            "bindKey": "fontEntrustButton"
+                        },
+                        {
+                            "type": "font",
+                            "layoutType": "block",
+                            "text": "委托内容文字",
+                            "bindKey": "fontEntrustPop"
+                        },
+                        {
+                            "type": "font",
+                            "layoutType": "block",
+                            "text": "委托内容姓名文字",
+                            "bindKey": "fontEntrustPopName"
+                        },
+                        {
+                            "type": "box",
+                            "layoutType": "block",
+                            "text": "委托按钮内外边距",
+                            "bindKey": "boxEntrust"
+                        }
+                    ]
+                },
+                {
+                    "type": "font",
+                    "layoutType": "block",
+                    "text": "欢迎词文字",
+                    "bindKey": "fontWelcom"
+                },
+                {
+                    "type": "group",
+                    "text": "个人头像设置",
+                    "children": [
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "大小",
+                            "desc": "个人头像大小，默认宽高一致",
+                            "bindKey": "widthUserLogo",
+                            "default": "50px"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "左间距",
+                            "desc": "个人头像距离左侧元素的距离",
+                            "bindKey": "marginLeftUserLogo",
+                            "default": "20px"
+                        }
+                    ]
+                },
+                {
+                    "type": "group",
+                    "text": "菜单样式设置",
+                    "children": [
+                        {
+                            "type": "switch",
+                            "layoutType": "inline",
+                            "text": "适配菜单",
+                            "bindKey": "isAdaptiveMenu",
+                            "desc": "是否根据菜单的宽度来改变容器的宽度",
+                            "default": true
+                        },
+                        {
+                            "type": "inputNumberUnit",
+                            "layoutType": "inline",
+                            "text": "展开宽度",
+                            "bindKey": "widthMenu",
+                            "default": {
+                                "inputVal": 230,
+                                "selectVal": "px"
+                            },
+                            "dictionary": [
+                                {
+                                    "label": "px",
+                                    "value": "px"
+                                },
+                                {
+                                    "label": "%",
+                                    "value": "%"
+                                }
+                            ],
+                            "display": "@[isAdaptiveMenu]"
+                        },
+                        {
+                            "type": "inputNumberUnit",
+                            "layoutType": "inline",
+                            "text": "收缩宽度",
+                            "bindKey": "collapseWidthMenu",
+                            "default": {
+                                "inputVal": 64,
+                                "selectVal": "px"
+                            },
+                            "dictionary": [
+                                {
+                                    "label": "px",
+                                    "value": "px"
+                                },
+                                {
+                                    "label": "%",
+                                    "value": "%"
+                                }
+                            ],
+                            "display": "@[isAdaptiveMenu]"
+                        }
+                    ]
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "用户名最大宽度",
+                    "desc": "设置用户名的最大显示宽度，超出设定宽度会隐藏，单位px",
+                    "bindKey": "maxWidthUserName",
+                    "placeholder": "示例：100px",
+                    "default": ""
+                },
+                {
+                    "type": "inlineGroup",
+                    "text": "宽高",
+                    "children": [
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "宽",
+                            "desc": "填写auto则为自适应，或者使用px、%、vw等单位，比如100%、100px、100vw等等",
+                            "bindKey": "width",
+                            "width": "60px",
+                            "default": "100vw"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "高",
+                            "desc": "填写auto则为自适应，或者使用px、%、vh等单位，比如100%、100px、100vh等等",
+                            "bindKey": "height",
+                            "width": "60px",
+                            "default": ""
+                        }
+                    ]
+                },
+                {
+                    "type": "group",
+                    "text": "背景设置",
+                    "desc": "点击？查看背景设置用法指南",
+                    "helpUrl": "",
+                    "children": [
+                        {
+                            "type": "select",
+                            "layoutType": "block",
+                            "text": "背景显示方式",
+                            "bindKey": "backgroundType",
+                            "desc":"用于设置容器背景样式",
+                            "default":"1",
+                            "dictionary": [
+                                {
+                                    "label": "使用背景图片",
+                                    "value": "1"
+                                },
+                                {
+                                    "label": "跟随主题变化",
+                                    "value": "2"
+                                },
+                                {
+                                    "label": "自定义颜色",
+                                    "value": "3"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "colorPicker",
+                            "layoutType": "inline",
+                            "text": "背景色",
+                            "bindKey": "bgColor",
+                            "placeholder": "请选择颜色",
+                            "default": {},
+                            "display":"@[backgroundType=='3']"
+                        }
+                    ]
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "阴影样式",
+                    "desc":"填写格式如下：10px 10px 5px #888888，更多请点击查看详细填写说明",
+                    "bindKey": "boxShadow",
+                    "default":"0px 0px 3px rgba(0,0,0,0.1)"
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "text": "内外边距",
+                    "bindKey": "box"
+                },
+                {
+                    "type": "border",
+                    "layoutType": "block",
+                    "text": "边框",
+                    "bindKey": "border"
+                }
+            ]
+        },
+        {
+            "type": "table",
+            "text": "主题设置",
+            "desc": "点击？查看主题设置用法指南",
+            "bindKey": "themeList",
+            "tabText": "主题[index]",
+            "default":[
+                {
+                    "key": "blue",
+                    "mainColor": {
+                        "hex": "#0073CA",
+                        "hex8": "#0073CAFF"
+                    },
+                    "minorColor": {
+                        "hex": "#329cec",
+                        "hex8": "#329cecFF"
+                    }
+                },
+                {
+                    "key": "red",
+                    "mainColor": {
+                        "hex": "#E21A1A",
+                        "hex8": "#E21A1AFF"
+                    },
+                    "minorColor": {
+                        "hex": "#f87373",
+                        "hex8": "#f87373FF"
+                    }
+                },
+                {
+                    "key": "green",
+                    "mainColor": {
+                        "hex": "#0EAF64",
+                        "hex8": "#0EAF64FF"
+                    },
+                    "minorColor": {
+                        "hex": "#38e996",
+                        "hex8": "#38e996FF"
+                    }
+                }
+            ],
+            "children": [
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "主题标识",
+                    "bindKey": "key",
+                    "desc":"用于设置主题的标识，此项需要搭配自定义开发切换主题的功能，例如：蓝色标识为blue，用户切换主题的时候存储到数据库中的标识为blue，则这里选择blue",
+                    "default":"",
+                    "placeholder":"例如：blue",
+                    "ctrlAttrObject": {
+                        "mode": "combobox"
+                    },
+                    "dictionary": [
+                        {
+                            "label": "red",
+                            "value": "red"
+                        },
+                        {
+                            "label": "green",
+                            "value": "green"
+                        },
+                        {
+                            "label": "blue",
+                            "value": "blue"
+                        }
+                    ]
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "主要颜色",
+                    "bindKey": "mainColor",
+                    "desc":"主题的主要颜色",
+                    "placeholder": "请选择颜色",
+                    "display":"@[key]"
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "次要颜色",
+                    "bindKey": "minorColor",
+                    "desc": "主题的次要颜色，作用于菜单鼠标悬浮色、选中菜单颜色",
+                    "placeholder": "请选择颜色",
+                    "display": "@[key]"
+                },
+                {
+                    "type": "uploadImage",
+                    "layoutType": "inline",
+                    "text": "背景图片",
+                    "bindKey": "bgImgSrc",
+                    "default": ""
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "功能接口",
+            "children": [
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "获取子机构数据接口",
+                    "bindKey": "getOrganizationListApiUrl",
+                    "default": "/ctrl/userinfo/getUserUnits"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "切换子机构接口",
+                    "bindKey": "changeOrganizationApiUrl",
+                    "default": "/ctrl/changeLoginUnit"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "切换主题地址",
+                    "bindKey": "changeThemeIframeUrl",
+                    "default": "/p1000/skin/skin.html"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "修改密码地址",
+                    "bindKey": "changePasswordIframeUrl",
+                    "default": "/ctrl/userinfo/password"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "注销接口地址",
+                    "bindKey": "logoutUrl",
+                    "default": "/ctrl/logout"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "锁屏接口地址",
+                    "bindKey": "lockScreenApiUrl",
+                    "default": "/ctrl/userinfo/lockScreen"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "block",
+                    "text": "解屏接口地址",
+                    "bindKey": "unLockScreenApiUrl",
+                    "default": "/ctrl/userinfo/unLockScreen"
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "高级",
+            "desc": "点击？查看高级设置用法指南",
+            "children": [
+                {
+                    "type": "pageModuleSelect",
+                    "layoutType": "block",
+                    "text": "tab菜单联动组件",
+                    "desc": "选择点击tab需要联动的组件",
+                    "bindKey": "triggerComponents",
+                    "multiple": true
+                },
+                {
+                    "type": "pageModuleSelect",
+                    "layoutType": "block",
+                    "text": "menu展开收缩联动组件",
+                    "desc": "选择点击菜单展开收缩需要联动的组件",
+                    "bindKey": "triggerComponentsMenu",
+                    "multiple": true
+                },
+                {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "刷新KEY",
+                    "bindKey": "messageRefreshKey",
+                    "desc": "根据组件接收到的消息KEY来刷新数据，可选择多个",
+                    "default": "",
+                    "placeholder": "请选择刷新KEY",
+                    "multiple": true,
+                    "ctrlAttrObject": {
+                        "mode": "tags"
+                    },
+                    "dictionary": [
+                        {
+                            "label": "info",
+                            "value": "info"
+                        },
+                        {
+                            "label": "inbox",
+                            "value": "inbox"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

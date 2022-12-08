@@ -136,6 +136,13 @@
       "className": "IDateRange",
       "comType": "common",
       "comLangue": "vue"
+    },
+    {
+      "classId": "idm.componet.cms.itopbar",
+      "comName": "头部页头",
+      "className": "ITopBar",
+      "comType": "common",
+      "comLangue": "vue"
     }
   ]
 }
