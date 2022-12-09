@@ -580,33 +580,10 @@
                         {
                             "type": "dataSourceFiledSelect",
                             "layoutType": "inline",
-                            "text": "数据集1",
-                            "desc": "当显示1列时，左侧数据集属性字段",
-                            "bindKey": "dataFieldArr1",
-                            "default": "title",
-                            "ctrlAttrObject": {
-                                "dataSourceBindkey": "dataSource"
-                            }
-                        },
-                        {
-                            "type": "dataSourceFiledSelect",
-                            "layoutType": "inline",
-                            "text": "数据集2",
-                            "desc": "当显示2列时，右侧数据集属性字段",
-                            "bindKey": "dataFieldArr1",
-                            "default": "title",
-                            "ctrlAttrObject": {
-                                "dataSourceBindkey": "dataSource"
-                            },
-                            "display":"@[showColumn=='2']"
-                        },
-                        {
-                            "type": "dataSourceFiledSelect",
-                            "layoutType": "inline",
                             "text": "数量字段",
                             "desc": "单条数据显示的数量字段",
-                            "bindKey": "dataFieldValue",
-                            "default": "value",
+                            "bindKey": "dataFieldNumber",
+                            "default": "visitorNum",
                             "ctrlAttrObject": {
                                 "dataSourceBindkey": "dataSource"
                             }
@@ -614,10 +591,10 @@
                         {
                             "type": "dataSourceFiledSelect",
                             "layoutType": "inline",
-                            "text": "名称字段",
+                            "text": "时间字段",
                             "desc": "单条数据显示的名称字段",
-                            "bindKey": "dataFieldLabel",
-                            "default": "label",
+                            "bindKey": "dataFieldTime",
+                            "default": "updateTime",
                             "ctrlAttrObject": {
                                 "dataSourceBindkey": "dataSource"
                             }

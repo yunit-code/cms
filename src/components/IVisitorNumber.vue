@@ -116,10 +116,9 @@ export default {
                         ...newParam
                     }
                 },function(res){
-                    console.log('grid组件获取数据++++++++',res)
                     if ( res && res.length ) {
-                        that.number = res[that.propData.dataFieldNumber ? that.propData.dataFieldNumber : 'number'];
-                        that.time = res[that.propData.dataFieldTime ? that.propData.dataFieldTime : 'time'];
+                        that.number = res[that.propData.dataFieldNumber ? that.propData.dataFieldNumber : 'visitorNum'];
+                        that.time = res[that.propData.dataFieldTime ? that.propData.dataFieldTime : 'updateTime'];
                     }
                 },function(error){
                     //这里是请求失败的返回结果
