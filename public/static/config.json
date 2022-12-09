@@ -138,11 +138,13 @@
       "comLangue": "vue"
     },
     {
-<<<<<<< HEAD
       "classId": "idm.componet.cms.itopbar",
       "comName": "头部页头",
       "className": "ITopBar",
-=======
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
       "classId": "idm.component.cms.webinfo",
       "comName": "网站信息",
       "className": "IWebInfo",
@@ -160,7 +162,6 @@
       "classId": "idm.component.cms.visitornumber",
       "comName": "访客数量",
       "className": "IVisitorNumber",
->>>>>>> 827dd3f31cb9d4a2bdfaefc3d36deb541bdfbefd
       "comType": "common",
       "comLangue": "vue"
     }
