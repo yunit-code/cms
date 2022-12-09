@@ -1,10 +1,10 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" class="IVisitorNumber_app">
-        <div class="title">在线访客数</div>
-        <div class="number">6</div>
-        <div class="time">
-            <span>更新时间：</span>
-            <span>15:12</span>
+        <div v-if="propData.showTitle" class="title">{{ propData.title }}</div>
+        <div class="number">{{ number }}</div>
+        <div v-if="propData.showTime" class="time">
+            <span>{{ propData.timeLabel }}</span>
+            <span>{{ time }}</span>
         </div>
     </div>
 </template>
@@ -116,10 +116,8 @@ export default {
                         ...newParam
                     }
                 },function(res){
-                    if ( res && res.length ) {
-                        that.number = res[that.propData.dataFieldNumber ? that.propData.dataFieldNumber : 'visitorNum'];
-                        that.time = res[that.propData.dataFieldTime ? that.propData.dataFieldTime : 'updateTime'];
-                    }
+                    that.number = res[that.propData.dataFieldNumber ? that.propData.dataFieldNumber : 'visitorNum'];
+                    that.time = res[that.propData.dataFieldTime ? that.propData.dataFieldTime : 'updateTime'];
                 },function(error){
                     //这里是请求失败的返回结果
                     console.log('error',error)
@@ -377,7 +375,9 @@ export default {
             this.clearTimer()
             this.timer = null;
             this.initData()
-            this.initTimer()
+            if ( this.propData.useInterval ) {
+                this.initTimer()
+            }
         },
         receiveBroadcastMessage(object) {
             console.log("组件收到消息", object)

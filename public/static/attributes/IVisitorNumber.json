@@ -57,11 +57,36 @@
                     ]
                 },
                 {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "轮询查询",
+                    "bindKey": "useInterval",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
                     "type": "input",
                     "layoutType": "inline",
                     "text": "标题内容",
                     "bindKey": "title",
-                    "default": "网站信息"
+                    "default": "在线访客数"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "时间描述",
+                    "bindKey": "timeLabel",
+                    "default": "更新时间："
                 },
                 {
                     "type": "inputNumber",
