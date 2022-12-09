@@ -115,11 +115,8 @@ export default {
                         ...newParam
                     }
                 },function(res){
-                    console.log('grid组件获取数据++++++++',res)
-                    if ( res && res.length ) {
-                        that.data_list1 = res[that.propData.dataFieldArr1 ? that.propData.dataFieldArr1 : 'new'];
-                        that.data_list2 = res[that.propData.dataFieldArr2 ? that.propData.dataFieldArr2 : 'old'];
-                    }
+                    that.data_list1 = res[that.propData.dataFieldArr1 ? that.propData.dataFieldArr1 : 'newValueList'];
+                    that.data_list2 = res[that.propData.dataFieldArr2 ? that.propData.dataFieldArr2 : 'oldValueList'];
                 },function(error){
                     //这里是请求失败的返回结果
                     console.log('error',error)
@@ -392,6 +389,7 @@ export default {
                 height: 8px;
                 margin-right: 10px;
                 border-radius: 50%;
+                flex-shrink: 0;
                 &:nth-child(1){
                     background: rgb(223, 47, 77);
                 }

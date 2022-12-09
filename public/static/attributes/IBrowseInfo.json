@@ -496,7 +496,7 @@
                             "layoutType": "inline",
                             "text": "数据集2",
                             "desc": "当显示2列时，右侧数据集属性字段",
-                            "bindKey": "dataFieldArr1",
+                            "bindKey": "dataFieldArr2",
                             "default": "title",
                             "ctrlAttrObject": {
                                 "dataSourceBindkey": "dataSource"

@@ -432,6 +432,9 @@ export default {
                     padding-right: 0;
                     border-right: none;
                 }
+                .grid_list_main_list{
+                    padding-right: 0;
+                }
             }
         }
         &:nth-child(1){
