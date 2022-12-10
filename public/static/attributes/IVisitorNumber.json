@@ -57,11 +57,36 @@
                     ]
                 },
                 {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "轮询查询",
+                    "bindKey": "useInterval",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
                     "type": "input",
                     "layoutType": "inline",
                     "text": "标题内容",
                     "bindKey": "title",
-                    "default": "网站信息"
+                    "default": "在线访客数"
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "时间描述",
+                    "bindKey": "timeLabel",
+                    "default": "更新时间："
                 },
                 {
                     "type": "inputNumber",
@@ -580,33 +605,10 @@
                         {
                             "type": "dataSourceFiledSelect",
                             "layoutType": "inline",
-                            "text": "数据集1",
-                            "desc": "当显示1列时，左侧数据集属性字段",
-                            "bindKey": "dataFieldArr1",
-                            "default": "title",
-                            "ctrlAttrObject": {
-                                "dataSourceBindkey": "dataSource"
-                            }
-                        },
-                        {
-                            "type": "dataSourceFiledSelect",
-                            "layoutType": "inline",
-                            "text": "数据集2",
-                            "desc": "当显示2列时，右侧数据集属性字段",
-                            "bindKey": "dataFieldArr1",
-                            "default": "title",
-                            "ctrlAttrObject": {
-                                "dataSourceBindkey": "dataSource"
-                            },
-                            "display":"@[showColumn=='2']"
-                        },
-                        {
-                            "type": "dataSourceFiledSelect",
-                            "layoutType": "inline",
                             "text": "数量字段",
                             "desc": "单条数据显示的数量字段",
-                            "bindKey": "dataFieldValue",
-                            "default": "value",
+                            "bindKey": "dataFieldNumber",
+                            "default": "visitorNum",
                             "ctrlAttrObject": {
                                 "dataSourceBindkey": "dataSource"
                             }
@@ -614,10 +616,10 @@
                         {
                             "type": "dataSourceFiledSelect",
                             "layoutType": "inline",
-                            "text": "名称字段",
+                            "text": "时间字段",
                             "desc": "单条数据显示的名称字段",
-                            "bindKey": "dataFieldLabel",
-                            "default": "label",
+                            "bindKey": "dataFieldTime",
+                            "default": "updateTime",
                             "ctrlAttrObject": {
                                 "dataSourceBindkey": "dataSource"
                             }
