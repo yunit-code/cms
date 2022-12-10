@@ -183,6 +183,53 @@
                     "type": "radio",
                     "styleType": "radio",
                     "layoutType": "inline",
+                    "text": "首页按钮",
+                    "desc": "是否开启首页按钮",
+                    "bindKey": "isIndexBtn",
+                    "default": true,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "type": "input",
+                    "layoutType": "inline",
+                    "text": "首页按钮跳转链接",
+                    "bindKey": "isIndexBtnUrl",
+                    "default": "http://116.236.111.158:5480/DreamWeb_dqzb//p1000/idm/index.html?fid=1806201644570tT66TuONlPHZDVj4gN&step=0#/preview/22113017132490QIucUlnbKFWjxnM5A",
+                    "display":"@[isIndexBtn]"
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "登录页面打开方式",
+                    "desc": "登录页面打开方式",
+                    "bindKey": "isIndexBtnType",
+                    "default": "open",
+                    "dictionary": [
+                        {
+                            "label": "当前页打开",
+                            "value": "self"
+                        },
+                        {
+                            "label": "新页面打开",
+                            "value": "open"
+                        }
+                    ],
+                    "display":"@[isIndexBtn]"
+                },
+                {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
                     "text": "中间标语",
                     "desc": "是否显示中间标语",
                     "bindKey": "isShowCenterTitle",

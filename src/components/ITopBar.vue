@@ -87,6 +87,9 @@
                         </a-popover>
                     </div>
                     <div class="user_block flex_end">
+                        <div class="user_name flex_end" v-if="propData.isIndexBtn">
+                            <el-button type="primary" style="margin-right: 10px;" @click="toIndex">网址首页</el-button>
+                        </div>
                         <div class="user_name flex_end" v-if="isLogin">
                             {{ propData.persdonWelcomText }}<span class="user_name_text">{{ user_info.username }}</span>
                         </div>
@@ -179,7 +182,10 @@ export default {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
-                isLoginBtn: false,
+                isIndexBtn: true,
+                isIndexBtnUrl: "http://116.236.111.158:5480/DreamWeb_dqzb//p1000/idm/index.html?fid=1806201644570tT66TuONlPHZDVj4gN&step=0#/preview/22113017132490QIucUlnbKFWjxnM5A",
+                isIndexBtnType: "open",
+                isLoginBtn: true,
                 isLoginBtnUrl: "http://116.236.111.158:5480/DreamWeb_dqzb",
                 isLoginBtnType: "open",
                 showMenuSwitch: true,
@@ -978,6 +984,15 @@ export default {
                     _this: this
                 });
             })
+        },
+        // 点击跳转首页按钮后 跳转到对应的首页网址
+        toIndex() {
+            if(this.propData.isIndexBtnType == "self") {
+                window.location.href = this.propData.isIndexBtnUrl;
+            }
+            if(this.propData.isIndexBtnType == "open") {
+                window.open(this.propData.isIndexBtnUrl);
+            }
         },
         // 点击登录按钮后 跳转到对应的登录网址
         toLogin() {
