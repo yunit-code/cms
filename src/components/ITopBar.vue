@@ -1614,6 +1614,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .ITopBar_app{
+    width: 100%;
     height: 100%;
     font-family: PingFangSC-Regular;
     .ITopBar_app_main{

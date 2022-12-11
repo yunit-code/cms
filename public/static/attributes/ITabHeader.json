@@ -75,6 +75,15 @@
                             "value": false
                         }
                     ]
+                },
+                
+                {
+                    "type": "colorPicker",
+                    "layoutType": "block",
+                    "text": "下划线颜色",
+                    "bindKey": "titleBorderColor",
+                    "placeholder": "请选择颜色",
+                    "default": { }
                 }
             ]
         },
@@ -450,6 +459,48 @@
                     "bindKey": "tab"
                 },
                 {
+                    "type": "select",
+                    "layoutType":"inline",
+                    "text":"左侧内容",
+                    "desc": "标签文字左侧显示的内容",
+                    "bindKey": "tabLeftShowType",
+                    "dictionary": [
+                        {
+                            "label": "线条",
+                            "value": "1"
+                        },
+                        {
+                            "label": "图标",
+                            "value": "2"
+                        },
+                        {
+                            "label": "图片",
+                            "value": "3"
+                        },
+                        {
+                            "label": "不显示",
+                            "value": "4"
+                        }
+                    ],
+                    "default": "4"
+                },
+                {
+                    "type": "iconSelect",
+                    "layoutType":"inline",
+                    "text":"左侧图标",
+                    "bindKey": "leftIconSvg",
+                    "placeholder": "请选择",
+                    "display":"@[tabLeftShowType=='2']"
+                },
+                {
+                    "type": "uploadImage",
+                    "layoutType":"inline",
+                    "text":"左侧图片",
+                    "bindKey": "leftImgSrc",
+                    "placeholder": "可输入图片地址或直接上传",
+                    "display":"@[tabLeftShowType=='3']"
+                },
+                {
                     "type": "actionSelect",
                     "layoutType": "block",
                     "text": "tab显示自定义函数",
@@ -670,7 +721,110 @@
         },
         {
             "type": "group",
-            "text": "左侧icon样式",
+            "text": "标签左侧线条样式",
+            "children": [
+                {
+                    "type": "inputNumberUnit",
+                    "layoutType": "inline",
+                    "text": "宽",
+                    "bindKey": "widthLeftLine",
+                    "dictionary": [
+                        {
+                            "label": "px",
+                            "value": "px"
+                        },
+                        {
+                            "label": "%",
+                            "value": "%"
+                        },
+                        {
+                            "label": "em",
+                            "value": "em"
+                        }
+                    ]
+                },
+                {
+                    "type": "inputNumberUnit",
+                    "layoutType": "inline",
+                    "text": "高",
+                    "bindKey": "heightLeftLine",
+                    "dictionary": [
+                        {
+                            "label": "px",
+                            "value": "px"
+                        },
+                        {
+                            "label": "%",
+                            "value": "%"
+                        },
+                        {
+                            "label": "em",
+                            "value": "em"
+                        }
+                    ]
+                },
+                {
+                    "type": "inputNumberUnit",
+                    "layoutType": "inline",
+                    "text": "垂直偏移",
+                    "desc": "元素在y轴方向的偏移量",
+                    "bindKey": "widthLeftLinePositionY",
+                    "dictionary": [
+                        {
+                            "label": "px",
+                            "value": "px"
+                        },
+                        {
+                            "label": "%",
+                            "value": "%"
+                        },
+                        {
+                            "label": "em",
+                            "value": "em"
+                        }
+                    ]
+                },
+                {
+                    "type": "inputNumberUnit",
+                    "layoutType": "inline",
+                    "text": "水平偏移",
+                    "desc": "元素在x轴方向的偏移量",
+                    "bindKey": "widthLeftLinePositionX",
+                    "dictionary": [
+                        {
+                            "label": "px",
+                            "value": "px"
+                        },
+                        {
+                            "label": "%",
+                            "value": "%"
+                        },
+                        {
+                            "label": "em",
+                            "value": "em"
+                        }
+                    ]
+                },
+                {
+                    "type": "colorPicker",
+                    "layoutType": "inline",
+                    "text": "背景色",
+                    "bindKey": "bgColorLeftLine",
+                    "placeholder": "请选择颜色",
+                    "default": {}
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "desc": "组件的最外围的内外边距设置",
+                    "text": "组件内外边距",
+                    "bindKey": "boxLeftLine"
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "标签左侧icon样式",
             "children": [
                 {
                     "type": "inputNumberUnit",
@@ -756,21 +910,115 @@
                 },
                 {
                     "type": "colorPicker",
-                    "layoutType": "inline",
-                    "text": "背景色",
-                    "bindKey": "bgColorLeftIcon",
+                    "layoutType": "block",
+                    "text": "颜色",
+                    "bindKey": "fontColorLeftIcon",
                     "placeholder": "请选择颜色",
-                    "default": {}
+                    "default": { }
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "desc": "图标的最外围的内外边距设置",
+                    "text": "内外边距",
+                    "bindKey": "boxLeftIcon"
+                }
+            ]
+        },
+        {
+            "type": "group",
+            "text": "标签左侧图片样式",
+            "children": [
+                {
+                    "type": "inputNumberUnit",
+                    "layoutType": "inline",
+                    "text": "宽",
+                    "bindKey": "widthLeftImg",
+                    "dictionary": [
+                        {
+                            "label": "px",
+                            "value": "px"
+                        },
+                        {
+                            "label": "%",
+                            "value": "%"
+                        },
+                        {
+                            "label": "em",
+                            "value": "em"
+                        }
+                    ]
+                },
+                {
+                    "type": "inputNumberUnit",
+                    "layoutType": "inline",
+                    "text": "高",
+                    "bindKey": "heightLeftImg",
+                    "dictionary": [
+                        {
+                            "label": "px",
+                            "value": "px"
+                        },
+                        {
+                            "label": "%",
+                            "value": "%"
+                        },
+                        {
+                            "label": "em",
+                            "value": "em"
+                        }
+                    ]
+                },
+                {
+                    "type": "inputNumberUnit",
+                    "layoutType": "inline",
+                    "text": "垂直偏移",
+                    "desc": "元素在y轴方向的偏移量",
+                    "bindKey": "widthLeftImgPositionY",
+                    "dictionary": [
+                        {
+                            "label": "px",
+                            "value": "px"
+                        },
+                        {
+                            "label": "%",
+                            "value": "%"
+                        },
+                        {
+                            "label": "em",
+                            "value": "em"
+                        }
+                    ]
+                },
+                {
+                    "type": "inputNumberUnit",
+                    "layoutType": "inline",
+                    "text": "水平偏移",
+                    "desc": "元素在x轴方向的偏移量",
+                    "bindKey": "widthLeftImgPositionX",
+                    "dictionary": [
+                        {
+                            "label": "px",
+                            "value": "px"
+                        },
+                        {
+                            "label": "%",
+                            "value": "%"
+                        },
+                        {
+                            "label": "em",
+                            "value": "em"
+                        }
+                    ]
                 },
                 {
                     "type": "box",
                     "layoutType": "block",
                     "desc": "组件的最外围的内外边距设置",
                     "text": "组件内外边距",
-                    "bindKey": "boxLeftIcon"
+                    "bindKey": "boxLeftImg"
                 }
-            ],
-            "display":"@[showLeftIcon]"
+            ]
         },
         {
             "type": "group",
@@ -814,13 +1062,7 @@
             "desc": "点击？查看样式设置用法指南",
             "helpUrl": "",
             "children": [
-                {
-                    "type": "box",
-                    "layoutType": "block",
-                    "desc": "组件的最外围的内外边距设置",
-                    "text": "组件内外边距",
-                    "bindKey": "box"
-                },
+                
                 {
                     "type": "inlineGroup",
                     "text": "宽高",
@@ -1032,16 +1274,23 @@
                     "default": "0px 0px 3px rgba(0,0,0,0.1)"
                 },
                 {
-                    "type": "border",
-                    "layoutType": "block",
-                    "text": "边框",
-                    "bindKey": "border"
-                },
-                {
                     "type": "font",
                     "layoutType": "block",
                     "text": "文字",
                     "bindKey": "font"
+                },
+                {
+                    "type": "box",
+                    "layoutType": "block",
+                    "desc": "组件的最外围的内外边距设置",
+                    "text": "组件内外边距",
+                    "bindKey": "box"
+                },
+                {
+                    "type": "border",
+                    "layoutType": "block",
+                    "text": "边框",
+                    "bindKey": "border"
                 }
             ]
         },

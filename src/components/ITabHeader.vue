@@ -1,8 +1,7 @@
 <template>
     <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" :idm-refresh-container="activeTab">
-        <div class="ITabHeader_app flex_start">
-            <div v-if="propData.showLeftIcon" class="header_line"></div>
-
+        <div class="ITabHeader_app">
+            
             <a-tabs class="idm_itableslayout" :activeKey="activeTab" :size="propData.size || 'default'" :tabPosition="propData.tabPosition || 'top'" :type="propData.type || 'line'"
                 :tabBarGutter="propData.tabBarGutter == 0 ? 0 : propData.tabBarGutter || null"
                 :animated="propData.animated !== false ? true : false" @change="changeCallback"
@@ -14,7 +13,19 @@
                         <div v-if="item.tabSlotFunction && item.tabSlotFunction.length > 0" v-html="getTabCustomRender(item)">
                         </div>
                         <template v-else>
-                            {{ item.tab }}
+                            <span class="flex_start">
+                                <div v-if="item.tabLeftShowType == '1'" class="header_line"></div>
+                                <div v-if="item.tabLeftShowType == '2'" class="header_icon">
+                                    <svg class="idm_button_svg_icon" v-if="item.leftIconSvg && item.leftIconSvg.length > 0" aria-hidden="true" >
+                                        <use :xlink:href="`#${item.leftIconSvg[0]}`"></use>
+                                    </svg >
+                                </div>
+                                <div v-if="item.tabLeftShowType == '3'" class="header_img">
+                                    <img v-if="item.leftImgSrc" :src="IDM.url.getWebPath(item.leftImgSrc)" />
+                                    <img v-else :src="IDM.url.getModuleAssetsWebPath(require('../assets/tab_left_img.png'),moduleObject)" />
+                                </div>
+                                <span>{{ item.tab }}</span>
+                            </span>
                         </template>
                         <label class="ant-tabs-tab-remind" v-show="item.cnt > 0" :class="{ 'ant-tabs-tab-remind-reddot': propData.remindShowDot && item.key != activeTab, }">
                             {{ item.cnt > propData.remindNumberMax && propData.remindNumberMax ? propData.remindNumberMax + "+" : item.cnt }}
@@ -151,7 +162,9 @@ export default {
                 tabBarGutter: 20,
                 animated: true,
                 bgColorChoose: null,
-                isShowMore: true
+                isShowMore: true,
+                showLeftIcon: true,
+                tabLeftShowType: '3'
             },
             //当前所有的tab集合
             allTabList: [
@@ -265,6 +278,8 @@ export default {
             this.convertAttrToStyleObjectLeftIcon();
             this.convertAttrToStyleObjectMoreIcon()
             this.convertThemeListAttrToStyleObject()
+            this.convertAttrToStyleObjectLeftLine()
+            this.convertAttrToStyleObjectLeftImg()
         },
         convertAttrToStyleObjectMoreIcon() {
             let styleObject = {};
@@ -282,7 +297,7 @@ export default {
                             break;
                         case "colorMoreIcon":
                             if (propData.colorMoreIcon && propData.colorMoreIcon.hex8) {
-                                styleObject["color"] = propData.colorMoreIcon.hex8;
+                                styleObject["color"] = propData.colorMoreIcon.hex8 + ' !important';
                             }
                             break;
                         case "moreIconTop":
@@ -319,6 +334,41 @@ export default {
             }
             IDM.setStyleToPageHead(this.moduleObject.id + ' .more .svg-icon',styleObject);
         },
+        convertAttrToStyleObjectLeftLine() {
+            let styleObject = {};
+            let propData = this.propData;
+            for (const key in propData) {
+                if (propData.hasOwnProperty.call(propData, key)) {
+                    const element = propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "widthLeftLine":
+                             styleObject['width'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
+                            break;
+                        case "heightLeftLine":
+                            styleObject['height'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
+                            break;
+                        case "boxLeftLine":
+                            IDM.style.setBoxStyle(styleObject,element)
+                            break;
+                        case "bgColorLeftLine":
+                            if (element && element.hex8) {
+                                styleObject["background-color"] = element.hex8;
+                            }
+                            break;
+                        case "widthLeftLinePositionY":
+                            styleObject['top'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
+                            break;
+                        case "widthLeftLinePositionX":
+                            styleObject['left'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
+                            break;
+                    }
+                }
+            }
+            IDM.setStyleToPageHead(this.moduleObject.id + ' .header_line',styleObject);
+        },
         convertAttrToStyleObjectLeftIcon() {
             let styleObject = {};
             let propData = this.propData;
@@ -334,37 +384,15 @@ export default {
                             break;
                         case "heightLeftIcon":
                             styleObject['height'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
+                            styleObject['line-height'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
+                            break;
+                        case "fontColorLeftIcon":
+                            if (element && element.hex8) {
+                                styleObject["color"] = element.hex8;
+                            }
                             break;
                         case "boxLeftIcon":
-                            if (element.marginTopVal) {
-                                styleObject["margin-top"] = `${element.marginTopVal}`;
-                            }
-                            if (element.marginRightVal) {
-                                styleObject["margin-right"] = `${element.marginRightVal}`;
-                            }
-                            if (element.marginBottomVal) {
-                                styleObject["margin-bottom"] = `${element.marginBottomVal}`;
-                            }
-                            if (element.marginLeftVal) {
-                                styleObject["margin-left"] = `${element.marginLeftVal}`;
-                            }
-                            if (element.paddingTopVal) {
-                                styleObject["padding-top"] = `${element.paddingTopVal}`;
-                            }
-                            if (element.paddingRightVal) {
-                                styleObject["padding-right"] = `${element.paddingRightVal}`;
-                            }
-                            if (element.paddingBottomVal) {
-                                styleObject["padding-bottom"] = `${element.paddingBottomVal}`;
-                            }
-                            if (element.paddingLeftVal) {
-                                styleObject["padding-left"] = `${element.paddingLeftVal}`;
-                            }
-                            break;
-                        case "bgColorLeftIcon":
-                            if (element && element.hex8) {
-                                styleObject["background-color"] = element.hex8;
-                            }
+                            IDM.style.setBoxStyle(styleObject,element)
                             break;
                         case "widthLeftIconPositionY":
                             styleObject['top'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
@@ -375,8 +403,38 @@ export default {
                     }
                 }
             }
-            // window.IDM.setStyleToPageHead(this.moduleObject.id + " .IFooterBar_app_right>.drag_container_outer", styleObject);
-            IDM.setStyleToPageHead(this.moduleObject.id + ' .header_line',styleObject);
+            IDM.setStyleToPageHead(this.moduleObject.id + ' .header_icon',styleObject);
+        },
+        convertAttrToStyleObjectLeftImg() {
+            let styleObject = {};
+            let propData = this.propData;
+            for (const key in propData) {
+                if (propData.hasOwnProperty.call(propData, key)) {
+                    const element = propData[key];
+                    if (!element && element !== false && element != 0) {
+                        continue;
+                    }
+                    switch (key) {
+                        case "widthLeftImg":
+                             styleObject['width'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
+                            break;
+                        case "heightLeftImg":
+                            styleObject['height'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
+                            styleObject['line-height'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
+                            break;
+                        case "boxLeftImg":
+                            IDM.style.setBoxStyle(styleObject,element)
+                            break;
+                        case "widthLeftImgPositionY":
+                            styleObject['top'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
+                            break;
+                        case "widthLeftImgPositionX":
+                            styleObject['left'] = this.getAdaptiveSize(element.inputVal) + element.selectVal;
+                            break;
+                    }
+                }
+            }
+            IDM.setStyleToPageHead(this.moduleObject.id + ' .header_img',styleObject);
         },
         /**
         * 提供父级组件调用的刷新prop数据组件
@@ -709,8 +767,11 @@ export default {
                 styleObject["background-position-y"] =
                     this.propData.positionY.inputVal + this.propData.positionY.selectVal;
             }
+            
             if ( this.propData.isHideTitleBorderBottom ) {
                 styleObjectTitle['border-bottom'] = 'none'
+            } else if ( this.propData.titleBorderColor && this.propData.titleBorderColor.hex8 ) {
+                styleObjectTitle['border-bottom'] = `1px solid ${this.propData.titleBorderColor.hex8}`
             } else {
                 styleObjectTitle['border-bottom'] = '1px solid #e8e8e8'
             }
@@ -1008,8 +1069,37 @@ export default {
         position: relative;
         background: #1B60A4;
     }
+    .header_icon{
+        position: relative;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        .idm_button_svg_icon{
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
+    }
+    .ant-tabs-content{
+        height: calc(100% - 52px);
+    }
+    .header_img{
+        position: relative;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
     .idm_itableslayout{
         width: 100%;
+        height: 100%;
+    }
+    .drag_container{
+        height: 100%;
+        overflow-y: auto;
     }
     .triangle{
         position: absolute;
