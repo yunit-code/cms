@@ -79,6 +79,25 @@
                     "display":"@[direction=='horizontal']"
                 },
                 {
+                    "type": "radio",
+                    "styleType": "radio",
+                    "layoutType": "inline",
+                    "text": "自适应",
+                    "desc":"自适应容器高度",
+                    "bindKey": "isAdaption",
+                    "default": false,
+                    "dictionary": [
+                        {
+                            "label": "是",
+                            "value": true
+                        },
+                        {
+                            "label": "否",
+                            "value": false
+                        }
+                    ]
+                },
+                {
                     "type": "select",
                     "layoutType": "inline",
                     "text": "标题位置",

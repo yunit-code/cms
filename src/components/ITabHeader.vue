@@ -54,7 +54,8 @@
                         </div>
                     </template>
                     <div @click="jumpMorePage" v-if="propData.isShowMore" class="more">
-                        <SvgIcon icon-class="more" ></SvgIcon>
+                        <SvgIcon v-if="(propData.showMoreType == '1' || propData.showMoreType == '2')" icon-class="more" ></SvgIcon>
+                        <span v-if="propData.showMoreType == '3'" class="text">更多</span>
                     </div>
                 </div>
             </a-tabs>
@@ -283,6 +284,7 @@ export default {
         },
         convertAttrToStyleObjectMoreIcon() {
             let styleObject = {};
+            let styleObjectText = {};
             let propData = this.propData;
             for (const key in propData) {
                 if (propData.hasOwnProperty.call(propData, key)) {
@@ -304,35 +306,15 @@ export default {
                             styleObject['top'] = element;
                             break;
                         case "boxMoreIcon":
-                            if (element.marginTopVal) {
-                                styleObject["margin-top"] = `${element.marginTopVal}`;
-                            }
-                            if (element.marginRightVal) {
-                                styleObject["margin-right"] = `${element.marginRightVal}`;
-                            }
-                            if (element.marginBottomVal) {
-                                styleObject["margin-bottom"] = `${element.marginBottomVal}`;
-                            }
-                            if (element.marginLeftVal) {
-                                styleObject["margin-left"] = `${element.marginLeftVal}`;
-                            }
-                            if (element.paddingTopVal) {
-                                styleObject["padding-top"] = `${element.paddingTopVal}`;
-                            }
-                            if (element.paddingRightVal) {
-                                styleObject["padding-right"] = `${element.paddingRightVal}`;
-                            }
-                            if (element.paddingBottomVal) {
-                                styleObject["padding-bottom"] = `${element.paddingBottomVal}`;
-                            }
-                            if (element.paddingLeftVal) {
-                                styleObject["padding-left"] = `${element.paddingLeftVal}`;
-                            }
+                            IDM.style.setBoxStyle(styleObject,element)
                             break;
+                        case "fontMoreText":
+                            IDM.style.setFontStyle(styleObjectText,element)
                     }
                 }
             }
             IDM.setStyleToPageHead(this.moduleObject.id + ' .more .svg-icon',styleObject);
+            IDM.setStyleToPageHead(this.moduleObject.id + ' .more .text',styleObjectText);
         },
         convertAttrToStyleObjectLeftLine() {
             let styleObject = {};
@@ -1057,10 +1039,15 @@ export default {
     position: relative;
     align-items: flex-start;
     .more{
+        padding-right: 0 !important;
         .svg-icon{
             position: relative;
             max-height: 20px !important;
             color: red;
+        }
+        .text{
+            display: inline-block;
+            height: 100%;
         }
     }
     .header_line{

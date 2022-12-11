@@ -44,6 +44,7 @@ export default {
             data_list: [ ],
             my_swiper: null,
             active_index: 0,
+            parentHeight: '',
         }
     },
     props: {
@@ -420,7 +421,11 @@ export default {
                             styleObject[key] = element;
                             break;
                         case "height":
-                            styleObject[key] = element;
+                            if ( this.propData.isAdaption && this.parentHeight ) {
+                                styleObject[key] = this.parentHeight + 'px';
+                            } else {
+                                styleObject[key] = element;
+                            }
                             break;
                         case "widthImg":
                             styleObjectSwiper['width'] = element;
@@ -598,6 +603,17 @@ export default {
          */
         receiveBroadcastMessage(object) {
             console.log("ISwiper组件收到消息", object)
+            if (object && object.type == "regionResize" && object.message && object.message.gridEleTarget) {
+                let gridEleTarget = object.message.gridEleTarget;
+                if (gridEleTarget && gridEleTarget.offsetHeight) {
+                    this.parentHeight = gridEleTarget.offsetHeight;
+                    this.$nextTick(() => {
+                        if ( this.propData.isAdaption && gridEleTarget.offsetHeight ) {
+                            this.convertAttrToStyleObject()
+                        } 
+                    })
+                }
+            }
         },
         /**
          * 组件通信：发送消息的方法
