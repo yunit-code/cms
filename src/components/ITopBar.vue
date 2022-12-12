@@ -88,7 +88,7 @@
                     </div>
                     <div class="user_block flex_end">
                         <div class="user_name flex_end index_btn" v-if="propData.isIndexBtn">
-                            <el-button type="primary" style="margin-right: 10px;" @click="toIndex">网址首页</el-button>
+                            <el-button type="primary" style="margin-right: 10px;" @click="toIndex">{{propData.indexBtnText}}</el-button>
                         </div>
                         <div class="user_name flex_end" v-if="isLogin">
                             {{ propData.persdonWelcomText }}<span class="user_name_text">{{ user_info.username }}</span>
@@ -182,6 +182,7 @@ export default {
         return {
             moduleObject: {},
             propData: this.$root.propData.compositeAttr || {
+                indexBtnText: "办公首页",
                 isIndexBtn: true,
                 isIndexBtnUrl: "http://116.236.111.158:5480/DreamWeb_dqzb//p1000/idm/index.html?fid=1806201644570tT66TuONlPHZDVj4gN&step=0#/preview/22113017132490QIucUlnbKFWjxnM5A",
                 isIndexBtnType: "open",

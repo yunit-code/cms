@@ -227,6 +227,13 @@
                         {
                             "type": "input",
                             "layoutType": "block",
+                            "text": "按钮文字",
+                            "bindKey": "indexBtnText",
+                            "default": "办公首页"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "block",
                             "text": "首页按钮跳转链接",
                             "bindKey": "isIndexBtnUrl",
                             "default": "http://116.236.111.158:5480/DreamWeb_dqzb//p1000/idm/index.html?fid=1806201644570tT66TuONlPHZDVj4gN&step=0#/preview/22113017132490QIucUlnbKFWjxnM5A"
