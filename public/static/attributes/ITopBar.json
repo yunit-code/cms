@@ -25,7 +25,7 @@
                     "styleType": "radio",
                     "layoutType": "inline",
                     "text": "折叠图标",
-                    "desc":"是否显示折叠菜单按钮图标",
+                    "desc": "是否显示折叠菜单按钮图标",
                     "bindKey": "showMenuSwitch",
                     "default": true,
                     "dictionary": [
@@ -44,7 +44,7 @@
                     "styleType": "radio",
                     "layoutType": "inline",
                     "text": "显示动画",
-                    "desc":"菜单展开收缩时，是否运用动画效果",
+                    "desc": "菜单展开收缩时，是否运用动画效果",
                     "bindKey": "isMenuCollapseAnimation",
                     "default": true,
                     "dictionary": [
@@ -152,32 +152,53 @@
                     ]
                 },
                 {
-                    "type": "input",
-                    "layoutType": "inline",
-                    "text": "登录按钮跳转链接",
-                    "bindKey": "isLoginBtnUrl",
-                    "default": "http://116.236.111.158:5480/DreamWeb_dqzb",
-                    "display":"@[isLoginBtn]"
-                },
-                {
-                    "type": "radio",
-                    "styleType": "radio",
-                    "layoutType": "inline",
-                    "text": "登录页面打开方式",
-                    "desc": "登录页面打开方式",
-                    "bindKey": "isLoginBtnType",
-                    "default": "open",
-                    "dictionary": [
+                    "display": "@[isLoginBtn]",
+                    "text": "登录按钮设置",
+                    "type": "group",
+                    "children": [
                         {
-                            "label": "当前页打开",
-                            "value": "self"
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "登录按钮跳转链接",
+                            "bindKey": "isLoginBtnUrl",
+                            "default": "http://116.236.111.158:5480/DreamWeb_dqzb"
                         },
                         {
-                            "label": "新页面打开",
-                            "value": "open"
+                            "type": "radio",
+                            "styleType": "radio",
+                            "layoutType": "block",
+                            "text": "登录页面打开方式",
+                            "desc": "登录页面打开方式",
+                            "bindKey": "isLoginBtnType",
+                            "default": "open",
+                            "dictionary": [
+                                {
+                                    "label": "当前页打开",
+                                    "value": "self"
+                                },
+                                {
+                                    "label": "新页面打开",
+                                    "value": "open"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "colorPicker",
+                            "layoutType": "inline",
+                            "text": "背景色",
+                            "bindKey": "loginBtnColor",
+                            "placeholder": "请选择颜色",
+                            "default": {}
+                        },
+                        {
+                            "type": "colorPicker",
+                            "layoutType": "inline",
+                            "text": "悬浮色",
+                            "bindKey": "loginBtnHoverColor",
+                            "placeholder": "请选择颜色",
+                            "default": {}
                         }
-                    ],
-                    "display":"@[isLoginBtn]"
+                    ]
                 },
                 {
                     "type": "radio",
@@ -199,32 +220,53 @@
                     ]
                 },
                 {
-                    "type": "input",
-                    "layoutType": "inline",
-                    "text": "首页按钮跳转链接",
-                    "bindKey": "isIndexBtnUrl",
-                    "default": "http://116.236.111.158:5480/DreamWeb_dqzb//p1000/idm/index.html?fid=1806201644570tT66TuONlPHZDVj4gN&step=0#/preview/22113017132490QIucUlnbKFWjxnM5A",
-                    "display":"@[isIndexBtn]"
-                },
-                {
-                    "type": "radio",
-                    "styleType": "radio",
-                    "layoutType": "inline",
-                    "text": "登录页面打开方式",
-                    "desc": "登录页面打开方式",
-                    "bindKey": "isIndexBtnType",
-                    "default": "open",
-                    "dictionary": [
+                    "display": "@[isIndexBtn]",
+                    "text": "首页按钮设置",
+                    "type": "group",
+                    "children": [
                         {
-                            "label": "当前页打开",
-                            "value": "self"
+                            "type": "input",
+                            "layoutType": "block",
+                            "text": "首页按钮跳转链接",
+                            "bindKey": "isIndexBtnUrl",
+                            "default": "http://116.236.111.158:5480/DreamWeb_dqzb//p1000/idm/index.html?fid=1806201644570tT66TuONlPHZDVj4gN&step=0#/preview/22113017132490QIucUlnbKFWjxnM5A"
                         },
                         {
-                            "label": "新页面打开",
-                            "value": "open"
+                            "type": "radio",
+                            "styleType": "radio",
+                            "layoutType": "block",
+                            "text": "登录页面打开方式",
+                            "desc": "登录页面打开方式",
+                            "bindKey": "isIndexBtnType",
+                            "default": "open",
+                            "dictionary": [
+                                {
+                                    "label": "当前页打开",
+                                    "value": "self"
+                                },
+                                {
+                                    "label": "新页面打开",
+                                    "value": "open"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "colorPicker",
+                            "layoutType": "inline",
+                            "text": "背景色",
+                            "bindKey": "indexBtnColor",
+                            "placeholder": "请选择颜色",
+                            "default": {}
+                        },
+                        {
+                            "type": "colorPicker",
+                            "layoutType": "inline",
+                            "text": "悬浮色",
+                            "bindKey": "indexBtnHoverColor",
+                            "placeholder": "请选择颜色",
+                            "default": {}
                         }
-                    ],
-                    "display":"@[isIndexBtn]"
+                    ]
                 },
                 {
                     "type": "radio",
@@ -251,7 +293,7 @@
                     "text": "中间标语",
                     "bindKey": "title",
                     "default": "激励担当作为  推动高质量发展",
-                    "display":"@[isShowCenterTitle]"
+                    "display": "@[isShowCenterTitle]"
                 },
                 {
                     "type": "inputNumber",
@@ -266,8 +308,8 @@
                     "layoutType": "inline",
                     "text": "左侧内容",
                     "bindKey": "leftShowKey",
-                    "desc":"用于设置左侧显示的内容",
-                    "default":"1",
+                    "desc": "用于设置左侧显示的内容",
+                    "default": "1",
                     "dictionary": [
                         {
                             "label": "每日金句",
@@ -330,7 +372,7 @@
                             "value": "hover"
                         }
                     ],
-                    "display":"@[showPersonAction]"
+                    "display": "@[showPersonAction]"
                 }
             ]
         },
@@ -423,7 +465,6 @@
                 }
             ]
         },
-
         {
             "type": "group",
             "text": "已打开tab属性",
@@ -456,7 +497,7 @@
                     "layoutType": "inline",
                     "text": "搜索图标",
                     "bindKey": "iconSvgSearch",
-                    "desc":"搜索按钮的图标",
+                    "desc": "搜索按钮的图标",
                     "placeholder": "请选择"
                 },
                 {
@@ -464,7 +505,7 @@
                     "layoutType": "inline",
                     "text": "图标大小",
                     "bindKey": "iconSvgFontSearch",
-                    "desc":"搜索按钮的图标大小",
+                    "desc": "搜索按钮的图标大小",
                     "placeholder": "请输入，示例：16px"
                 },
                 {
@@ -472,7 +513,7 @@
                     "layoutType": "inline",
                     "text": "提示信息",
                     "bindKey": "searchPlaceholder",
-                    "desc":"搜索框提示信息",
+                    "desc": "搜索框提示信息",
                     "default": "请输入搜索内容"
                 },
                 {
@@ -504,21 +545,21 @@
                     "bindKey": "customFunctionSearch",
                     "desc": "获取动态文本内容、自定义接口回调、页面统一接口回调的时候会调用此方法，返回数据格式为字符串，接收参数：{...自定义,interfaceData:自定义接口或页面统一接口的返回结果,expressData:表达式替换后的结果}",
                     "multiple": false,
-                    "display":"@[searchType == '3']"
+                    "display": "@[searchType == '3']"
                 },
                 {
                     "type": "input",
                     "layoutType": "block",
                     "text": "搜索框查询跳转地址",
                     "bindKey": "searchUrl",
-                    "desc":"用于搜索跳转的页面的接口，更多详细使用点击？查看"
+                    "desc": "用于搜索跳转的页面的接口，更多详细使用点击？查看"
                 },
                 {
                     "type": "input",
                     "layoutType": "inline",
                     "text": "页签名称",
                     "bindKey": "searchOpenTabName",
-                    "desc":"搜索框打开的页签名称，如果为空则会按照类型分别为综合查询、全文检索",
+                    "desc": "搜索框打开的页签名称，如果为空则会按照类型分别为综合查询、全文检索",
                     "default": "全站检索"
                 }
             ],
@@ -552,8 +593,8 @@
                     "layoutType": "inline",
                     "text": "数据来源",
                     "bindKey": "userLogoApiResource",
-                    "desc":"用于设置用户头像数据的获取来源，可选用户信息方式或者自定义接口方式",
-                    "default":"1",
+                    "desc": "用于设置用户头像数据的获取来源，可选用户信息方式或者自定义接口方式",
+                    "default": "1",
                     "dictionary": [
                         {
                             "label": "用户信息",
@@ -571,7 +612,7 @@
                     "layoutType": "block",
                     "text": "用户头像接口地址",
                     "bindKey": "userLogoApiUrl",
-                    "display":"@[userLogoApiResource == '2'&&isShowRealUserLogo]"
+                    "display": "@[userLogoApiResource == '2'&&isShowRealUserLogo]"
                 },
                 {
                     "type": "input",
@@ -581,7 +622,7 @@
                     "desc": "根据用户头像接口返回数据格式指定结果集的字段，若它的值为{data:{userLogo:''}}，则这里应该填写userLogo",
                     "default": "userLogo",
                     "placeholder": "示例:userLogo",
-                    "display":"@[isShowRealUserLogo]"
+                    "display": "@[isShowRealUserLogo]"
                 },
                 {
                     "type": "actionSelect",
@@ -605,16 +646,16 @@
                     "layoutType": "inline",
                     "text": "按钮图标",
                     "bindKey": "iconSvg",
-                    "desc":"设置按钮的图标",
+                    "desc": "设置按钮的图标",
                     "placeholder": "请选择"
                 },
                 {
                     "type": "input",
                     "layoutType": "inline",
                     "text": "按钮文字",
-                    "desc":"设置按钮显示的文字",
+                    "desc": "设置按钮显示的文字",
                     "bindKey": "buttonText",
-                    "placeholder":"示例：下载"
+                    "placeholder": "示例：下载"
                 },
                 {
                     "type": "select",
@@ -638,9 +679,9 @@
                     "type": "input",
                     "layoutType": "inline",
                     "text": "悬浮提示",
-                    "desc":"鼠标悬浮时提示信息",
+                    "desc": "鼠标悬浮时提示信息",
                     "bindKey": "hoverText",
-                    "placeholder":"示例：下载"
+                    "placeholder": "示例：下载"
                 },
                 {
                     "type": "input",
@@ -717,14 +758,14 @@
                     "text": "图标颜色",
                     "bindKey": "operateListBackgroundColor",
                     "default": "",
-                    "display":"@[operateListStyle=='3']"
+                    "display": "@[operateListStyle=='3']"
                 },
                 {
                     "type": "select",
                     "layoutType": "inline",
                     "text": "事件类型",
                     "bindKey": "buttonHandleType",
-                    "desc":"点击按钮触发的操作类型，可以选择内置的处理函数，也可以使用自定义编写函数",
+                    "desc": "点击按钮触发的操作类型，可以选择内置的处理函数，也可以使用自定义编写函数",
                     "dictionary": [
                         {
                             "label": "无事件",
@@ -750,7 +791,7 @@
                     "layoutType": "block",
                     "text": "事件自定义函数",
                     "bindKey": "buttonCustomFunction",
-                    "display":"@[buttonHandleType=='custom']",
+                    "display": "@[buttonHandleType=='custom']",
                     "desc": "当点击按钮的时候会调用此函数，接收参数格式为{customParam:自定义的,currentKey,configObject:当前按钮配置项,fieldConfigObject:当前字段配置项,itemObject:整条数据对象,callback:处理完成要刷新tab的回调方法，调用并传reloadTabKeys即可刷新指定的tab}",
                     "multiple": true
                 },
@@ -774,25 +815,25 @@
                     "layoutType": "inline",
                     "text": "按钮图标",
                     "bindKey": "iconSvgEntrust",
-                    "desc":"设置按钮的图标",
+                    "desc": "设置按钮的图标",
                     "placeholder": "请选择"
                 },
                 {
                     "type": "input",
                     "layoutType": "inline",
                     "text": "按钮文字",
-                    "desc":"设置按钮显示的文字",
+                    "desc": "设置按钮显示的文字",
                     "bindKey": "buttonTextEntrust",
-                    "placeholder":"示例：委托状态",
+                    "placeholder": "示例：委托状态",
                     "default": "委托状态"
                 },
                 {
                     "type": "input",
                     "layoutType": "inline",
                     "text": "暂无提示",
-                    "desc":"没有委托信息时，显示的内容",
+                    "desc": "没有委托信息时，显示的内容",
                     "bindKey": "noDataTextEntrust",
-                    "placeholder":"暂无委托信息",
+                    "placeholder": "暂无委托信息",
                     "default": "暂无委托信息"
                 },
                 {
@@ -814,7 +855,7 @@
                     ]
                 }
             ],
-            "display":"@[isShowEntrust]"
+            "display": "@[isShowEntrust]"
         },
         {
             "type": "table",
@@ -828,16 +869,16 @@
                     "layoutType": "inline",
                     "text": "按钮图标",
                     "bindKey": "iconSvg",
-                    "desc":"设置按钮的图标",
+                    "desc": "设置按钮的图标",
                     "placeholder": "请选择"
                 },
                 {
                     "type": "input",
                     "layoutType": "inline",
                     "text": "按钮文字",
-                    "desc":"设置按钮显示的文字",
+                    "desc": "设置按钮显示的文字",
                     "bindKey": "buttonText",
-                    "placeholder":"示例：切换主题"
+                    "placeholder": "示例：切换主题"
                 },
                 {
                     "type": "colorPicker",
@@ -864,7 +905,7 @@
                     "layoutType": "inline",
                     "text": "事件类型",
                     "bindKey": "buttonHandleType",
-                    "desc":"点击按钮触发的操作类型，可以选择内置的处理函数，也可以使用自定义编写函数",
+                    "desc": "点击按钮触发的操作类型，可以选择内置的处理函数，也可以使用自定义编写函数",
                     "dictionary": [
                         {
                             "label": "无事件",
@@ -894,7 +935,7 @@
                     "layoutType": "block",
                     "text": "事件自定义函数",
                     "bindKey": "buttonCustomFunction",
-                    "display":"@[buttonHandleType=='custom']",
+                    "display": "@[buttonHandleType=='custom']",
                     "desc": "当点击按钮的时候会调用此函数，接收参数格式为{customParam:自定义的,currentKey,configObject:当前按钮配置项,fieldConfigObject:当前字段配置项,itemObject:整条数据对象,callback:处理完成要刷新tab的回调方法，调用并传reloadTabKeys即可刷新指定的tab}",
                     "multiple": true
                 }
@@ -1186,8 +1227,8 @@
                             "layoutType": "block",
                             "text": "背景显示方式",
                             "bindKey": "backgroundType",
-                            "desc":"用于设置容器背景样式",
-                            "default":"1",
+                            "desc": "用于设置容器背景样式",
+                            "default": "1",
                             "dictionary": [
                                 {
                                     "label": "使用背景图片",
@@ -1210,7 +1251,7 @@
                             "bindKey": "bgColor",
                             "placeholder": "请选择颜色",
                             "default": {},
-                            "display":"@[backgroundType=='3']"
+                            "display": "@[backgroundType=='3']"
                         }
                     ]
                 },
@@ -1218,9 +1259,9 @@
                     "type": "input",
                     "layoutType": "inline",
                     "text": "阴影样式",
-                    "desc":"填写格式如下：10px 10px 5px #888888，更多请点击查看详细填写说明",
+                    "desc": "填写格式如下：10px 10px 5px #888888，更多请点击查看详细填写说明",
                     "bindKey": "boxShadow",
-                    "default":"0px 0px 3px rgba(0,0,0,0.1)"
+                    "default": "0px 0px 3px rgba(0,0,0,0.1)"
                 },
                 {
                     "type": "box",
@@ -1242,7 +1283,7 @@
             "desc": "点击？查看主题设置用法指南",
             "bindKey": "themeList",
             "tabText": "主题[index]",
-            "default":[
+            "default": [
                 {
                     "key": "blue",
                     "mainColor": {
@@ -1283,9 +1324,9 @@
                     "layoutType": "inline",
                     "text": "主题标识",
                     "bindKey": "key",
-                    "desc":"用于设置主题的标识，此项需要搭配自定义开发切换主题的功能，例如：蓝色标识为blue，用户切换主题的时候存储到数据库中的标识为blue，则这里选择blue",
-                    "default":"",
-                    "placeholder":"例如：blue",
+                    "desc": "用于设置主题的标识，此项需要搭配自定义开发切换主题的功能，例如：蓝色标识为blue，用户切换主题的时候存储到数据库中的标识为blue，则这里选择blue",
+                    "default": "",
+                    "placeholder": "例如：blue",
                     "ctrlAttrObject": {
                         "mode": "combobox"
                     },
@@ -1309,9 +1350,9 @@
                     "layoutType": "inline",
                     "text": "主要颜色",
                     "bindKey": "mainColor",
-                    "desc":"主题的主要颜色",
+                    "desc": "主题的主要颜色",
                     "placeholder": "请选择颜色",
-                    "display":"@[key]"
+                    "display": "@[key]"
                 },
                 {
                     "type": "colorPicker",

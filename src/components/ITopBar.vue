@@ -87,13 +87,13 @@
                         </a-popover>
                     </div>
                     <div class="user_block flex_end">
-                        <div class="user_name flex_end" v-if="propData.isIndexBtn">
+                        <div class="user_name flex_end index_btn" v-if="propData.isIndexBtn">
                             <el-button type="primary" style="margin-right: 10px;" @click="toIndex">网址首页</el-button>
                         </div>
                         <div class="user_name flex_end" v-if="isLogin">
                             {{ propData.persdonWelcomText }}<span class="user_name_text">{{ user_info.username }}</span>
                         </div>
-                        <div class="user_name flex_end" v-if="!isLogin && propData.isLoginBtn">
+                        <div class="user_name flex_end login_btn" v-if="!isLogin && propData.isLoginBtn">
                             <el-button type="primary" @click="toLogin">登录</el-button>
                         </div>
                         <a-popover v-if="isLogin" v-model="action_visible" overlayClassName="user_block_popover" :trigger="propData.showPersonActionEvent" placement="bottomRight" arrow-point-at-center>
@@ -1223,6 +1223,10 @@ export default {
             var styleObjectTabPosition = {};
             var styleObjectLogo = {};
             var styleObjectCenterTitle = {};
+            var styleObjectLoginBtn = {};
+            var styleObjectLoginHoverBtn = {};
+            var styleObjectIndexBtn = {};
+            var styleObjectIndexHoverBtn = {};
             if ( this.propData.backgroundType == '3' ) {
                 let element = this.propData.bgColor;
                 if (element && element.hex8) {
@@ -1435,6 +1439,7 @@ export default {
                                 styleObjectTabBg["background-color"] = IDM.hex8ToRgbaString(element.hex8);
                             }
                             break;
+
                         case "fontInput":
                             styleObjectInput["font-family"] = element.fontFamily;
                             if (element.fontColors.hex8) {
@@ -1500,6 +1505,27 @@ export default {
                         case 'logoImgHeight':
                             styleObjectLogo['height'] = element;
                             break;
+
+                        case "loginBtnColor":
+                            if (element && element.hex8) {
+                                styleObjectLoginBtn["background-color"] = IDM.hex8ToRgbaString(element.hex8);
+                            }
+                            break;
+                        case "loginBtnHoverColor":
+                            if (element && element.hex8) {
+                                styleObjectLoginHoverBtn["background-color"] = IDM.hex8ToRgbaString(element.hex8);
+                            }
+                            break;
+                        case "indexBtnColor":
+                            if (element && element.hex8) {
+                                styleObjectIndexBtn["background-color"] = IDM.hex8ToRgbaString(element.hex8);
+                            }
+                            break;
+                        case "indexBtnHoverColor":
+                            if (element && element.hex8) {
+                                styleObjectIndexHoverBtn["background-color"] = IDM.hex8ToRgbaString(element.hex8);
+                            }
+                            break;
                     }
                 }
             }
@@ -1514,6 +1540,12 @@ export default {
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .tab_block', styleObjectTabPosition);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .logo_block img', styleObjectLogo);
             window.IDM.setStyleToPageHead(this.moduleObject.id + ' .ITopBar_app_center', styleObjectCenterTitle);
+
+            IDM.setStyleToPageHead( this.moduleObject.id + " .login_btn .el-button--primary", styleObjectLoginBtn );
+            IDM.setStyleToPageHead( this.moduleObject.id + " .login_btn .el-button--primary:hover", styleObjectLoginHoverBtn );
+            IDM.setStyleToPageHead( this.moduleObject.id + " .index_btn .el-button--primary", styleObjectIndexBtn );
+            IDM.setStyleToPageHead( this.moduleObject.id + " .index_btn .el-button--primary:hover", styleObjectIndexHoverBtn );
+
 
             this.convertThemeListAttrToStyleObject()
         },
