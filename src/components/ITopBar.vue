@@ -1510,21 +1510,25 @@ export default {
                         case "loginBtnColor":
                             if (element && element.hex8) {
                                 styleObjectLoginBtn["background-color"] = IDM.hex8ToRgbaString(element.hex8);
+                                styleObjectLoginBtn["border-color"] = IDM.hex8ToRgbaString(element.hex8);
                             }
                             break;
                         case "loginBtnHoverColor":
                             if (element && element.hex8) {
                                 styleObjectLoginHoverBtn["background-color"] = IDM.hex8ToRgbaString(element.hex8);
+                                styleObjectLoginHoverBtn["border-color"] = IDM.hex8ToRgbaString(element.hex8);
                             }
                             break;
                         case "indexBtnColor":
                             if (element && element.hex8) {
                                 styleObjectIndexBtn["background-color"] = IDM.hex8ToRgbaString(element.hex8);
+                                styleObjectIndexBtn["border-color"] = IDM.hex8ToRgbaString(element.hex8);
                             }
                             break;
                         case "indexBtnHoverColor":
                             if (element && element.hex8) {
                                 styleObjectIndexHoverBtn["background-color"] = IDM.hex8ToRgbaString(element.hex8);
+                                styleObjectIndexHoverBtn["border-color"] = IDM.hex8ToRgbaString(element.hex8);
                             }
                             break;
                     }
