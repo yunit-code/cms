@@ -1,5 +1,5 @@
 <template>
-    <div idm-ctrl="idm_module" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" :idm-refresh-container="activeTab">
+    <div idm-ctrl="idm_module" ref="module_ref" :id="moduleObject.id" :idm-ctrl-id="moduleObject.id" :idm-refresh-container="activeTab">
         <div class="ITabHeader_app">
             
             <a-tabs class="idm_itableslayout" :activeKey="activeTab" :size="propData.size || 'default'" :tabPosition="propData.tabPosition || 'top'" :type="propData.type || 'line'"
@@ -204,6 +204,7 @@ export default {
         //赋值给window提供跨页面调用
         this.$nextTick(function (params) {
             this.moduleObject && this.moduleObject.packageid ? (window[this.moduleObject.packageid] = this) : null;
+            this.resizeContentWrapperHeight()
         });
     },
     methods: {
@@ -1006,6 +1007,46 @@ export default {
         nextClickCallback() {
             this.changeEventFunHandle("nextClickFunction");
         },
+        resizeContentWrapperHeight(wrapperHeight) {
+            let moduleHeight = this.propData.isAdaption ? $("#" + this.moduleObject.packageid).parents(".fsl-region-element").height() : this.propData.height;
+            if ( this.propData.isAdaption && (wrapperHeight || moduleHeight) ) {
+                //自适应父级容器
+                moduleHeight = wrapperHeight || moduleHeight;
+
+                //如果自适应则要减去上margin和下margin(因为margin、padding百分比都是相对父级宽度，所以要计算出实际的宽度值)
+                //父级宽度值未知的，因为组件的宽度是100%显示的
+                //所以计算公式为：(当前组件的宽度+左右margin实际数值)/(100-左右margin百分比总和)*100=实际宽度
+                let iAttrArray = ["marginLeftVal", "marginRightVal"];
+                let marginNumber = 0, marginRatio = 0;
+                iAttrArray.forEach((item) => {
+                    if ( this.propData.box && this.propData.box[item] && this.propData.box[item].indexOf("%") > -1 ) {
+                        //用宽度计算出实际的px
+                        marginRatio += parseFloat(this.propData.box[item].replace("%", ""));
+                    } else if (this.propData.box && this.propData.box[item]) {
+                        marginNumber += parseFloat( this.propData.box[item].replace("px", "") );
+                    }
+                });
+                let module_width = this.$refs.module_ref.offsetWidth;
+                //实际的100%的宽度
+                const module_width_100 = ((module_width + marginNumber) / (100 - marginRatio)) * 100;
+
+                let moduleTBMarginNumber = 0;
+                iAttrArray = ["marginTopVal", "marginBottomVal"];
+                iAttrArray.forEach((item) => {
+                    if (this.propData.box && this.propData.box[item]) {
+                        if (this.propData.box[item].indexOf("%") > -1) {
+                            //用宽度计算出实际的px
+                            moduleTBMarginNumber = moduleTBMarginNumber + (parseFloat(this.propData.box[item].replace("%", "")) / 100) * module_width_100;
+                        } else {
+                            moduleTBMarginNumber = moduleTBMarginNumber + parseFloat(this.propData.box[item].replace("px", ""));
+                        }
+                    }
+                });
+                moduleHeight = moduleHeight - moduleTBMarginNumber - 3;
+            }
+            this.parentHeight = moduleHeight;
+            this.convertAttrToStyleObject()
+        },
         /**
         * 组件通信：接收消息的方法
         */
@@ -1017,7 +1058,7 @@ export default {
                     this.parentHeight = gridEleTarget.offsetHeight;
                     this.$nextTick(() => {
                         if ( this.propData.isAdaption && gridEleTarget.offsetHeight ) {
-                            this.convertAttrToStyleObject()
+                            this.resizeContentWrapperHeight(gridEleTarget.offsetHeight);
                         } 
                     })
                 }

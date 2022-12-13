@@ -433,7 +433,7 @@ export default {
                     border-right: none;
                 }
                 .grid_list_main_list{
-                    padding-right: 0;
+                    padding: 0 0px 0 0 !important;
                 }
             }
         }

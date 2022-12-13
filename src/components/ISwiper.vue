@@ -422,7 +422,7 @@ export default {
                             break;
                         case "height":
                             if ( this.propData.isAdaption && this.parentHeight ) {
-                                styleObject[key] = this.parentHeight + 'px';
+                                styleObject[key] = (this.parentHeight - 3) + 'px';
                             } else {
                                 styleObject[key] = element;
                             }
