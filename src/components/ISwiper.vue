@@ -182,7 +182,7 @@ export default {
                     console.log('error',error)
                 })
             } else {
-                that.data_list = that.getMockData()
+                that.getMockData()
                 if ( this.moduleObject.env != 'develop' ) {
                     this.$nextTick(() => {
                         this.initSwiper()
