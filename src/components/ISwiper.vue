@@ -3,18 +3,18 @@
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <div v-for="(item) in data_list" :key="item.id" class="swiper-slide">
-                    <img @click="jumpPage(item)" v-if="item.image" :src="item.image" />
+                    <img @click="jumpPage(item)" v-if="item[propData.dataFiledImage ? propData.dataFiledImage : 'image']" :src="item[propData.dataFiledImage ? propData.dataFiledImage : 'image']" />
                 </div>
             </div>
             <div v-if="propData.direction == 'horizontal'" class="swiper-pagination"></div>
         </div>
         <div v-if="propData.direction == 'horizontal' && propData.showTitle" class="describe_horizontal" :class="propData.titlePosition == 'inner' ? 'describe_horizontal_inner' : 'describe_horizontal_outer'">
-            <div class="title">{{ data_list[this.active_index] ? data_list[this.active_index].title : '' }}</div>
-            <div v-if="propData.showTitleTime" class="time">{{ data_list[this.active_index] ? data_list[this.active_index].time : '' }}</div>
+            <div class="title">{{ data_list[this.active_index] ? data_list[this.active_index][propData.dataFiledTitle ? propData.dataFiledTitle : 'title'] : '' }}</div>
+            <div v-if="propData.showTitleTime" class="time">{{ data_list[this.active_index] ? data_list[this.active_index][propData.dataFiledTime ? propData.dataFiledTime : 'time'] : '' }}</div>
         </div>
         <div v-if="propData.direction == 'vertical' && propData.showTitle" class="describe_vertical">
             <div v-for="(item,index) in data_list" @click.stop="onClickDescribe(item,index)" :key="index" class="describe_list" :class="index == active_index ? 'describe_list_active' : ''">
-                {{ item.title }}
+                {{ item[propData.dataFiledTitle ? propData.dataFiledTitle : 'title'] }}
             </div>
         </div>
     </div>
@@ -88,28 +88,31 @@ export default {
             let url = IDM.url.getWebPath(item.jumpUrl);
             window.open(url, this.propData.jumpStyle || '_self')
         },
+        getMockData() {
+            let data_list = [
+                {
+                    image: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+                    title: '1-习近平：在庆祝中国共产党成立100周年大会上的讲话'
+                },
+                {
+                    image: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
+                    title: '2-习近平：在庆祝中国共产党成立100周年大会上的讲话'
+                },
+                {
+                    image: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
+                    title: '3-习近平：在庆祝中国共产党成立100周年大会上的讲话'
+                }
+            ];
+            if ( this.propData.limit ) {
+                this.data_list = data_list.splice(0,parseInt(this.propData.limit));
+            } else {
+                this.data_list = data_list;
+            }
+        },
         getSwiperList() {
             console.log('获取swiper数据')
-            if( (!this.propData.selectColumn) || (!this.propData.selectColumn.length) || !this.propData.customInterfaceUrl ){
-                let data_list = [
-                    {
-                        image: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-                        title: '1-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                    },
-                    {
-                        image: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-                        title: '2-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                    },
-                    {
-                        image: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-                        title: '3-习近平：在庆祝中国共产党成立100周年大会上的讲话'
-                    }
-                ];
-                if ( this.propData.limit ) {
-                    this.data_list = data_list.splice(0,parseInt(this.propData.limit));
-                } else {
-                    this.data_list = data_list;
-                }
+            if( this.propData.dataSourceType == 'customInterface' && ((!this.propData.selectColumn) || (!this.propData.selectColumn.length) || !this.propData.customInterfaceUrl) ){
+                this.getMockData()
                 if ( this.moduleObject.env != 'develop' ) {
                     this.$nextTick(() => {
                         this.initSwiper()
@@ -117,6 +120,13 @@ export default {
                 }
                 return;
             }
+            if ( this.propData.dataSourceType == 'dataSource' ) {
+                this.getDataDataSource()
+            } else {
+                this.getDataCustomInterface()
+            }
+        },
+        getDataCustomInterface() {
             let urlParam = this.commonParam()
             let columnId = '';
             let columnId_arr = [];
@@ -143,6 +153,42 @@ export default {
                     IDM.message.error(res.data.message);
                 }
             })
+        },
+        getDataDataSource() {
+            let urlParam = this.commonParam()
+            let that = this;
+            if ( this.propData.dataSource && this.propData.dataSource.length ) {
+                IDM.datasource.request(this.propData.dataSource[0].id,{
+                    moduleObject:this.moduleObject,
+                    param:{
+                        pageId: urlParam.pageId,
+                        componentId: this.moduleObject.comId,
+                        limit: this.propData.limit
+                    }
+                },function(res){
+                    console.log('grid组件获取数据++++++++',res)
+                    if ( res && res.length ) {
+                        that.data_list = res;
+                    } else {
+                        that.getMockData()
+                    }
+                    if ( that.moduleObject.env != 'develop' ) {
+                        that.$nextTick(() => {
+                            that.initSwiper()
+                        })
+                    }
+                },function(error){
+                    //这里是请求失败的返回结果
+                    console.log('error',error)
+                })
+            } else {
+                that.data_list = that.getMockData()
+                if ( this.moduleObject.env != 'develop' ) {
+                    this.$nextTick(() => {
+                        this.initSwiper()
+                    })
+                }
+            }
         },
         updateSwiper() {
             if ( this.my_swiper ) {

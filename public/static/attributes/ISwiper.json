@@ -576,12 +576,30 @@
             "desc": "点击？查看高级设置用法指南",
             "children": [
                 {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "数据来源",
+                    "bindKey": "dataSourceType",
+                    "dictionary": [
+                        {
+                            "label": "自定义接口",
+                            "value": "customInterface"
+                        },
+                        {
+                            "label": "数据源",
+                            "value": "dataSource"
+                        }
+                    ],
+                    "default": "customInterface"
+                },
+                {
                     "type": "input",
                     "layoutType": "inline",
                     "text": "接口地址",
                     "bindKey": "customInterfaceUrl",
                     "desc": "用于获取数据源的接口地址，请按照统一标准的返回格式返回文本数据，格式如下：{\"code\":\"200\",\"data\":\"\",...}",
-                    "default": "/ctrl/website/api/columnlist"
+                    "default": "/ctrl/website/api/columnlist",
+                    "display":"@[dataSourceType=='customInterface']"
                 },
                 {
                     "type": "textarea",
@@ -590,7 +608,44 @@
                     "bindKey": "dataFiled",
                     "desc": "根据接口返回数据格式指定结果集的字段，比如结果集名为resultData（自定义接口忽略）且它的值为{data:{filedName:[{\"text\":\"\",\"value\":\"\",\"check\":true}]}}，则这里应该填写data.filedName",
                     "default": "",
-                    "placeholder": "示例：data.filedName 或者 [0].data[0].filedName"
+                    "placeholder": "示例：data.filedName 或者 [0].data[0].filedName",
+                    "display":"@[dataSourceType=='customInterface']"
+                },
+                {
+                    "type": "dataSourceSelect",
+                    "layoutType": "inline",
+                    "text": "数据源",
+                    "bindKey": "dataSource",
+                    "display":"@[dataSourceType=='dataSource']"
+                },
+                {
+                    "type":"group",
+                    "text":"字段设置",
+                    "children":[
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "图片字段",
+                            "bindKey": "dataFiledImage",
+                            "desc": "轮播图图片url所对应的字段",
+                            "default": "image"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "标题字段",
+                            "bindKey": "dataFiledTitle",
+                            "desc": "轮播图标题所对应的字段",
+                            "default": "title"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "时间字段",
+                            "bindKey": "dataFiledTime",
+                            "default": "time"
+                        }
+                    ]
                 }
             ]
         }
