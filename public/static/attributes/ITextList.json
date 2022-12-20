@@ -841,10 +841,36 @@
                     ]
                 },
                 {
+                    "type": "select",
+                    "layoutType": "inline",
+                    "text": "数据模式",
+                    "bindKey": "dataSourceType",
+                    "default": "customInterface",
+                    "dictionary": [
+                        {
+                            "label": "数据源",
+                            "value": "dataSource"
+                        },
+                        {
+                            "label": "自定义接口",
+                            "value": "customInterface"
+                        }
+                    ]
+                },
+                {
+                    "type": "dataSourceSelect",
+                    "layoutType": "inline",
+                    "text": "数据源",
+                    "display": "@[dataSourceType == 'dataSource']",
+                    "bindKey": "dataSource",
+                    "desc": "组件数据源，详细用法见文档"
+                },
+                {
                     "type": "treeSelect",
                     "layoutType": "inline",
                     "text": "选择栏目",
                     "bindKey": "selectColumn",
+                    "display": "@[dataSourceType == 'customInterface']",
                     "dataSourceUrl": "/ctrl/website/api/channelTree",
                     "default": "",
                     "openGroup": true
@@ -854,6 +880,7 @@
                     "layoutType": "inline",
                     "text": "接口地址",
                     "bindKey": "customInterfaceUrl",
+                    "display": "@[dataSourceType == 'customInterface']",
                     "desc": "用于获取数据源的接口地址，请按照统一标准的返回格式返回文本数据，格式如下：{\"code\":\"200\",\"data\":\"\",...}",
                     "default": "/ctrl/website/api/columnlist"
                 }

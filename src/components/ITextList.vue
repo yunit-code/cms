@@ -4,45 +4,22 @@
             <div class="text-list-up-content">{{ componentData.title }}</div>
         </div>
         <div @click="clickProps($event)">
-            <VueScroll
-                v-show="propData.isScroll"
-                ref="seamlessScroll"
-                class="idm-text-list-wrap"
-                :class-option="scrollOption"
-                :data="componentData.rows"
-            >
-                <div
-                    v-for="(item, index) in componentData.rows"
-                    :key="index"
-                    :id="index + 1"
-                    :data-obj="JSON.stringify(item)"
-                    class="text-list-item cursor-p"
-                >
+            <VueScroll v-show="propData.isScroll" ref="seamlessScroll" class="idm-text-list-wrap"
+                :class-option="scrollOption" :data="componentData.rows">
+                <div v-for="(item, index) in componentData.rows" :key="index" :id="index + 1"
+                    :data-obj="JSON.stringify(item)" class="text-list-item cursor-p">
                     <div class="d-flex" :class="[propData.isTimeWrap ? '' : 'align-c']">
-                        <div
-                            class="d-flex align-c text-list-left"
-                            v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'"
-                        >
-                            <svg
-                                v-if="propData.titleIcon && propData.titleIcon.length"
-                                class="text-list-left-icon"
-                                aria-hidden="true"
-                                :data-obj="JSON.stringify(item)"
-                            >
+                        <div class="d-flex align-c text-list-left"
+                            v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'">
+                            <svg v-if="propData.titleIcon && propData.titleIcon.length" class="text-list-left-icon"
+                                aria-hidden="true" :data-obj="JSON.stringify(item)">
                                 <use :data-obj="JSON.stringify(item)" :xlink:href="`#${propData.titleIcon[0]}`"></use>
                             </svg>
-                            <svg-icon
-                                :data-obj="JSON.stringify(item)"
-                                v-else
-                                icon-class="yuan"
-                                className="text-list-left-icon"
-                            ></svg-icon>
+                            <svg-icon :data-obj="JSON.stringify(item)" v-else icon-class="yuan"
+                                className="text-list-left-icon"></svg-icon>
                         </div>
-                        <div
-                            :data-obj="JSON.stringify(item)"
-                            v-if="propData.styleType === 'timeAndText'"
-                            class="text-list-time d-flex align-c"
-                        >
+                        <div :data-obj="JSON.stringify(item)" v-if="propData.styleType === 'timeAndText'"
+                            class="text-list-time d-flex align-c">
                             {{ item.time }} |
                         </div>
                         <div class="flex-1 d-flex align-c">
@@ -50,47 +27,30 @@
                                 {{ item.title }}
                             </div>
                         </div>
-                        <div
-                            :data-obj="JSON.stringify(item)"
-                            v-if="
-                                !propData.isTimeWrap &&
-                                (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
-                            "
-                            class="text-list-time"
-                        >
+                        <div :data-obj="JSON.stringify(item)" v-if="
+                            !propData.isTimeWrap &&
+                            (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
+                        " class="text-list-time">
                             {{ item.time }}
                         </div>
                     </div>
-                    <div
-                        :data-obj="JSON.stringify(item)"
-                        v-if="
-                            propData.isTimeWrap &&
-                            (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
-                        "
-                        class="text-list-time"
-                    >
+                    <div :data-obj="JSON.stringify(item)" v-if="
+                        propData.isTimeWrap &&
+                        (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
+                    " class="text-list-time">
                         {{ item.time }}
                     </div>
                 </div>
             </VueScroll>
         </div>
         <div v-show="!propData.isScroll">
-            <div
-                v-for="(item, index) in componentData.rows"
-                :key="index"
-                @click="handleItemClick(item)"
-                class="text-list-item cursor-p"
-            >
+            <div v-for="(item, index) in componentData.rows" :key="index" @click="handleItemClick(item)"
+                class="text-list-item cursor-p">
                 <div class="d-flex" :class="[propData.isTimeWrap ? '' : 'align-c']">
-                    <div
-                        class="d-flex align-c text-list-left"
-                        v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'"
-                    >
-                        <svg
-                            v-if="propData.titleIcon && propData.titleIcon.length"
-                            class="text-list-left-icon"
-                            aria-hidden="true"
-                        >
+                    <div class="d-flex align-c text-list-left"
+                        v-if="propData.styleType === 'iconAndTextAndTime' || propData.styleType === 'iconAndText'">
+                        <svg v-if="propData.titleIcon && propData.titleIcon.length" class="text-list-left-icon"
+                            aria-hidden="true">
                             <use :xlink:href="`#${propData.titleIcon[0]}`"></use>
                         </svg>
                         <svg-icon v-else icon-class="yuan" className="text-list-left-icon"></svg-icon>
@@ -99,39 +59,27 @@
                         {{ item.time }} |
                     </div>
                     <div class="flex-1 d-flex align-c">
-                        <div class="text-list-title text-o-e-2"> <span v-if="item.isNew === 1" style="color: #f04142">[NEW]</span> <span>{{ item.title }}</span></div>
+                        <div class="text-list-title text-o-e-2"> <span v-if="item.isNew === 1"
+                                style="color: #f04142">[NEW]</span> <span>{{ item.title }}</span></div>
                     </div>
-                    <div
-                        v-if="
-                            !propData.isTimeWrap &&
-                            (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
-                        "
-                        class="text-list-time"
-                    >
+                    <div v-if="
+                        !propData.isTimeWrap &&
+                        (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
+                    " class="text-list-time">
                         {{ item.time }}
                     </div>
                 </div>
-                <div
-                    v-if="
-                        propData.isTimeWrap &&
-                        (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
-                    "
-                    class="text-list-time"
-                >
+                <div v-if="
+                    propData.isTimeWrap &&
+                    (propData.styleType === 'textAndTime' || propData.styleType === 'iconAndTextAndTime')
+                " class="text-list-time">
                     {{ item.time }}
                 </div>
             </div>
         </div>
         <div class="d-flex just-c position-r">
-            <a-pagination
-                class="text-list-pagination"
-                v-model="currentPage"
-                v-if="propData.isShowPagination"
-                show-quick-jumper
-                :page-size="propData.contentNumber"
-                :total="componentData.total"
-                @change="onChange"
-            />
+            <a-pagination class="text-list-pagination" v-model="currentPage" v-if="propData.isShowPagination"
+                show-quick-jumper :page-size="propData.contentNumber" :total="componentData.total" @change="onChange" />
         </div>
     </div>
 </template>
@@ -176,7 +124,7 @@ export default {
             }
         }
     },
-    mixins: [listMixins,adaptationScreenMixin],
+    mixins: [listMixins, adaptationScreenMixin],
     created() {
         this.moduleObject = this.$root.moduleObject
         this.convertAttrToStyleObject()
@@ -384,18 +332,18 @@ export default {
                 }
                 IDM.setStyleToPageHead(
                     '.' +
-                        themeNamePrefix +
-                        item.key +
-                        (` #${this.moduleObject.id}` || 'module_demo') +
-                        ' .text-list-left-icon',
+                    themeNamePrefix +
+                    item.key +
+                    (` #${this.moduleObject.id}` || 'module_demo') +
+                    ' .text-list-left-icon',
                     fillColorObj
                 )
                 IDM.setStyleToPageHead(
                     '.' +
-                        themeNamePrefix +
-                        item.key +
-                        (` #${this.moduleObject.id}` || 'module_demo') +
-                        ' .text-list-up-content',
+                    themeNamePrefix +
+                    item.key +
+                    (` #${this.moduleObject.id}` || 'module_demo') +
+                    ' .text-list-up-content',
                     {
                         color: item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : '',
                         'border-bottom-color': item.mainColor ? IDM.hex8ToRgbaString(item.mainColor.hex8) : ''
@@ -430,28 +378,48 @@ export default {
                 })
                 return
             }
-            this.propData.customInterfaceUrl &&
-                window.IDM.http
-                    .get(this.propData.customInterfaceUrl, {
-                        ...this.searchObj,
-                        columnId:
-                            this.propData.selectColumn && this.propData.selectColumn.id
-                                ? this.propData.selectColumn.id
-                                : this.commonParam().columnId,
-                        start: this.currentPage,
-                        limit: this.propData.contentNumber
-                    })
-                    .then((res) => {
-                        if (res.status == 200 && res.data.code == 200) {
-                            this.componentData = res.data.data
-                            this.$nextTick(() => {
-                                this.$refs.seamlessScroll.reset()
-                            })
-                        } else {
-                            IDM.message.error(res.data.message)
+            switch (this.propData.dataSourceType) {
+                case "dataSource":
+                    IDM.datasource.request(this.propData?.dataSource?.[0]?.id, {
+                        moduleObject: this.moduleObject,
+                        param: {
+                            ...this.commonParam()
                         }
+                    }, (res) => {
+                        this.componentData = res
+                        this.$nextTick(() => {
+                            this.$refs.seamlessScroll.reset()
+                        })
+                    }, (err) => {
+                        IDM.message.error(err.message)
                     })
-                    .catch(function (error) {})
+                    break;
+                case 'customInterface':
+                    this.propData.customInterfaceUrl &&
+                        window.IDM.http
+                            .get(this.propData.customInterfaceUrl, {
+                                ...this.searchObj,
+                                columnId:
+                                    this.propData.selectColumn && this.propData.selectColumn.id
+                                        ? this.propData.selectColumn.id
+                                        : this.commonParam().columnId,
+                                start: this.currentPage,
+                                limit: this.propData.contentNumber
+                            })
+                            .then((res) => {
+                                if (res.status == 200 && res.data.code == 200) {
+                                    this.componentData = res.data.data
+                                    this.$nextTick(() => {
+                                        this.$refs.seamlessScroll.reset()
+                                    })
+                                } else {
+                                    IDM.message.error(res.data.message)
+                                }
+                            })
+                            .catch(function (error) { })
+                    break
+            }
+
         },
         receiveBroadcastMessage(messageObject) {
             console.log('组件收到消息', messageObject)
@@ -461,7 +429,7 @@ export default {
                     this.currentPage = 1
                     this.initData()
                     break
-                }
+            }
         },
         setContextValue(object) {
             console.log('统一接口设置的值', object)
@@ -494,6 +462,7 @@ export default {
     background: transparent;
     scrollbar-width: none;
 }
+
 .idm-text-list-wrap::-webkit-scrollbar {
     display: none;
     width: 0 !important;
@@ -507,6 +476,7 @@ export default {
     overflow: hidden;
     overflow-y: auto;
 }
+
 .position-r {
     position: relative;
     z-index: 1;
