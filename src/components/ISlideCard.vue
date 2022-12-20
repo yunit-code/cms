@@ -481,6 +481,29 @@ export default {
                 this.isLoading = false;
               });
             break;
+          case "dataSource":
+            if (!this.propData.dataSource || !this.propData.dataSource[0]?.id) return;
+            this.isLoading = true;
+            IDM.datasource.request(this.propData.dataSource[0].id, {
+              moduleObject: this.moduleObject,
+              param: {
+                componentId: this.moduleObject.comId,
+                pageId: urlParam.pageId,
+                limit: this.propData.limit || ''
+              }
+            }, (data) => {
+              if (data) {
+                let resultData = this.customFormat(this.propData.customFunction, data);
+                resultData = this.propData.resDataField
+                  ? this.getExpressData('data', this.propData.resDataField, resultData)
+                  : resultData;
+                this.setRows(resultData);
+              }
+              this.isLoading = false;
+            }, (err) => {
+              this.isLoading = false;
+            })
+            break;
           case 'pageCommonInterface':
             //使用通用接口直接跳过，在setContextValue执行
             break;

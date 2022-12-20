@@ -111,6 +111,10 @@
               "value": "customInterface"
             },
             {
+              "label": "数据源",
+              "value": "dataSource"
+            },
+            {
               "label": "页面统一接口",
               "value": "pageCommonInterface"
             },
@@ -124,6 +128,13 @@
             }
           ],
           "default": "customInterface"
+        },
+        {
+          "type": "dataSourceSelect",
+          "layoutType": "inline",
+          "text": "数据源",
+          "bindKey": "dataSource",
+          "display":"@[dataSourceType=='dataSource']"
         },
         {
           "type": "input",

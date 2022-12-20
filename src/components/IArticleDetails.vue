@@ -295,6 +295,21 @@ export default {
               this.isLoading = false;
             });
           break;
+        case "dataSource":
+          if (!this.propData.dataSource || !this.propData.dataSource[0]?.id) return;
+          this.isLoading = true;
+          IDM.datasource.request(this.propData.dataSource[0].id, {
+            moduleObject: this.moduleObject,
+            param: urlParams
+          }, (data) => {
+            if (data) {
+              this.articleData = this.customFormat(data);
+            }
+            this.isLoading = false;
+          }, (err) => {
+            this.isLoading = false;
+          })
+          break;
         case 'pageCommonInterface':
           //使用通用接口直接跳过，在setContextValue执行
           break;
