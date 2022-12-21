@@ -644,6 +644,13 @@
                             "text": "时间字段",
                             "bindKey": "dataFiledTime",
                             "default": "time"
+                        },
+                        {
+                            "type": "input",
+                            "layoutType": "inline",
+                            "text": "跳转字段",
+                            "bindKey": "dataFiledJump",
+                            "default": "jumpUrl"
                         }
                     ]
                 }

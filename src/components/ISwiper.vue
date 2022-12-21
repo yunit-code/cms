@@ -82,10 +82,10 @@ export default {
     destroyed() { },
     methods: {
         jumpPage(item) {
-            if ( (!item) || !item.jumpUrl || this.moduleObject.env == 'develop' ) {
+            if ( (!item) || !item[this.propData.dataFiledJump ? this.propData.dataFiledJump : 'jumpUrl'] || this.moduleObject.env == 'develop' ) {
                 return
             }
-            let url = IDM.url.getWebPath(item.jumpUrl);
+            let url = IDM.url.getWebPath(item[this.propData.dataFiledJump ? this.propData.dataFiledJump : 'jumpUrl']);
             window.open(url, this.propData.jumpStyle || '_self')
         },
         getMockData() {
