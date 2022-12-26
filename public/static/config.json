@@ -138,6 +138,13 @@
       "comLangue": "vue"
     },
     {
+      "classId": "idm.component.cms.datepicker",
+      "comName": "日期选择器",
+      "className": "IDatePicker",
+      "comType": "common",
+      "comLangue": "vue"
+    },
+    {
       "classId": "idm.componet.cms.itopbar",
       "comName": "头部页头",
       "className": "ITopBar",

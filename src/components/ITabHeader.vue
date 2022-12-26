@@ -7,7 +7,7 @@
                 :animated="propData.animated !== false ? true : false" @change="changeCallback"
                 @nextClick="nextClickCallback" @prevClick="prevClickCallback" @tabClick="tabClickCallback">
                 <a-tab-pane v-for="item in allTabList" :key="item.key" forceRender>
-                    <div v-show="activeTab == item.key" class="drag_container" :class="`idm-tab-inner-${item.key}`" :idm-ctrl-id="moduleObject.id" :idm-container-index="item.key">
+                    <div v-show="activeTab == item.key" class="drag_container drag_container_ITabHeader_app" :class="`idm-tab-inner-${item.key}`" :idm-ctrl-id="moduleObject.id" :idm-container-index="item.key">
                     </div>
                     <div slot="tab" :class="{ 'ant-tabs-tab-divider': propData.tabShowDivider }" :style="setFontStyle(item.tableFont)">
                         <div v-if="item.tabSlotFunction && item.tabSlotFunction.length > 0" v-html="getTabCustomRender(item)">
@@ -1125,7 +1125,7 @@ export default {
         width: 100%;
         height: 100%;
     }
-    .drag_container{
+    .drag_container_ITabHeader_app{
         height: 100%;
         overflow-y: auto;
     }
