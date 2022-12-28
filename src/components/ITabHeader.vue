@@ -241,8 +241,17 @@ export default {
                     'background-color': item.minorColor ? item.minorColor.hex8 : "",
                     'border-color': item.minorColor ? item.minorColor.hex8 : "",
                 }
+                let styleObjectTitle = {
+
+                }
+                if ( !this.propData.isHideTitleBorderBottom ) {
+                    styleObjectTitle['border-bottom'] = `1px solid ${item.minorColor ? item.minorColor.hex8 : ""}`
+                } else {
+                    styleObjectTitle['border-bottom'] = `none`
+                }
                 IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .ITabHeader_app .idm_itodotabslist_tabbarextra_box .more .svg-icon", fontStyleObject );
                 IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .ITabHeader_app .idm_itodotabslist_tabbarextra_box .idm_button_svg_icon", fontStyleObject );
+                IDM.setStyleToPageHead( "." + themeNamePrefix + item.key + " #" + (this.moduleObject.packageid || "module_demo") + " .ant-tabs-bar", styleObjectTitle );
             }
         },
         getActiveItemData() {
@@ -754,7 +763,7 @@ export default {
             if ( this.propData.isHideTitleBorderBottom ) {
                 styleObjectTitle['border-bottom'] = 'none'
             } else if ( this.propData.titleBorderColor && this.propData.titleBorderColor.hex8 ) {
-                styleObjectTitle['border-bottom'] = `1px solid ${this.propData.titleBorderColor.hex8}`
+                styleObjectTitle['border-bottom'] = `1px solid ${this.propData.titleBorderColor.hex8} !important`
             } else {
                 styleObjectTitle['border-bottom'] = '1px solid #e8e8e8'
             }
