@@ -640,6 +640,14 @@
                     "bindKey": "paramsMakeFunction",
                     "desc": "用于请求数据源时，对请求参数进行处理，返回处理后的参数",
                     "multiple": false
+                },
+                {
+                    "type": "pageModuleSelect",
+                    "layoutType": "block",
+                    "text": "联动组件",
+                    "desc": "当开启轮询查询时，需要跟随一起刷新查询的组件",
+                    "bindKey": "triggerComponents",
+                    "multiple": true
                 }
             ]
         }

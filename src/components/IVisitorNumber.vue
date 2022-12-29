@@ -48,8 +48,20 @@ export default {
         initTimer() {
             let timer = setInterval(() => {
                 this.initData()
+                this.reloadComponents()
             }, this.propData.reloadTime ? this.propData.reloadTime : 60000);
             this.timer = timer;
+        },
+        reloadComponents() {
+            if ( this.propData.triggerComponents && this.propData.triggerComponents.length ) {
+                this.sendBroadcastMessage({
+                    type: 'linkReload',
+                    rangeModule: this.propData.triggerComponents.map(el => el.moduleId),
+                    message: {
+                        _this: this
+                    }
+                })
+            }
         },
         clearTimer() {
             if ( this.timer ) {
