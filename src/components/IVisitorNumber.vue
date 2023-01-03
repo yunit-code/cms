@@ -55,7 +55,7 @@ export default {
         reloadComponents() {
             if ( this.propData.triggerComponents && this.propData.triggerComponents.length ) {
                 this.sendBroadcastMessage({
-                    type: 'linkReload',
+                    type: 'linkageReload',
                     rangeModule: this.propData.triggerComponents.map(el => el.moduleId),
                     message: {
                         _this: this
