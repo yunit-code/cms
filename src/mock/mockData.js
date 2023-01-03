@@ -387,3 +387,40 @@ export function getBrowseInfoData() {
     }
     
 }
+
+export function getVideoGridData() {
+    return [
+        {
+            image: '',
+            duration: '40分钟30秒',
+            visitor: 400,
+            name: 'EXCEL基础学习篇',
+            author: '谢春涛',
+            time: '2020-06-28'
+        },
+        {
+            image: '',
+            duration: '40分钟30秒',
+            visitor: 300,
+            name: '安全生产领域改革发展',
+            author: '闪淳昌',
+            time: '2021-06-28'
+        },
+        {
+            image: '',
+            duration: '40分钟30秒',
+            visitor: 200,
+            name: '加快健全国家应急管理体系',
+            author: '马宝成',
+            time: '2020-04-28'
+        },
+        {
+            image: '',
+            duration: '40分钟30秒',
+            visitor: 100,
+            name: '全球化背景下的人口老龄化结构性不平等及政治动荡,全球化背景下的人口老龄化结构性不平等及政治动荡',
+            author: '王天夫',
+            time: '2020-03-28'
+        }
+    ]
+}

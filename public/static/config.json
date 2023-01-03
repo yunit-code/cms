@@ -171,6 +171,13 @@
       "className": "IVisitorNumber",
       "comType": "common",
       "comLangue": "vue"
+    },
+    {
+      "classId": "idm.component.cms.videogrid",
+      "comName": "视频宫格",
+      "className": "IVideoGrid",
+      "comType": "common",
+      "comLangue": "vue"
     }
   ]
 }

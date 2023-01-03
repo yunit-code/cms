@@ -171,10 +171,11 @@ export default {
             this.initData()
         },
         initData() {
-            if (this.moduleObject.env === 'develop') {
+            if (this.moduleObject.env != 'production' && this.moduleObject.env != 'customize') {
                 this.componentData.rows = getVideoListData.call(this)
                 return
             }
+            console.log(555,this.moduleObject.env)
             this.propData.customInterfaceUrl &&
                 window.IDM.http
                     .get(this.propData.customInterfaceUrl, {
