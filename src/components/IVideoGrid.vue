@@ -9,7 +9,7 @@
                             <div class="describe_left">{{ item[propData.dataFieldDuration ? propData.dataFieldDuration : 'duration'] }}</div>
                             <div class="describe_right flex_end">
                                 <SvgIcon icon-class="xianshi"></SvgIcon>
-                                <span>{{ item[propData.dataFieldVisitor ? propData.dataFieldVisitor : 'visitor'] }}</span>
+                                <span class="text">{{ item[propData.dataFieldVisitor ? propData.dataFieldVisitor : 'visitor'] }}</span>
                             </div>
                         </div>
                     </div>
@@ -17,11 +17,11 @@
                     <div class="author flex_between">
                         <div class="author_left flex_start">
                             <SvgIcon icon-class="user"></SvgIcon>
-                            <span>{{ item[propData.dataFieldAuthor ? propData.dataFieldAuthor : 'author'] }}</span>
+                            <span class="text">{{ item[propData.dataFieldAuthor ? propData.dataFieldAuthor : 'author'] }}</span>
                         </div>
                         <div class="author_right flex_end">
                             <SvgIcon icon-class="time"></SvgIcon>
-                            <span>{{ item[propData.dataFieldTime ? propData.dataFieldTime : 'time'] }}</span>
+                            <span class="text">{{ item[propData.dataFieldTime ? propData.dataFieldTime : 'time'] }}</span>
                         </div>
                     </div>
                     <div @click="clickGrid(item)" class="operator_button flex_center">
@@ -198,10 +198,26 @@ export default {
             }
         },
         /** * 把属性转换成样式对象 */
-        convertAttrToStyleObjectLeft() {
-            var styleObject = {};
+        convertAttrToStyleObjectDom() {
             var styleObjectImg = {};
-            var styleObjectLine = {};
+            var styleObjectDescribe = {};
+            var styleObjectDuration = {};
+            var styleObjectVisitor = {};
+            var styleObjectVisitorIcon = {};
+            var styleObjectName = {};
+            var styleObjectAuthor = {};
+            var styleObjectAuthorIcon = {};
+            var styleObjectTime = {};
+            var styleObjectTimeIcon = {};
+            var styleObjectAuthorBox = {};
+            var styleObjectOperator = {};
+
+            if ( this.propData.objectFit ) {
+                styleObjectImg['object-fit'] = this.propData.objectFit;
+            }
+            if ( this.propData.showRowsName ) {
+                styleObjectName['-webkit-line-clamp'] = this.propData.showRowsName;
+            }
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key];
@@ -209,99 +225,85 @@ export default {
                         continue;
                     }
                     switch (key) {
-                        case "widthLeft":
-                            styleObject['width'] = element;
-                            break;
-                        case "heightLeft":
-                            styleObject['height'] = element;
-                            break;
-                        case "boxLeft":
-                            IDM.style.setBoxStyle(styleObject,element)
-                            break;
-                        case "widthLeftImg":
-                            styleObjectImg['width'] = element;
-                            break;
-                        case "heightLeftImg":
+                        case "heightImg":
                             styleObjectImg['height'] = element;
-                            break; 
-                        case "boxLeftImg":
-                            IDM.style.setBoxStyle(styleObjectImg,element)
                             break;
-                        case "heightLeftLine":
-                            styleObjectLine['height'] = element;
-                            break; 
-                        case "bgColorLine":
+
+                        case "heightDescribe":
+                            styleObjectDescribe['height'] = element;
+                            break;
+                        case "bgColorDescribe":
                             if (element && element.hex8) {
-                                styleObjectLine["background-color"] = element.hex8;
+                                styleObjectDescribe["background-color"] = element.hex8;
                             }
                             break; 
-                        case "boxLeftLine":
-                            IDM.style.setBoxStyle(styleObjectLine,element)
+                        case "boxLeftDescribe":
+                            IDM.style.setBoxStyle(styleObjectDescribe,element)
                             break;
-                    }
-                }
-            }
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_left', styleObject);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_left img', styleObjectImg);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_left .line', styleObjectLine);
-        },
-        convertAttrToStyleObjectRight() {
-            var styleObject = {};
-            var styleObjectName = {};
-            var styleObjectNameBox = {};
-
-            var styleObjectTitle = {};
-            var styleObjectIntegral = {};
-            var styleObjectCare = {};
-            var styleObjectCancel = {};
-
-
-
-            var styleObjectUnit = {};
-            for (const key in this.propData) {
-                if (this.propData.hasOwnProperty.call(this.propData, key)) {
-                    const element = this.propData[key];
-                    if (!element && element !== false && element != 0) {
-                        continue;
-                    }
-                    switch (key) {
-                        case "widthRight":
-                            styleObject['width'] = element;
+                        case "fontDuration":
+                            IDM.style.setFontStyle(styleObjectDuration,element);
                             break;
-                        case "heightRight":
-                            styleObject['height'] = element;
+                        case "fontVisitor":
+                            IDM.style.setFontStyle(styleObjectVisitor,element);
+                            break;  
+                        case "fontVisitorIcon":
+                            IDM.style.setFontStyle(styleObjectVisitorIcon,element);
                             break;
-                        case "boxRight":
-                            IDM.style.setBoxStyle(styleObject,element)
+                        case "heightName":
+                            styleObjectName['height'] = element;
+                            break;
+                        case "boxName":
+                            IDM.style.setBoxStyle(styleObjectName,element)
                             break;
                         case "fontName":
-                            IDM.style.setFontStyle(styleObjectName,element)
+                            IDM.style.setFontStyle(styleObjectName,element);
+                            break; 
+                        case "fontAuthor":
+                            IDM.style.setFontStyle(styleObjectAuthor,element);
+                            break; 
+                        case "fontAuthorIcon":
+                            IDM.style.setFontStyle(styleObjectAuthorIcon,element);
+                            break; 
+                        case "fontTime":
+                            IDM.style.setFontStyle(styleObjectTime,element);
+                            break; 
+                        case "fontTimeIcon":
+                            IDM.style.setFontStyle(styleObjectTimeIcon,element);
+                            break; 
+                        case "boxAuthor":
+                            IDM.style.setBoxStyle(styleObjectAuthorBox,element)
                             break;
-                        case "boxItemName":
-                            IDM.style.setBoxStyle(styleObjectNameBox,element)
+                        case "heightOperator":
+                            styleObjectOperator['height'] = element;
+                            break; 
+                        case "bgColorOperator":
+                            if (element && element.hex8) {
+                                styleObjectOperator["background-color"] = element.hex8;
+                            }
+                            break; 
+                        case "boxOperator":
+                            IDM.style.setBoxStyle(styleObjectOperator,element)
                             break;
-                        case "fontTitle":
-                            IDM.style.setFontStyle(styleObjectTitle,element)
+                        case "fontOperator":
+                            IDM.style.setFontStyle(styleObjectOperator,element);
                             break;
-                        case "fontIntegral":
-                            IDM.style.setFontStyle(styleObjectIntegral,element)
-                            break;
-                        case "fontCare":
-                            IDM.style.setFontStyle(styleObjectCare,element)
-                            break;
-                        case "fontCancel":
-                            IDM.style.setFontStyle(styleObjectCancel,element)
-                            break;
+                        
+
                     }
                 }
             }
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_right', styleObject);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_right .top .name', styleObjectName);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_right .top', styleObjectNameBox);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_right .bottom .title', styleObjectTitle);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_right .bottom .integral', styleObjectIntegral);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_right .top .care', styleObjectCare);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .grid_list_right .top .cancel', styleObjectCancel);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .img_block img', styleObjectImg);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .img_block .describe', styleObjectDescribe);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .img_block .describe .describe_left', styleObjectDuration);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .img_block .describe .describe_right .text', styleObjectVisitor);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .img_block .describe .describe_right .svg-icon', styleObjectVisitorIcon);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .name', styleObjectName);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .author .author_left .text', styleObjectAuthor);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .author .author_left .svg-icon', styleObjectAuthorIcon);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .author .author_right .text', styleObjectTime);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .author .author_right .svg-icon', styleObjectTimeIcon);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .author', styleObjectAuthorBox);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .operator_button', styleObjectOperator);
         },
         convertAttrToStyleObjectItem() {
             var styleObject = {};
@@ -343,8 +345,7 @@ export default {
         },
         convertAttrToStyleObject() {
             this.convertAttrToStyleObjectItem()
-            this.convertAttrToStyleObjectLeft()
-            this.convertAttrToStyleObjectRight()
+            this.convertAttrToStyleObjectDom()
             var styleObject = {};
             var styleObjectImg = {};
 
@@ -359,9 +360,7 @@ export default {
             if (this.propData.positionY && this.propData.positionY.inputVal) {
                 styleObject["background-position-y"] = this.propData.positionY.inputVal + this.propData.positionY.selectVal;
             }
-            if ( this.propData.objectFit ) {
-                styleObjectImg['object-fit'] = this.propData.objectFit;
-            }
+            
             for (const key in this.propData) {
                 if (this.propData.hasOwnProperty.call(this.propData, key)) {
                     const element = this.propData[key];
@@ -410,7 +409,6 @@ export default {
                 }
             }
             window.IDM.setStyleToPageHead(this.moduleObject.id, styleObject);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .grid_list .img_block img', styleObjectImg);
         },
         /**
          * 通用的url参数对象

@@ -177,9 +177,16 @@
                             "default": ""
                         },
                         {
+                            "type": "inputNumber",
+                            "layoutType": "inline",
+                            "text": "最多行数",
+                            "bindKey": "showRowsName",
+                            "default": 2
+                        },
+                        {
                             "type": "font",
                             "layoutType": "block",
-                            "text": "时长文字",
+                            "text": "文字",
                             "bindKey": "fontName"
                         },
                         {
