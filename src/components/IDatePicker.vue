@@ -148,7 +148,7 @@ export default {
                     }
                 }
             }
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDateRange_app .label', styleObject);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDatePicker_app .label', styleObject);
         },
         convertAttrToStyleObjectInputBox() {
             var styleObject = {};
@@ -186,12 +186,12 @@ export default {
                     }
                 }
             }
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDateRange_app .date_box', styleObject);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDateRange_app .el-input__icon', styleObjectIcon);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDateRange_app .el-input__inner', styleObjectInput);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDateRange_app .el-input__inner:hover', styleObjectInputHover);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDateRange_app .el-input__inner:focus', styleObjectInputHover);
-            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDateRange_app .el-input.is-active .el-input__inner', styleObjectInputHover);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDatePicker_app .date_box', styleObject);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDatePicker_app .el-input__icon', styleObjectIcon);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDatePicker_app .el-input__inner', styleObjectInput);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDatePicker_app .el-input__inner:hover', styleObjectInputHover);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDatePicker_app .el-input__inner:focus', styleObjectInputHover);
+            window.IDM.setStyleToPageHead(this.moduleObject.id + ' .IDatePicker_app .el-input.is-active .el-input__inner', styleObjectInputHover);
         },
         convertAttrToStyleObject() {
             this.convertAttrToStyleObjectLabel()
