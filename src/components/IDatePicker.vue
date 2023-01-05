@@ -26,7 +26,7 @@ export default {
                 label: '标题',
                 defaultStatus: 'default'
             },
-            value: '2022-12',
+            value: '',
             dateFormat: 'yyyy-MM-dd',
         }
     },
@@ -40,6 +40,8 @@ export default {
         this.convertAttrToStyleObject();
         if ( this.propData.defaultValue ) {
             this.value = this.propData.defaultValue
+        } else {
+            this.value = ''
         }
     },
     mounted() {
@@ -90,12 +92,12 @@ export default {
             this.convertAttrToStyleObject();
             if ( this.propData.defaultValue ) {
                 this.value = this.propData.defaultValue;
-                this.$nextTick((params) => {
-                    if ( this.value ) {
-                        this.onChange(this.value)
-                    }
-                });
+            } else {
+                this.value = '';
             }
+            this.$nextTick((params) => {
+                this.onChange(this.value)
+            });
         },
         convertThemeListAttrToStyleObject() {
             const themeList = this.propData.themeList;
@@ -168,19 +170,19 @@ export default {
                         case "fontInput":
                             IDM.style.setFontStyle(styleObjectInput,element)
                             break;
-                        case "styleObjectIcon":
+                        case "colorIcon":
                             if (element && element.hex8) {
-                                styleObjectIcon["color"] = element.hex8;
+                                styleObjectIcon["color"] = element.hex8  + ' !important';
                             }
                             break;
                         case "borderColorInput":
                             if (element && element.hex8) {
-                                styleObjectInput["border-color"] = element.hex8;
+                                styleObjectInput["border-color"] = element.hex8 + ' !important';
                             }
                             break;
                         case "borderColorInputHover":
                             if (element && element.hex8) {
-                                styleObjectInputHover["border-color"] = element.hex8;
+                                styleObjectInputHover["border-color"] = element.hex8  + ' !important';
                             }
                             break;
                     }
@@ -371,6 +373,9 @@ export default {
 .IDatePicker_app{
     width: 100%;
     height: 100%;
+    .label{
+        white-space: nowrap;
+    }
     .date_box{
         .el-input{
             width: 100%;
